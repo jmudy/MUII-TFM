@@ -1,49 +1,30 @@
 
-\documentclass[12pt]{article}
+\documentclass[a4paper,11pt]{book}
 
-\usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
-\usepackage{lipsum} % Para meter texto random
+\input{config/preamble.tex} % Aquí se cargan todos los paquetes necesarios
 
 \title{Design, Implementation and evaluation of a strategy for detecting abandoned objects in video surveillance applications}
 \author{Jesús Mudarra Luján}
-\date{\today} % De esta manera la fecha siempre será la actual y no una en concreto
+\date{\today}
 
 \begin{document}
+\pagestyle{plain} % Para que todos los numeros de pagina esten centrados abajo
 
 \maketitle % Introducimos el título, autor y fecha
+
 \tableofcontents % Para insertar el índice de contenidos
+\listoffigures % Para insertar el índice de figuras
+\listoftables % Para insertar el índice de tablas
 
+\input{abstract/abstract.tex}
+\input{chapters/introduction.tex}
+\input{chapters/sota.tex}
+\input{chapters/algorithms.tex}
+\input{chapters/results.tex}
+\input{chapters/presupuesto.tex}
+\input{chapters/pliego-condiciones.tex}
 
-\begin{abstract}
-    \lipsum[2]
-\end{abstract}
-
-
-\section{Introduction}
-Ya hemos visto que se trata de un lenguaje perfecto para poder escribir texto con fórmulas matemáticas.
-
-El primer parráfo después de una sección o subsección no se indenta, los párrafos posteriores sí.
-
-
-\section{Section 2}
-\lipsum[7-9]
-
-
-\subsection{Subsection bla bla bla}
-\lipsum[10-12]
-
-
-\section{Section 3}
-\lipsum[13-15]
-
-
-\section{Section 4}
-\lipsum[16-18]
-
-
-\section{Section 5}
-\lipsum[20-22]
-
+\bibliography{biblio/biblio.bib}
+\bibliographystyle{plain}
 
 \end{document}
