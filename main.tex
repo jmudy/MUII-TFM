@@ -3,17 +3,13 @@
 
 \input{config/preamble.tex}
 
-
-\title{Diseño, implementación y evaluación de una estrategia de detección de objetos abandonados en aplicaciones de
-videovigilancia}
-\author{Jesús Mudarra Luján}
-\date{\today}
-
-
 \begin{document}
 
+% Portada
+\includepdf[pages={1-3}]{cover/portada.pdf}
 
-\maketitle
+
+% Numeración romana
 \frontmatter
 
 \input{dedication/dedicatoria.tex}
@@ -22,25 +18,33 @@ videovigilancia}
 \input{abstract/resumen.tex}
 \input{abstract/abstract.tex}
 
+% Índices
 \tableofcontents
 \listoffigures
 \listoftables
 
-
+% Numeración normal
 \mainmatter
 
+% Capítulos
 \input{chapters/introduccion.tex}
 \input{chapters/estudio-teorico.tex}
 \input{chapters/desarrollo.tex}
 \input{chapters/resultados.tex}
 \input{chapters/futuros-proyectos.tex}
-\input{chapters/pliego.tex}
-\input{chapters/presupuesto.tex}
 
+% Biblio
 \bibliography{biblio/biblio.bib}
-\bibliographystyle{plain}
+\bibliographystyle{IEEEtran}
 
+% Anexos
+\begin{appendices}
+\input{appendix/pliego.tex}
+\input{appendix/presupuesto.tex}
+\input{appendix/manual-usuario.tex}
+\end{appendices}
 
-\backmatter
+% Contraportada
+\includepdf[pages={6}]{cover/portada.pdf}
 
 \end{document}
