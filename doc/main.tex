@@ -8,20 +8,19 @@
 % Portada
 \includepdf[pages={1-3}]{cover/portada.pdf}
 
-
 % Numeración romana
 \frontmatter
 
+% Dedicatoria + agradecimientos
 \input{dedication/dedicatoria.tex}
 \input{acknowledgements/agradecimientos.tex}
 
+% Resumen/abstract
 \input{abstract/resumen.tex}
 \input{abstract/abstract.tex}
 
 % Índices
-\tableofcontents
-\listoffigures
-\listoftables
+\input{config/toc+lof+lot}
 
 % Numeración normal
 \mainmatter

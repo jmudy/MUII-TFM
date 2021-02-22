@@ -1,32 +1,49 @@
 
 \chapter{Manual de usuario e instalación}
-\label{cha:manual-usuario}
+\label{cha:manual-usuario-instalacion}
 
 \section{Introducción}
 \label{sec:intro-manual-de-usuario}
 
-Blah, blah, blah\ldots
+En este apéndice se va a dividir en dos secciones donde se va a explicar como instalar y configurar todas las herramientas necesarias para la puesta a punto del proyecto. Y por otro lado, un manual de usuario donde se va a explicar como ejecutar cada una de las funciones \pendiente{Pendiente extender esta parte}\textcolor{red}{blablabla \ldots}.
+Cabe destacar que, como se indica en el apartado \ref{sec:intro-pliego}, el equipo donde se instalará todo el software para programar los distintos algoritmos debe de estar dotado con un sistema operativo Ubuntu 18.04.4 LTS.
 
 
-\section{Manual}
-\label{sec:sec-manual-de-usuario}
+\section{Guía de instalacion}
+\label{sec:sec-guia-instalacion}
 
-Pues eso.
-
-
-\section{Ejemplos de inclusión de fragmentos de código fuente}
-\label{sec:codigo-fuente}
-
-Ahora compila usando \texttt{gcc}:
-
-\begin{enumerate}
-\item bla bla:
+\subsection{Instalación de Git}
+\label{subsec:instalacion-git}
 
 \begin{lstlisting}
-$ python object_tracker.py --video ./data/video/video1.avi
-
+$ sudo apt update
+$ sudo apt install git
 \end{lstlisting}
 
-\end{enumerate}
+Explicación rápida de que se git y como instalarlo con comandos
+
+Explicar como instalar anaconda con comandos para Ubuntu
+
+\subsection{Descarga del repositorio del proyecto}
+\label{subsec:descarga-repo}
+
+\begin{lstlisting}
+$ git clone https://github.com/jmudy/yolov4-deepsort.git
+\end{lstlisting}
+
+\subsection{Instalación de Anaconda}
+\label{subsec:instalacion-anaconda}
+
+Explicar como instalar anaconda con comandos para Ubuntu
+
+\subsection{Crear entorno virtual con Anaconda}
+\label{subsec:creacion-entorno}
+
+Aquí se explica como crear un entorno virtual de anaconda a partir de un .yml donde instalas todo de golpe ademas de CUDA y cuDNN
+
+\section{Manual de usuario}
+\label{sec:manual-usuario}
+
+Aquí se especifica los comandos que se tienen que ejecutar para poner en funcionamiento el algoritmo de detección de objetos abandonados.
 
 

@@ -2,55 +2,69 @@
 \chapter{Presupuesto}
 \label{cha:presupuesto}
 
-\section{Equipo de trabajo}
+\section{Introducción}
+\label{sec:intro-presupuesto}
 
-Para la realización del proyecto se va a necesitar un Ingeniero de Telecomunicaciones.
+En este apéndice se muestra el presupuesto del proyecto. Para ello, en los siguientes apartados se detallarán el perfil de personal necesario para desarollarlo, la duración estimada de cada una de las etapas que lo compone, de tal forma que se podrá calcular el coste de mano de obra de manera más precisa.
+
+\section{Equipo de trabajo}
+\label{sec:equipo-presupuesto}
+
+\pendiente{Ver que ingeniero es el que se dedica a esto}Para la realización del proyecto se va a necesitar un Ingeniero de \textcolor{red}{Telecomunicaciones} que haya trabajado anteriormente con redes neuronales, y en concreto, con redes neuronales convolucionales, tenga gran dominio de la librería OpenCV y en el lenguaje de programación Python.
 
 \section{Timing}
+\label{sec:timing-presupuesto}
 
 Las fases necesarias para la realización del desarrollo son las siguientes.
 
 \begin{itemize}
-  \item Configuración del hardware (0,5 meses)
+\item formación inicial y revisión del Estado del Arte (1 mes)
   
   \begin{itemize}
-    \item Instalación de sistema operativo, librerías, IDE. (0,25 meses)
-    \item Configuración y puesta en marcha. (0,25 meses)
+    \item Recopilar información sobre el Estado del Arte: algoritmos, sistemas y bases de datos. (0,25 meses)
+    \item Comparación entre diferentes estrategias de detección de objetos. (0,25 meses)
+    \item Buscar implementaciones disponibles en el alcance del proyecto (0,25 meses)
+    \item Estudiar las redes neuronales convolucionales (CNN) para identificar objetos en imágenes (0,25 meses)
   \end{itemize}
   
-\item Diseño e implementación de los módulos software necesarios (6 meses):
+\item Diseño, implementación y evaluación de algoritmos y librerías en la detección de personas y objetos (0,5 meses)
   
   \begin{itemize}
-    
-  \item Diseño e implementación de librerías de soporte para la
-    reproducción y adquisición de audio multicanal temporizado (tiempos
-    fijos) (2 mes).
-    
-  \item Diseño e implementación de librerías de soporte para la
-    adquisición, reproducción y procesamiento de audio multicanal
-    continuo (tiempo indefinido) (4 mes).
-    
+  \item Diseño, implementación/adaptación de la estrategia seleccionada para esta tarea (0,2 meses)
+  \item Refinar el Estado del Arte (0,1 meses)
+  \item Evaluación rigurosa de los algoritmos desarrollados en bases de datos relevantes (0,2 meses)
   \end{itemize}
   
+\item Diseño, implementación y evaluación de algoritmos y librerías en la seguimiento/rastero de personas y objetos (1,5 meses)
+  
+  \begin{itemize}
+  \item Diseño, implementación/adaptación de la estrategia seleccionada para esta tarea (0,7 meses)
+  \item Refinar el Estado del Arte (0,2 meses)
+  \item Evaluación rigurosa de los algoritmos desarrollados en bases de datos relevantes (0,6 meses)
+  \end{itemize}
 
-\item Evaluación del sistema de procesamiento de audio multicanal (1,5 meses):
+\item Diseño, implementación y evaluación de algoritmos y bibliotecas en la tarea de detección de objetos abandonados (1,5 meses):
   
   \begin{itemize}
-    
-  \item Adaptación del algoritmo SRP. (0,5 meses)
-  
-  \item Evaluación del sistema de adquisición sobre la librería de tiempo real (1 mes)
-    
+  \item Diseño, implementación/adaptación de la estrategia seleccionada para esta tarea (0,7 meses)
+  \item Refinar el Estado del Arte (0,2 meses)
+  \item Evaluación rigurosa de los algoritmos desarrollados en bases de datos relevantes (0,6 meses)
     \end{itemize}
-  
-\item Documentación
+    
+\item Evaluación de la integración final de los algoritmos desarrollados en las bases de datos más relevantes. (0,5 meses)
 
+\item Corrección de errores y comienzo de la redacción de la memoria del proyecto (1 mes)
+
+\item Finalización de la redacción de la memoria del proyecto (0,5 meses)
+  
 \end{itemize}
 
-Por supuesto, las fases de diseño, desarrollo, pruebas y documentación
-son cíclicas y abarcan todo el periodo de la vida del proyecto.
+Cabe destacar que tareas como la de refinar y recopilar información el Estado del Arte, la comparación de diferentes estrategias de detección y rastreo o la evaluación de los algortimos en las distintas bases de datos se repiten a lo largo de los 6,5 meses que dura el desarrollo del proyecto.
 
+\section{Costes}
+\label{sec:costes-presupuesto}
 
 \section{Presupuesto total}
+\label{sec:presupuesto-total}
 
 Por todo lo anterior, supone una duración de 8 meses naturales con un coste de 12.000 \euro (sin IVA).
