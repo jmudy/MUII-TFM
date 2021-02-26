@@ -4,12 +4,8 @@
 
 \addcontentsline{toc}{chapter}{Abstract}
 \noindent
-The aim of this Master's Thesis is to study and implement algorithms using convolutional neural networks (\textit{CNN}) in order to detect abandoned objects through the use of video surveillance applications. These networks are specialized supervised learning algorithms for working with images (put DotCSV explanation).
+This Master's thesis proposes the study and implementation of Deep Learning algorithms in order to detect abandoned objects in video surveillance applications.
 
-In the present document, has been carried out a theoretical study of the different object detection algorithms on certain databases, as well as tracking algorithms available in the State of the Art. YOLOv4 \cite{bochkovskiy2020yolov4} has been used for object detection. Subsequently, a DeepSORT algorithm \cite{Wojke2017simple} has been developed where it has been filtered that only tracks people and objects of interest: backpacks, suitcases and handbags. COCO \cite{lin2015microsoft} has been used as the dataset as standard benchmark for evaluating the performance of computer vision models.
+A theoretical study of the detection and monitoring algorithms available in the State of the Art has been carried out. YOLOv4 \cite{bochkovskiy2020yolov4} has been used to detect objects in real time. DeepSORT \cite{Wojke2017simple} has been chosen as tracking algorithm. Finally, an algorithm has been developed to determine when an object has been abandoned or not. All of them have been implemented on the COCO dataset \cite{lin2015microsoft} and evaluated on the most relevant datasets in the detection of abandoned objects such as PETS2007 \cite{pets2007-dataset} or AVSS AB 2007 \cite{AVSSAB2007-dataset}.
 
-Finally, an algorithm has been implemented and evaluated to determine whether an object has been abandoned or not. To do this, different metrics must be taken into account, such as the time that the object is static at a certain point or the distance it is from the person who was carrying it.
-
-\pendiente{Quitar esto}La \cite{qdiscs} debería de salir de color magenta en la bibliografía
-
-\textbf{Keywords:} Convolutional Neural Networks, YOLOv4, DeepSORT, Video Surveillance, Computer Vision.
+\textbf{Keywords:} Deep Learning, YOLOv4, DeepSORT, Video Surveillance, Computer Vision.

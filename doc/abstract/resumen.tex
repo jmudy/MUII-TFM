@@ -4,10 +4,8 @@
 
 \addcontentsline{toc}{chapter}{Resumen}
 
-Este Trabajo Fin de Máster tiene como objeto el estudio e implementación de algoritmos empleando redes neuronales convolucionales (\textit{CNN}) con la finalidad de detectar objetos abandonados mediante el uso de aplicaciones de videovigilancia. Estas redes se tratan de algoritmos de aprendizaje supervisado especializados para trabajar con imágenes (poner explicación de DotCSV).
+Este Trabajo Fin de Máster propone el estudio e implementación de algoritmos de aprendizaje profundo (\textit{Deep Learning}) con la finalidad de detectar objetos abandonados en aplicaciones de videovigilancia.
 
-En el presente trabajo se ha realizado un estudio teórico de los distintos algoritmos de detección de objetos sobre determinadas bases de datos así como algoritmos de rastreo o \textit{tracking} disponibles en el Estado del Arte. Para la detección de objetos se ha empleado YOLOv4 \cite{bochkovskiy2020yolov4}. Posteriormente se ha desarrollado un algoritmo de DeepSORT \cite{Wojke2017simple} donde se ha filtrado que rastree únicamente a personas y objetos de interés: mochilas, maletas, bolsos y bolsas de mano. Se ha utilizado COCO \cite{lin2015microsoft} como conjunto de datos ya que se trata de un estándar de referencia muy utilizado en la evaluación del rendimiento de modelos de visión por computador.
+Se ha realizado un estudio teórico de los algoritmos de detección y seguimiento disponibles en el Estado del Arte. Para la detección de objetos en tiempo real se ha empleado YOLOv4 \cite{bochkovskiy2020yolov4}. Como algoritmo de seguimiento se ha optado por DeepSORT \cite{Wojke2017simple}. Por último, se ha desarrollado un algoritmo que determine si un objeto ha sido abandonado o no. Todos ellos han sido implementados sobre la base de datos de COCO \cite{lin2015microsoft} y evaluados sobre las bases de datos más relevantes en la detección de objetos abandonados como son PETS2007 \cite{pets2007-dataset} o AVSS AB 2007 \cite{AVSSAB2007-dataset}.
 
-Por último se ha implementado y evaluado un algoritmo que determine si un objeto ha sido abandonado o no. Para ello se deberán de tener en cuenta diferentes métricas como el tiempo que el objeto se encuentra estático en un determinado punto o la distancia a la que se encuentra respecto a la persona que lo portaba.
-
-\textbf{Palabras clave:} Redes neuronales convolucionales, YOLOv4, DeepSORT, videovigilancia, visión por computador.
+\textbf{Palabras clave:} Deep Learning, YOLOv4, DeepSORT, videovigilancia, visión por computador.

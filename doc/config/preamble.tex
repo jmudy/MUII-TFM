@@ -15,7 +15,7 @@
 \usepackage{eurosym}
 \usepackage[titletoc]{appendix} %%% Incluir anexos
 \usepackage{listings}           %%% Para introducir código
-\usepackage{xcolor}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage{pdfpages}           %%% Para poder incluir paginas de pdf
 \usepackage{url}                %%% Para introducir url's con formato: \url{http://www.google.es}
 
@@ -26,6 +26,8 @@
 % Nombres de tablas y figuras en negrita y pequeño
 \usepackage{caption}
 \captionsetup{labelfont={bf,small},textfont=small}
+% Para poner una imagen al lado de otra
+\usepackage{subcaption}
 
 %%%%%%%%%
 % TODOs %
@@ -34,14 +36,6 @@
 % Para poder meter TODOs en el pdf
 \usepackage[colorinlistoftodos, spanish, textsize=small]{todonotes}
 \newcommand{\pendiente}[1]{\todo[color=green!40]{#1}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-% CONFIGURACIÓN CÓDIGO %
-%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Estilo del codigo escrito en el documento
-\lstset{language=Python,backgroundcolor=\color{lightgray},emph={python},emphstyle=\textbf}
-
 
 %%%%%%%%%%%
 % COLORES %
@@ -82,7 +76,6 @@ hyperfootnotes=false,
 % Incluir un pequeño espacio entre parrafos
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 
-
 %%%%%%%%%%%%%%%%%%%%%
 % ESTILO ENCABEZADO %
 %%%%%%%%%%%%%%%%%%%%%
@@ -112,3 +105,7 @@ hyperfootnotes=false,
   \renewcommand\footrulewidth{0pt}
   \fancyfoot[C]{\thepage}
 }
+
+% Para tener hasta cuatro niveles, section, subsection, subsubsection, paragraph
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
