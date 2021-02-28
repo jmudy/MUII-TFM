@@ -34,46 +34,52 @@ sudo apt-get install git-all
 Anaconda se trata de la \textit{suite} más compleja para la Ciencia de Datos en R y Python, lenguajes de programación que actualmente son líderes en Machine Learning, Inteligencia Artificial y Big Data. Esta \textit{suite} gratuita y multiplataforma dispone de las IDE's y librerías adecuadas para su manejo. Con ellos se evita tener que instalar manualmente un IDE y el lenguaje Python con sus correspondientes librerías que en ocasiones puede ser una operación tediosa y compleja.
 
 \begin{enumerate}
+    \item Accede al siguiente enlace \cite{inst-conda} disponible en la bibliografía y descargue la versión más reciente del instalador de Anaconda para Linux:
     
-\item Accede al siguiente enlace \cite{inst-conda} disponible en la bibliografía y descargue la versión más reciente del instalador de Anaconda para Linux:
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/appendix/C/anaconda-installer.png}
+    \caption{\label{fig:anaconda-download}Descarga del instalador de Anaconda}
+    \end{figure}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.8\textwidth]{img/appendix/C/anaconda-installer.png}
-\caption{\label{fig:anaconda-download}Descarga del instalador de Anaconda}
-\end{figure}
-
-\item Abra el terminal y acceda a la carpeta \texttt{Downloads} donde ha descargado el instalador. Es recomendable verificar la integridad del instalador mediante la suma de comprobación SHA-256:
-\vspace{0.5cm}
-\begin{lstlisting}[language=iPython,caption=Verificación de la integridad de la instalación de Anaconda,captionpos=b,label={lst:verificar-sha256}]
-# Acceder a la carpeta Downloads del usuario
-cd /home/<username>/Downloads
-
-# Verificacion de la integridad del instalador
-sha256sum Anaconda3-2020.02-Linux-x86_64.sh
-\end{lstlisting}
-
-\item Ejecute la secuencias de comandos de Anaconda. Presione \texttt{yes} para aceptar los términos de la licencia. Pulse acontinuación \texttt{ENTER} cuando seleccione la ubicación de la instalación y finalmente presione \texttt{yes} para confirmar el \texttt{PATH} de Anaconda con tu \texttt{.bashrc}:
-\vspace{0.5cm}
-\begin{lstlisting}[language=iPython,caption=Ejecutar el instalador de Anaconda para Linux,captionpos=b,label={lst:install-conda}]
-# Ejecutar el instalador de Anaconda para Linux
-bash Anaconda3-2020.02-Linux-x86_64.sh
-\end{lstlisting}
-
-\item Cuando se complete la instalación cierre y abra el terminal de nuevo, o bien ejecute el siguiente comando:
-\vspace{0.5cm}
-\begin{lstlisting}[language=iPython,caption=Hacer efectivo los cambios en el fichero .bashrc,captionpos=b,label={lst:source-bashrc}]
-# Hacer efectivos los cambios realizados en .bashrc
-source /home/<username>/.bashrc
-\end{lstlisting}
-
+    \item Abra el terminal y acceda a la carpeta \texttt{Downloads} donde ha descargado el instalador. Es recomendable verificar la integridad del instalador mediante la suma de comprobación SHA-256:
+    
+    \vspace{0.5cm}
+    
+    \begin{lstlisting}[language=iPython,caption=Verificación de la integridad de la instalación de Anaconda,captionpos=b,label={lst:verificar-sha256}]
+    # Acceder a la carpeta Downloads del usuario
+    cd /home/<username>/Downloads
+    
+    # Verificacion de la integridad del instalador
+    sha256sum Anaconda3-2020.02-Linux-x86_64.sh
+    \end{lstlisting}
+    
+    \item Ejecute la secuencias de comandos de Anaconda. Presione \texttt{yes} para aceptar los términos de la licencia. Pulse acontinuación \texttt{ENTER} cuando seleccione la ubicación de la instalación y finalmente presione \texttt{yes} para confirmar el \texttt{PATH} de Anaconda con tu \texttt{.bashrc}:
+    
+    \vspace{0.5cm}
+    
+    \begin{lstlisting}[language=iPython,caption=Ejecutar el instalador de Anaconda para Linux,captionpos=b,label={lst:install-conda}]
+    # Ejecutar el instalador de Anaconda para Linux
+    bash Anaconda3-2020.02-Linux-x86_64.sh
+    \end{lstlisting}
+    
+    \item Cuando se complete la instalación cierre y abra el terminal de nuevo, o bien ejecute el siguiente comando:
+    
+    \vspace{0.5cm}
+    
+    \begin{lstlisting}[language=iPython,caption=Hacer efectivo los cambios en el fichero .bashrc,captionpos=b,label={lst:source-bashrc}]
+    # Hacer efectivos los cambios realizados en .bashrc
+    source /home/<username>/.bashrc
+    \end{lstlisting}
 \end{enumerate}
 
 \subsection{Descarga del repositorio del proyecto}
 \label{subsec:descarga-repo}
+
 En esta subsección se indica como descargar el repositorio donde se ha programado los algoritmos de detección de objetos abandonados. Para ello se debe de seguir los comandos que se muestran a continuación:
 
 \vspace{0.5cm}
+
 \begin{lstlisting}[language=iPython,caption=Descarga repositorio,captionpos=b,label={lst:descarga-repo}]
 # Acceder a la carpeta Documents del usuario
 cd /home/<username>/Documents
@@ -95,6 +101,7 @@ Desde la misma carpeta del repositorio de Github \ref{lst:descarga-repo} que se 
 La capacidad de cálculo mínima para poder utilizar CUDA con al librería tensorflow-gpu es de 3.5. En función de la GPU que dispongas, ejecute uno de los siguientes comandos para crear un entorno virtual de Anaconda con Python 3.7.0:
 
 \vspace{0.5cm}
+
 \begin{lstlisting}[language=iPython,caption=Creación entorno virtual en Anaconda,captionpos=b,label={lst:crear-env}]
 # Si tu GPU tiene una capacidad de calculo < 3.5
 conda env create -f conda-cpu.yml
@@ -104,7 +111,9 @@ conda env create -f conda-gpu.yml
 \end{lstlisting}
 
 Una vez instalado el entorno virtual se puede acceder a él ejecutando el siguiente comando:
+
 \vspace{0.5cm}
+
 \begin{lstlisting}[language=iPython,caption=Activar entorno virtual de Anaconda,captionpos=b,label={lst:activar-env}]
 # Si instalaste el entorno con conda-cpu.yml
 conda activate yolov4-cpu
@@ -119,23 +128,21 @@ conda activate yolov4-gpu
 Los enlaces para descargar las bases de datos que se han utilizado para evaluar dos distintos algoritmos a lo largo del proyecto se encuentran a continuación:
 
 \begin{itemize}
-\item ABODA dataset \url{https://github.com/kevinlin311tw/ABODA} \cite{aboda-dataset}
-\item AVENUE dataset \url{http://www.cse.cuhk.edu.hk/leojia/projects/detectabnormal/dataset.html} \cite{avenue-dataset}
-\item AVSSAB2007 dataset \url{http://www.eecs.qmul.ac.uk/~andrea/avss2007_d.html} \cite{AVSSAB2007-dataset}
-\item PETS2006 dataset \url{http://www.cvg.reading.ac.uk/PETS2006/data.html} \cite{pets2006-dataset}
-\item PETS2007 dataset \url{http://www.cvg.reading.ac.uk/PETS2007/data.html} \cite{pets2007-dataset}
-\item GBA dataset
-
+    \item ABODA dataset \url{https://github.com/kevinlin311tw/ABODA} \cite{aboda-dataset}
+    \item AVENUE dataset \url{http://www.cse.cuhk.edu.hk/leojia/projects/detectabnormal/dataset.html} \cite{avenue-dataset}
+    \item AVSSAB2007 dataset \url{http://www.eecs.qmul.ac.uk/~andrea/avss2007_d.html} \cite{AVSSAB2007-dataset}
+    \item PETS2006 dataset \url{http://www.cvg.reading.ac.uk/PETS2006/data.html} \cite{pets2006-dataset}
+    \item PETS2007 dataset \url{http://www.cvg.reading.ac.uk/PETS2007/data.html} \cite{pets2007-dataset}
+    \item GBA dataset \url{https://bit.ly/3aVlGZL} \cite{gba-dataset}
 \end{itemize}
 
 \section{Manual de usuario}
 \label{sec:manual-usuario}
 
 En esta parte se especifica los comandos que se deben que ejecutar para poner en funcionamiento el algoritmo de detección de objetos, el algoritmo de seguimiento o \textit{tracking} de personas y objetos y por último el algoritmo el cual determinar si un objeto ha sido abandonado o perdido.
+\pendiente{Queda pendiente este apartado que podrá ser completado cuando termine de redactar los apartados de desarrollo de algoritmo de detección de objetos abandonados}
 
-\subsection{Ejecutar algoritmo de detección de objetos YOLOv4 con Tensorflow 2.3.0}
-
-
+\subsection{Ejecutar algoritmo de detección de objetos YOLOv4}
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Funciones de object tracking ,captionpos=b,label={lst:object-tracking}]
@@ -183,5 +190,3 @@ sin2_theta  = np.sin(theta)**2
 def test(a=¢100¢, b=True)
     <= >= == ¢2¢ + ¢3j¢ * ¢7e-3¢
 \end{lstlisting}
-
-

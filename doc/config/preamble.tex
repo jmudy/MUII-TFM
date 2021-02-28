@@ -8,7 +8,8 @@
 \usepackage[spanish]{babel}     %%% Traduce apartados a español
 \usepackage{graphicx}           %%% Permite incluir imagenes
 \usepackage{tocbibind}
-\usepackage{lipsum}
+\usepackage{amsmath}
+\usepackage{amsfonts}
 \usepackage{emptypage}          %%% Elimina encabezados y pies de pagina en paginas vacias
 \usepackage{fancyhdr}
 \usepackage{geometry}
@@ -36,6 +37,7 @@
 % Para poder meter TODOs en el pdf
 \usepackage[colorinlistoftodos, spanish, textsize=small]{todonotes}
 \newcommand{\pendiente}[1]{\todo[color=green!40]{#1}}
+\newcommand{\aviso}[1]{\todo[color=red!40]{#1}}
 
 %%%%%%%%%%%
 % COLORES %
@@ -57,12 +59,11 @@ hyperfootnotes=false,
 ]{hyperref}
 
 % Colores índice general, índice de figuras e índice de tablas
-
 \newcommand{\mytoclinkcolor}{black}
 \newcommand{\myloflinkcolor}{black}
 \newcommand{\mylotlinkcolor}{black}
 
-% Other color links in the document
+% Otros colores de links del documento
 \newcommand{\mylinkcolor}{blue}
 
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -106,6 +107,6 @@ hyperfootnotes=false,
   \fancyfoot[C]{\thepage}
 }
 
-% Para tener hasta cuatro niveles, section, subsection, subsubsection, paragraph
+% Para tener hasta cuatro niveles: section, subsection, subsubsection, paragraph
 \setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}
