@@ -4,6 +4,9 @@
 \input{config/preamble.tex}
 \input{config/python-style.tex}
 
+\makeglossaries % Genera la base de datos de acrónimos
+\input{appendix/acronimos.tex} % Archivo que contiene los acrónimos
+
 \begin{document}
 
 % Portada
@@ -30,13 +33,19 @@
 % Capítulos
 \input{chapters/introduccion.tex}
 \input{chapters/estudio-teorico.tex}
-\input{chapters/desarrollo.tex}
+\input{chapters/algoritmos.tex}
+\input{chapters/object-detection.tex}
 \input{chapters/resultados.tex}
 \input{chapters/futuros-proyectos.tex}
 
 % Biblio
 \bibliography{biblio/biblio.bib}
 \bibliographystyle{IEEEtran}
+
+% Acrónimos
+
+\printglossary[style=super,type=\acronymtype,title={Lista de Acrónimos}]
+\glsaddallunused
 
 % Anexos
 \begin{appendices}

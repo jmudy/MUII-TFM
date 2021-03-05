@@ -3,22 +3,24 @@
 % PAQUETES BÁSICOS %
 %%%%%%%%%%%%%%%%%%%%
 
-\usepackage[utf8]{inputenc} % Para poder escribir con acentos y ñ. en utf8
+\usepackage[utf8]{inputenc}                         %%% Para poder escribir con acentos y ñ. en utf8
 \usepackage[T1]{fontenc}
-\usepackage[spanish]{babel}     %%% Traduce apartados a español
-\usepackage{graphicx}           %%% Permite incluir imagenes
+\usepackage[spanish]{babel}                         %%% Traduce apartados a español
+\usepackage{graphicx}                               %%% Permite incluir imágenes
 \usepackage{tocbibind}
 \usepackage{amsmath}
 \usepackage{amsfonts}
-\usepackage{emptypage}          %%% Elimina encabezados y pies de pagina en paginas vacias
+\usepackage{emptypage}                              %%% Elimina encabezados y pies de pagina en paginas vacías
 \usepackage{fancyhdr}
 \usepackage{geometry}
 \usepackage{eurosym}
-\usepackage[titletoc]{appendix} %%% Incluir anexos
-\usepackage{listings}           %%% Para introducir código
+\usepackage[titletoc]{appendix}                     %%% Incluir anexos
+\usepackage{listings}                               %%% Para introducir código
 \usepackage[table,xcdraw]{xcolor}
-\usepackage{pdfpages}           %%% Para poder incluir paginas de pdf
-\usepackage{url}                %%% Para introducir url's con formato: \url{http://www.google.es}
+\usepackage{pdfpages}                               %%% Para poder incluir paginas de pdf
+\usepackage{url}                                    %%% Para introducir url's con formato: \url{http://www.google.es}
+\usepackage{amssymb}                                %%% Para poder usar >= o <=
+
 
 %%%%%%%%%%%%%%%%%%%%
 % FIGURAS Y TABLAS %
@@ -27,8 +29,9 @@
 % Nombres de tablas y figuras en negrita y pequeño
 \usepackage{caption}
 \captionsetup{labelfont={bf,small},textfont=small}
-% Para poner una imagen al lado de otra
+% Para poner dos figuras
 \usepackage{subcaption}
+
 
 %%%%%%%%%
 % TODOs %
@@ -36,8 +39,9 @@
 
 % Para poder meter TODOs en el pdf
 \usepackage[colorinlistoftodos, spanish, textsize=small]{todonotes}
-\newcommand{\pendiente}[1]{\todo[color=green!40]{#1}}
-\newcommand{\aviso}[1]{\todo[color=red!40]{#1}}
+\newcommand{\pendiente}[1]{\todo[color=green!40]{#1}} % De color verde para cosas PENDIENTES \aviso{...texto...}
+\newcommand{\aviso}[1]{\todo[color=red!40]{#1}} % De color rojo para cosas IMPORTANTES \pendiente{...texto...}
+
 
 %%%%%%%%%%%
 % COLORES %
@@ -51,37 +55,37 @@ hypertexnames=false,
 breaklinks=true,
 linktoc=all,
 colorlinks=true,
-linkcolor=blue,   %%% Por defecto es de color rojo los índices 
-citecolor=green,  %%% Por defecto las citas salen de color verde
-urlcolor=blue,    %%% Por defecto las url salen de color magenta en la bibliografía
+citecolor=green,  %%% Color cuando se cita algo de la bibliografía
+urlcolor=blue,    %%% Color cuando se escribe una url
 pdfborder={0 0 112.0},
 hyperfootnotes=false,
 ]{hyperref}
 
 % Colores índice general, índice de figuras e índice de tablas
-\newcommand{\mytoclinkcolor}{black}
-\newcommand{\myloflinkcolor}{black}
-\newcommand{\mylotlinkcolor}{black}
+\newcommand{\mytoclinkcolor}{black} % Color índice de contenidos
+\newcommand{\myloflinkcolor}{black} % Color índice de figuras
+\newcommand{\mylotlinkcolor}{black} % Color índice de tablas
+\newcommand{\mylollinkcolor}{black} % Color índice de código fuente
+\newcommand{\mylinkcolor}{blue} % Resto de colores: referencias a acrónimos, capítulos, secciones, subsecciones, tablas, figuras, ecuaciones...
 
-% Otros colores de links del documento
-\newcommand{\mylinkcolor}{blue}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 % MÁRGENES Y ESPACIOS %
 %%%%%%%%%%%%%%%%%%%%%%%
 
-% Ajustar tamaño de los margenes
+% Ajustar tamaño de los márgenes
 
 \geometry{verbose,a4paper,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm,marginpar=2cm}
 
 % Incluir un pequeño espacio entre parrafos
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 
+
 %%%%%%%%%%%%%%%%%%%%%
 % ESTILO ENCABEZADO %
 %%%%%%%%%%%%%%%%%%%%%
 
-% Configuración del estilo del encabezado
+% Configuración del estilo del encabezado UAH
 \pagestyle{fancy}
 
 \fancyhf{}
@@ -107,6 +111,19 @@ hyperfootnotes=false,
   \fancyfoot[C]{\thepage}
 }
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% NIVELES DE SECCIONES %
+%%%%%%%%%%%%%%%%%%%%%%%%
 % Para tener hasta cuatro niveles: section, subsection, subsubsection, paragraph
 \setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}
+
+
+%%%%%%%%%%%%%
+% ACRÓNIMOS %
+%%%%%%%%%%%%%
+% Importante cargar este paquete después de \usepackage[hyperref], si no no funciona los hipervínculos
+\usepackage[acronym,nonumberlist,toc]{glossaries}
+\setlength{\glsdescwidth}{0.7\linewidth} % Ancho de la columna de descripción de los acrónimos
+

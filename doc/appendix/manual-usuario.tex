@@ -5,7 +5,7 @@
 \section{Introducción}
 \label{sec:intro-manual-de-usuario}
 
-En este apéndice se va a dividir en dos secciones diferenciadas donde se va a explicar como instalar y configurar todas las herramientas necesarias para la puesta a punto del proyecto. Y por otro lado, un manual de usuario donde se va a explicar como ejecutar cada uno de los algoritmos se han expuesto en el capítulo \ref{cha:desarrollo}.
+En este apéndice se va a dividir en dos secciones diferenciadas donde se va a explicar como instalar y configurar todas las herramientas necesarias para la puesta a punto del proyecto. Y por otro lado, un manual de usuario donde se va a explicar como ejecutar cada uno de los algoritmos se han utilizado en el capítulo \ref{cha:resultados}.
 Cabe destacar que, tal y como se indica en el sección \ref{sec:intro-pliego} del Apéndice \ref{cha:pliego-de-condiciones}, el equipo donde se instalará todo el software descrito en este apartado para programar los distintos algoritmos, se ha optado por utilizar un sistema operativo Ubuntu 18.04.4 LTS. Por tanto, todos los comandos de instalaciones y puesta en funcionamiento están orientados a un equipo que disponga de Linux.
 
 
@@ -46,31 +46,34 @@ Anaconda se trata de la \textit{suite} más compleja para la Ciencia de Datos en
     
     \vspace{0.5cm}
     
-    \begin{lstlisting}[language=iPython,caption=Verificación de la integridad de la instalación de Anaconda,captionpos=b,label={lst:verificar-sha256}]
-    # Acceder a la carpeta Downloads del usuario
-    cd /home/<username>/Downloads
+    % Los siguientes \begin{lstlisting}[... no están tabulados porque si no se crea una linea adicional de en las celdas
+    % además de que saldría todo el código tabulado dentro de las celdas y no queda bien
     
-    # Verificacion de la integridad del instalador
-    sha256sum Anaconda3-2020.02-Linux-x86_64.sh
-    \end{lstlisting}
+\begin{lstlisting}[language=iPython,caption=Verificación de la integridad de la instalación de Anaconda,captionpos=b,label={lst:verificar-sha256}]
+# Acceder a la carpeta Downloads del usuario
+cd /home/<username>/Downloads
+
+# Verificacion de la integridad del instalador
+sha256sum Anaconda3-2020.02-Linux-x86_64.sh
+\end{lstlisting}
     
     \item Ejecute la secuencias de comandos de Anaconda. Presione \texttt{yes} para aceptar los términos de la licencia. Pulse acontinuación \texttt{ENTER} cuando seleccione la ubicación de la instalación y finalmente presione \texttt{yes} para confirmar el \texttt{PATH} de Anaconda con tu \texttt{.bashrc}:
     
     \vspace{0.5cm}
     
-    \begin{lstlisting}[language=iPython,caption=Ejecutar el instalador de Anaconda para Linux,captionpos=b,label={lst:install-conda}]
-    # Ejecutar el instalador de Anaconda para Linux
-    bash Anaconda3-2020.02-Linux-x86_64.sh
-    \end{lstlisting}
+\begin{lstlisting}[language=iPython,caption=Ejecutar el instalador de Anaconda para Linux,captionpos=b,label={lst:install-conda}]
+# Ejecutar el instalador de Anaconda para Linux
+bash Anaconda3-2020.02-Linux-x86_64.sh
+\end{lstlisting}
     
     \item Cuando se complete la instalación cierre y abra el terminal de nuevo, o bien ejecute el siguiente comando:
     
     \vspace{0.5cm}
     
-    \begin{lstlisting}[language=iPython,caption=Hacer efectivo los cambios en el fichero .bashrc,captionpos=b,label={lst:source-bashrc}]
-    # Hacer efectivos los cambios realizados en .bashrc
-    source /home/<username>/.bashrc
-    \end{lstlisting}
+\begin{lstlisting}[language=iPython,caption=Hacer efectivo los cambios en el fichero .bashrc,captionpos=b,label={lst:source-bashrc}]
+# Hacer efectivos los cambios realizados en .bashrc
+source /home/<username>/.bashrc
+\end{lstlisting}
 \end{enumerate}
 
 \subsection{Descarga del repositorio del proyecto}
@@ -128,12 +131,16 @@ conda activate yolov4-gpu
 Los enlaces para descargar las bases de datos que se han utilizado para evaluar dos distintos algoritmos a lo largo del proyecto se encuentran a continuación:
 
 \begin{itemize}
+    \item PETS 2007 dataset \url{http://www.cvg.reading.ac.uk/PETS2007/data.html} \cite{pets2007-dataset}
+    \item AVSS AB 2007 dataset \url{http://www.eecs.qmul.ac.uk/~andrea/avss2007_d.html} \cite{AVSSAB2007-dataset}
+    \item GBA 2018 dataset \url{http://www.geintra-uah.org/datasets/gotpd1} \cite{gba-dataset}
     \item ABODA dataset \url{https://github.com/kevinlin311tw/ABODA} \cite{aboda-dataset}
-    \item AVENUE dataset \url{http://www.cse.cuhk.edu.hk/leojia/projects/detectabnormal/dataset.html} \cite{avenue-dataset}
-    \item AVSSAB2007 dataset \url{http://www.eecs.qmul.ac.uk/~andrea/avss2007_d.html} \cite{AVSSAB2007-dataset}
-    \item PETS2006 dataset \url{http://www.cvg.reading.ac.uk/PETS2006/data.html} \cite{pets2006-dataset}
-    \item PETS2007 dataset \url{http://www.cvg.reading.ac.uk/PETS2007/data.html} \cite{pets2007-dataset}
-    \item GBA dataset \url{https://bit.ly/3aVlGZL} \cite{gba-dataset}
+    \item MS COCO 2017 dataset \url{https://cocodataset.org/#download} \cite{lin2015microsoft}
+    \item Open Images Dataset v4 \url{https://storage.googleapis.com/openimages/web/index.html} \cite{Kuznetsova_2020}
+    
+    
+    
+    
 \end{itemize}
 
 \section{Manual de usuario}
