@@ -2,16 +2,44 @@
 \chapter{Conclusiones y líneas futuras}
 \label{cha:concl-lineas-futuras}
 
-En esta sección se hablará sobre futuros proyectos derivados de éste \ldots
+\begin{FraseCelebre}
+  \begin{Frase}
+    El trabajo ocupará una gran parte de tu vida, la mejor forma de lidiar con ello, es encontrar algo que realmente ames.
+  \end{Frase}
+  \begin{Fuente}
+    Steve Jobs
+  \end{Fuente}
+\end{FraseCelebre}
+
+En este apartado se resumen las conclusiones obtenidas y se proponen futuras líneas de investigación
+que se deriven del trabajo.
 
 \section{Conclusiones}
 \label{sec:conclusiones-finales}
 
-\textcolor{red}{Comentar sin extenderme en exceso las coclusiones que he sacado tras finalizar este Trabajo Fin de Máster}
+Este proyecto se ha enfocado en el desarrollo de una estrategia para la detección de objetos abandonados en sistemas de videovigilancia. Para ello se realizado un estudio del Estado del Arte sobre metodologías en la detección de objetos abandonados. Las técnicas que se llevaban usando en los últimos años son las de segmentación de objetos en movimiento en primer plano, detección de objetos estacionarios, reconocimiento de comportamientos y detección de personas y objetos.
+
+Se ha decidido utilizar la metodología de detección de personas y empleando \gls{cnn} ya que se puede deasrrollar un sistema de detección en tiempo real. Entre todos los algoritmos de detección disponibles en el Estado del Arte se ha optado por la utilización de \gls{yolo}v4 ya que, respecto sus principales competidores como son, \gls{ssd}, \gls{dssd}, EfficientDet, Fast \gls{r-cnn} o Faster \gls{r-cnn}, presenta una mayor relación de \gls{map} y \gls{fps} en las evaluaciones sobre el benchmark del dataset de MS \gls{coco} 2017.
+
+Se ha probado a entrenar dos redes neuronales para que solo detectase las clases de interés: personas, mochilas, bolsos, bolsas de mano y maletas. Se ha empleado el dataset de \gls{oidv4} para el entrenamiento, tomando 1.500 imágenes de cada clase para el entrenamiento y 300 de cada clase para la validación (un 20 \% de las imágenes del entrenamiento). Es aconsejable realizar un entrenamiento 2.000 iteraciones por cada clase entrenada, con lo cual se fijó las máximas iteraciones a 8.000. En este primer entrenamiento salieron valores de \gls{map} aceptables, sin embargo, como se muestra en la tabla \ref{tab:metricas-test1_4}, aparecieron muchos más \gls{fp} que \gls{tp} lo que derivó a obtener valores de \gls{iou} muy bajos, inferiores al 50 \%. En el segundo entrenamiento de la red neuronal se propuso aumentar el número de clases. A diferencia de MS \gls{coco} 2017 que solo dispone de 80 clases muy específicas, el dataset \gls{oidv4} ofrece más clases más específicas, como modelos concretos de maletas o de bolsas de mano, que resultan interesantes tener en cuenta en el entrenamiento de la red. En este segundo intento se entrenó la red con 7 clases y se subió las máximas iteraciones a 20.000 por no establecer lo mínimo recomendable. Los valores de las métricas de calidad obtenidas fueron muy similares a los del primer entrenamiento. Tras finalizar los dos entrenamientos se decidió continuar el proyecto con el dataset de referencia MS \gls{coco} 2017 ya que las métricas de calidad de los dos entrenamientos realizados eran muy inferiores.
+
+Se ha comprobado que utilizando el algoritmo de seguimiento \gls{deepsort}, algoritmo que emplea filtros de Kalman para el seguimiento junto con el algoritmo húngaro para solucionar el problema de la asociación. Se obtuvieron resultados aceptables. No obstante cuando hay grandes aglomeraciones donde las personas se cruzan o una persona sale del plano y vuelve a aparecer al cabo de varios segundos, se pierde el seguimiento y se tiene que crear una nueva asociación entre persona y objeto.
+
+Se ha diseñado un algoritmo capaz de detectar objetos abandonados. Se han presentado dos posibles hipótesis. La primera es que el objeto permanezca inmóvil en el mismo punto durante toda la secuencia de vídeo y no tenga ninguna persona asociada como propietaria. En tal caso cuando han transcurrido 30 segundos, se indica que ese objeto se encuentra perdido o ha sido abandonado. En la segunda hipótesis se ha tenido que lidiar con el problema de la asociación persona-objeto. Para ello se ha calculado la distancia de los centroides entre las personas con todos los objetos detectables y estableciendo la asociación persona-objeto cuando se detectase una mínima en píxeles. 
+
+\newpage
 
 \section{Líneas futuras}
 \label{sec:lineas-futuras}
 
 \textcolor{red}{Poner todos los ejemplos que se me ocurra de posibles proyectos derivados de este, o aplicando la misma ``tecnología'' de tratar con imágenes obtenidas del entorno, se pueden derivar muchos trabajos como la detección distanciamiento social y aglomeración de personas en puntos críticos}.
 
-prueba de que funciona \acrshort{gpu}
+\begin{itemize}
+    \item Implementar nuevos algoritmos de detección de mayor \gls{map} para evitar la pérdida del tracking. Scaled YOLOv4 \cite{wang2021scaledyolov4}
+    \item Diferenciar cuando un objeto ha sido abandonado o robado \cite{9079525}.
+    \item Entrenar red neuronal con otros datasets de referencia (ImageNet \cite{russakovsky2015imagenet}, crear un dataset propio)
+    \item Distanciamiento social \cite{punn2020monitoring}, \cite{Rezaei_2020}, \cite{Gupta_2020} y \cite{fan2020autonomous}
+    \item Esta aplicación se ha tenido en cuenta que corra sobre equipos con gráficas tipo tal tal y tal, sería interesante ver si se podría un microordenador tipo Jetson Nano, Jetson Xavier, etc... sería capaz de soportar el funcionamiento del algoritmo en un tiempo prolongado.
+\end{itemize}
+
+prueba de que funciona \gls{gpu}

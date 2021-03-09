@@ -5,7 +5,7 @@
 \input{config/python-style.tex}
 
 \makeglossaries % Genera la base de datos de acrónimos
-\input{appendix/acronimos.tex} % Archivo que contiene los acrónimos
+\input{appendix/acronimos.tex} % Archivo que contiene la lista de acrónimos
 
 \begin{document}
 
@@ -27,25 +27,22 @@
 % Índices
 \input{config/toc+lof+lot+lol.tex}
 
+% Lista de Acrónimos (solo aparecen los que se citan en el documento)
+\printglossary[style=super,type=\acronymtype,title={Lista de Acrónimos}]
+
 % Numeración normal
 \mainmatter
 
 % Capítulos
 \input{chapters/introduccion.tex}
-\input{chapters/estudio-teorico.tex}
-\input{chapters/algoritmos.tex}
-\input{chapters/object-detection.tex}
+\input{chapters/estado-del-arte.tex}
+\input{chapters/desarrollo.tex}
 \input{chapters/resultados.tex}
 \input{chapters/futuros-proyectos.tex}
 
 % Biblio
 \bibliography{biblio/biblio.bib}
 \bibliographystyle{IEEEtran}
-
-% Acrónimos
-
-\printglossary[style=super,type=\acronymtype,title={Lista de Acrónimos}]
-\glsaddallunused
 
 % Anexos
 \begin{appendices}

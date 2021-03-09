@@ -74,7 +74,6 @@ hyperfootnotes=false,
 %%%%%%%%%%%%%%%%%%%%%%%
 
 % Ajustar tamaño de los márgenes
-
 \geometry{verbose,a4paper,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm,marginpar=2cm}
 
 % Incluir un pequeño espacio entre parrafos
@@ -115,6 +114,7 @@ hyperfootnotes=false,
 %%%%%%%%%%%%%%%%%%%%%%%%
 % NIVELES DE SECCIONES %
 %%%%%%%%%%%%%%%%%%%%%%%%
+
 % Para tener hasta cuatro niveles: section, subsection, subsubsection, paragraph
 \setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}
@@ -123,7 +123,29 @@ hyperfootnotes=false,
 %%%%%%%%%%%%%
 % ACRÓNIMOS %
 %%%%%%%%%%%%%
+
 % Importante cargar este paquete después de \usepackage[hyperref], si no no funciona los hipervínculos
 \usepackage[acronym,nonumberlist,toc]{glossaries}
 \setlength{\glsdescwidth}{0.7\linewidth} % Ancho de la columna de descripción de los acrónimos
 
+
+%%%%%%%%%%%%%%%%%
+% FRASE CÉLEBRE %
+%%%%%%%%%%%%%%%%%
+
+\newenvironment{FraseCelebre}
+{\begin{list}{}{
+      \setlength{\leftmargin}{0.5\textwidth}
+      \setlength{\parsep}{0cm}
+      \addtolength{\topsep}{0.5cm}
+    }
+  }
+  {\unskip \end{list}}
+
+\newenvironment{Frase}
+{\item \begin{flushright}\small\em}
+  {\end{flushright}}
+
+\newenvironment{Fuente}
+{\item \begin{flushright}\small}
+  {\end{flushright}}

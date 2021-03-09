@@ -2,115 +2,248 @@
 \chapter{Resultados}
 \label{cha:resultados}
 
-Aquí se mostrarán los resultados del proyecto \ldots
-
-Como dijo \cite{lin2015microsoft} \ldots
+\begin{FraseCelebre}
+  \begin{Frase}
+    Cuando algo es lo suficientemente importante, lo haces incluso si las probabilidades no están a tu favor.
+  \end{Frase}
+  \begin{Fuente}
+    Elon Musk
+  \end{Fuente}
+\end{FraseCelebre}
 
 \section{Introducción}
 \label{sec:intro-resultados}
 
+Este capítulo pretende recoger los resultados obtenidos en la aplicación de los algoritmos empleados y diseñados. Para evaluarlos es necesario disponer de evaluaciones cuantitativas para validar su funcionamiento. En la detección de objetos, los investigadores evalúan sus algoritmos sobre los mismas datasets para poder contrastar resultados con las propuestas de otros investigadores. En la evaluación de los datasets se deben de medir métricas de calidad con lo que se pueda cuantificar el funcionamiento de los algoritmos. En las siguientes secciones se va a especificar los datasets utilizadas y se contemplará el funcionamiento de los algoritmos sobre las mismas.
+
 \section{Entorno experimental}
 \label{sec:desarrollo-resultados}
 
-\newpage
+Sabiendo que se va a emplear YOLOv4 en la detección y seguimiento de personas y objetos de interés, en esta sección se va a contemplar los datasets empleadas para ratificar su funcionamiento, las métricas de calidad principales para evaluar el dataset de referencia que se vaya a emplear en el entrenamiento de la red neuronal y por último se va a evaluar el funcionamiento del algoritmo de detección, seguimiento y detección de objetos abandonados sobre los datasets.
 
-\subsection{Bases de datos utilizadas}
-\label{subsec:bases-datos}
+\subsection{Datasets utilizados}
+\label{subsec:datasets-utilizados}
+
+Se van a describir los datasets más relevantes en la detección de objetos abandonados en los sistemas de videovigilancia así como los datasets de referencia sobre las que se validará previamente en base a las métricas de calidad el modelo entrenado o pre-entrenado utilizado.
+
+En la tabla \ref{tab:datasets} se resumen los contenidos más relevantes de los datasets como son: número de secuencias, longitud media en minutos.
+
+Por otro lado se exponen diferentes \textit{challenges} que se consideran de interés para la detección de objetos abandonados:
+
+\begin{itemize}
+    \item I = cambios de iluminación/sombras
+    \item R = objetos alejados o pequeños
+    \item P = personas estáticas en un punto durante un período de tiempo
+    \item O = oclusiones
+    \item LR = resolución vídeo baja
+    \item RO = objetos abandonados o eliminados
+\end{itemize}
+
+\begin{table}[ht]
+\centering
+\caption{Datasets utilizados en la evaluación de los algoritmos}
+\label{tab:datasets}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Nombre del dataset} & \textbf{\# Secuencias} & \textbf{\begin{tabular}[c]{@{}c@{}}Longitud media\\ (min)\end{tabular}} & \textbf{Escenario} & \textbf{Challenge} \\ \hline
+ABODA                       & 11                     & 1,90                                                                    & Interior/exterior  & I, R, P, O         \\
+AVSSAB2007                  & 3                      & 3,46                                                                    & Estación de metro  & I, R, P, O         \\
+PETS2007                    & 28                     & 1,96                                                                    & Aeropuerto         & I, R, P, O         \\
+GBA2018                     & 8                      & 0,74                                                                    & Interior           & I, R, P, O, RO     \\ \hline
+\end{tabular}
+\end{table}
+\aviso{Una página por cada dataset!!!}
+
+\newpage
 
 \subsubsection{PETS 2007 Dataset}
 
 \begin{figure}[ht]
   \centering
   \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{img/chapters/resultados/bases-datos/pets2007_1.jpeg}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/pets2007_1.jpg}
     \caption{}
     \label{fig:pets2007_1}
   \end{subfigure}
   \qquad\qquad
   \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{img/chapters/resultados/bases-datos/pets2007_2.jpeg}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/pets2007_2.jpg}
     \caption{}
     \label{fig:pets2007_2}
   \end{subfigure}
   \caption{Imágenes extraídas del dataset PETS2007 \cite{pets2007-dataset}.
-    (\protect\subref{fig:pets2007_1}) Frame donde un individuo deja su bolsa de equipaje sobre el suelo.
-    (\protect\subref{fig:pets2007_2}) Otro frame en el cual una persona roba el equipaje el individuo.}
-  \label{fig:pets2007}
+    (\protect\subref{fig:pets2007_1}) Frame donde un hombre deja su equipaje en el suelo.
+    (\protect\subref{fig:pets2007_2}) Otro frame donde el abandona el lugar sin su equipaje.}
+  \label{fig:pets2007_S08}
 \end{figure}
-
-\subsubsection{AVSS AB 2007 Dataset}
 
 \begin{figure}[ht]
   \centering
   \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{img/chapters/resultados/bases-datos/AVSSAB_1.jpg}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/pets2007_3.jpg}
+    \caption{}
+    \label{fig:pets2007_3}
+  \end{subfigure}
+  \qquad\qquad
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/pets2007_4.jpg}
+    \caption{}
+    \label{fig:pets2007_4}
+  \end{subfigure}
+  \caption{Imágenes extraídas del dataset PETS2007 \cite{pets2007-dataset}.
+    (\protect\subref{fig:pets2007_3}) Frame donde una mujer se encuentra junto a su equipaje.
+    (\protect\subref{fig:pets2007_4}) Otro frame donde la mujer abandona el lugar sin su bolso.}
+  \label{fig:pets2007_S07}
+\end{figure}
+
+\newpage
+
+\subsubsection{AVSS AB 2007 Dataset}
+
+Se ha utilizado las secuencias dedicadas a la detección de objetos abandonados del dataset \gls{avss}. Una persona ha colocado un objeto que es de su pertenencia sobre el andén. La persona abandona el área de detección sin el objeto durante más de 60 segundos. Durante ese tiempo el objeto permanece estático en el área de detección. Este dataset está formado por tres secuencias de vídeo grabadas a una resolución de 720 x 576 píxeles a 25 \gls{fps}. En modelo de la cámara no se especifica.
+
+La región de interés está divida en tres zonas: cercana, media, lejos. En cada una de las secuencias de vídeo el objeto que es abandonado se encuentra en cada una de estas zonas.
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/AVSSAB_1.jpg}
     \caption{}
     \label{fig:avssab2007_1}
   \end{subfigure}
   \qquad\qquad
   \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{img/chapters/resultados/bases-datos/AVSSAB_2.jpg}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/AVSSAB_2.jpg}
     \caption{}
     \label{fig:avssab2007_2}
   \end{subfigure}
   \caption{Imágenes extraídas del dataset AVSS AB 2007 \cite{AVSSAB2007-dataset}.
-    (\protect\subref{fig:avssab2007_1}) Frame donde un individuo abandona su maleta en el andén.
-    (\protect\subref{fig:avssab2007_2}) Otro frame donde una bolsa de equipaje está perdida en el andén durante todo el video.}
-  \label{fig:avssab2007}
+    (\protect\subref{fig:avssab2007_1}) Frame donde un hombre se encuentra junto a su maleta en la zona cercana del andén del metro.
+    (\protect\subref{fig:avssab2007_2}) Otro frame donde donde el hombre abandona la zona cercana su maleta durante más de 60 segundos.}
+  \label{fig:avssab2007_easy}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/AVSSAB_3.jpg}
+    \caption{}
+    \label{fig:avssab2007_3}
+  \end{subfigure}
+  \qquad\qquad
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/AVSSAB_4.jpg}
+    \caption{}
+    \label{fig:avssab2007_4}
+  \end{subfigure}
+  \caption{Imágenes extraídas del dataset AVSS AB 2007 \cite{AVSSAB2007-dataset}.
+    (\protect\subref{fig:avssab2007_3}) Frame donde una mujer se encuentra junto a su bolsa de mano en la zona media del andén del metro.
+    (\protect\subref{fig:avssab2007_4}) Otro frame donde la bolsa de mano se encuentra abandonada en la zona media del andén del metro.}
+  \label{fig:avssab2007_medium}
 \end{figure}
 
 \newpage
 
 \subsubsection{GBA 2018 Dataset}
 
+El dataset \gls{gba2018} del grupo de investigación \gls{geintra} fue grabado en la \gls{eps} de la \gls{uah} durante la realización del \gls{tfm} de David Valdivieso López \cite{valdivieso2018}. Está orientado a la evaluación de algoritmos de detección de objetos abandonados. El dataset está formado 8 secuencias en 2 escenarios distintos grabadas con una GoPro HERO4 a una resolución de 1920 x 1080 píxeles a 60 \gls{fps}.
+
+En el primer escenario se muestra como región de interés el Hall de la \gls{eps} desde un plano alejado donde ocurren eventos como abandono de maletas, mochilas y bolsas de mano.
+
 \begin{figure}[ht!]
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
-    \includegraphics[width=\textwidth]{img/chapters/resultados/bases-datos/GBA_1.jpg}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/GBA_1.jpg}
     \caption{}
     \label{fig:GBA_1}
   \end{subfigure}
   \qquad\qquad
   \begin{subfigure}[b]{0.45\textwidth}
-    \includegraphics[width=\textwidth]{img/chapters/resultados/bases-datos/GBA_2.jpg}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/GBA_2.jpg}
     \caption{}
     \label{fig:GBA_2}
   \end{subfigure}
-  \caption{Imágenes extraídas del dataset GBA 2018 \cite{gba-dataset}.
-    (\protect\subref{fig:GBA_1}) Frame donde una bolsa de mano es abandonada en el pasillo.
+  \caption{Imágenes extraídas de secuencias del primer escenario del dataset GBA 2018 \cite{gba-dataset}.
+    (\protect\subref{fig:GBA_1}) Frame donde dos bolsas de mano han sido abandonadas en mitad del hall.
     (\protect\subref{fig:GBA_2}) Otro frame donde varias bolsas y maletas están alejadas de sus propietarios.}
-  \label{fig:GBA}
+  \label{fig:GBA1}
 \end{figure}
 
+La región de interés del segundo escenario se encuentra en el pasillo que conecta el hall con la cafetería. El plano de la grabación es más cercano respecto al primer escenario con lo que se consideran secuencias más fáciles de evaluar ya que no se encuentran elementos de interés alejados.
+
+\begin{figure}[ht!]
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/GBA_3.jpg}
+    \caption{}
+    \label{fig:GBA_3}
+  \end{subfigure}
+  \qquad\qquad
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/GBA_4.jpg}
+    \caption{}
+    \label{fig:GBA_4}
+  \end{subfigure}
+  \caption{Imágenes extraídas de secuencias del segundo escenario del dataset GBA 2018 \cite{gba-dataset}.
+    (\protect\subref{fig:GBA_3}) Frame donde una bolsa de mano es abandonada en el pasillo de la cafetería.
+    (\protect\subref{fig:GBA_4}) Otro frame donde dos personas abandonan una pequeña bolsa de mano.}
+  \label{fig:GBA2}
+\end{figure}
+
+\newpage
+
 \subsubsection{ABODA Dataset}
+
+El dataset \gls{aboda} está dedicado a la detección de objetos abandonados en escenarios muy diferenciados.
 
 \begin{figure}[ht]
   \centering
   \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{img/chapters/resultados/bases-datos/aboda_1.jpg}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/aboda_1.jpg}
     \caption{}
     \label{fig:aboda_1}
   \end{subfigure}
   \qquad\qquad
   \begin{subfigure}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{img/chapters/resultados/bases-datos/aboda_2.jpg}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/aboda_2.jpg}
     \caption{}
     \label{fig:aboda_2}
   \end{subfigure}
   \caption{Imágenes extraídas del dataset ABODA \cite{aboda-dataset}.
-    (\protect\subref{fig:aboda_1}) Frame donde dos individuos se alejan de una mochila.
-    (\protect\subref{fig:aboda_2}) Otro frame donde un individuo abandona una bolsa en la mesa.}
-  \label{fig:aboda}
+    (\protect\subref{fig:aboda_1}) Frame donde dos chicos conversan en el hall.
+    (\protect\subref{fig:aboda_2}) Otro frame donde los dos chicos abandonan una mochila.}
+  \label{fig:aboda1}
 \end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/aboda_3.jpg}
+    \caption{}
+    \label{fig:aboda_3}
+  \end{subfigure}
+  \qquad\qquad
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/aboda_4.jpg}
+    \caption{}
+    \label{fig:aboda_4}
+  \end{subfigure}
+  \caption{Imágenes extraídas del dataset ABODA \cite{aboda-dataset}.
+    (\protect\subref{fig:aboda_3}) Frame donde un individuo entra a un aula con una bolsa de mano.
+    (\protect\subref{fig:aboda_4}) Otro frame donde el individuo abandona la bolsa en la mesa.}
+  \label{fig:aboda2}
+\end{figure}
+
+\newpage
 
 \subsubsection{MS COCO 2017 Dataset}
 \label{subsubsec:coco-dataset}
 
-\textcolor{red}{La base de datos MS COCO 2017 es gran conjunto de datos que contiene más de 200 000 imágenes distribuidas en 80 clases de objetos que representan escenas del mundo real. Es una base de datos lo suficientemente grande para que una red bien entrenada con este conjunto de datos sea capaz de aprender características visuales de calidad para el reconocimiento y detección de objetos en imágenes.}
+\textcolor{red}{El dataset MS COCO 2017 es gran datasets que contiene más de 200 000 imágenes distribuidas en 80 clases de objetos que representan escenas del mundo real. Es un dataset lo suficientemente grande para que una red bien entrenada con este dataset sea capaz de aprender características visuales de calidad para el reconocimiento y detección de objetos en imágenes.}
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.9\textwidth]{img/chapters/resultados/bases-datos/cocodataset.png}
+\includegraphics[width=0.9\textwidth]{img/chapters/resultados/datasets/cocodataset.png}
 \caption{\label{fig:cocodataset}Categorías de objetos del dataset MS COCO 2017}
 \end{figure}
 
@@ -121,30 +254,32 @@ Como dijo \cite{lin2015microsoft} \ldots
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.7\textwidth]{img/chapters/resultados/bases-datos/oid-classes.png}
+\includegraphics[width=0.7\textwidth]{img/chapters/resultados/datasets/oid-classes.png}
 \caption{\label{fig:oiddataset}Categorías de objetos del dataset Open Images Dataset v4}
 \end{figure}
+
+\newpage
 
 \subsection{Métricas de calidad}
 \label{subsec:metricas-calidad}
 
 \textcolor{red}{Ver TFM de Ana Ruipérez Gómez o Pedro López Miguel para ver como ha redactado las métricas} \pendiente{ojo a esto!!!}
 
-En esta sección se va a exponer las distintas métricas \cite{padillaCITE2020} que han sido utilizadas para evaluar el conjunto de datos utilizado para el entrenamiento de la red neuronal.
+En esta sección se va a exponer las distintas métricas \cite{padillaCITE2020} que han sido utilizadas para evaluar el dataset utilizado para el entrenamiento de la red neuronal.
 
 \subsubsection{Intersección sobre la unión (IoU)}
 \label{subsubsec:iou}
 
-Intersection over Union (IoU) es una medida basada en el índice Jaccard que evalúa la superposición entre dos cuadros delimitadores. Requiere un cuadro delimitador de verdad del terreno $B_{gt}$ y un cuadro delimitador previsto $B_{p}$. Aplicando el IoU podemos saber si una detección es válida (verdadero positivo) o no (falso positivo).
+\gls{iou} es una medida basada en el índice Jaccard que evalúa la superposición entre dos cuadros delimitadores. Requiere un cuadro delimitador de verdad del terreno $B_{gt}$ y un cuadro delimitador previsto $B_{p}$. Aplicando el \gls{iou} podemos saber si una detección es válida (verdadero positivo) o no (falso positivo).
 
-El IoU viene dado por el área de superposición entre el cuadro delimitador predicho y el cuadro delimitador de verdad del suelo dividido por el área de unión entre ellos:
+El \gls{iou} viene dado por el área de superposición entre el cuadro delimitador predicho y el cuadro delimitador de verdad del suelo dividido por el área de unión entre ellos:
 
 \begin{equation}
 \label{eq:iou}
 \text{IoU}=\frac{\text{area}\left(B_{p} \cap B_{gt} \right)}{\text{area}\left(B_{p} \cup B_{gt} \right)}    
 \end{equation}
 
-La siguiente imagen ilustra el IoU entre un cuadro delimitador de verdad del terreno (en verde) y un cuadro delimitador detectado (en rojo).
+La siguiente imagen ilustra el \gls{iou} entre un cuadro delimitador de verdad del terreno (en verde) y un cuadro delimitador detectado (en rojo).
 
 \begin{figure}[ht]
 \centering
@@ -158,10 +293,10 @@ La siguiente imagen ilustra el IoU entre un cuadro delimitador de verdad del ter
 Otros parámetros básicos en las métricas de calidad que conforman la matriz de confusión \cite{confusion-matrix} son:
 
 \begin{itemize}
-    \item \textbf{Verdadero positivo (TP)}: Número de predicciones donde el clasificador predice correctamente la clase positiva como positiva. IoU $\geqslant$ \textit{threshold}
-    \item \textbf{Verdadero negativo (TN)}: Número de predicciones donde el clasificador predice correctamente la clase negativa como negativa. No se utiliza en el cálculo de métricas.
-    \item \textbf{Falso positivo (FP)}: Número de predicciones donde el clasificador predice incorrectamente la clase negativa como positiva. IoU <\ \textit{threshold}
-    \item \textbf{Falso negativo (FN)}: Número de predicciones donde el clasificador predice incorrectamente la clase positiva como negativa.
+    \item \textbf{\gls{tp}}: Número de predicciones donde el clasificador predice correctamente la clase positiva como positiva. \gls{iou} $\geqslant$ \textit{threshold}
+    \item \textbf{\gls{tn}}: Número de predicciones donde el clasificador predice correctamente la clase negativa como negativa. No se utiliza en el cálculo de métricas.
+    \item \textbf{\gls{fp}}: Número de predicciones donde el clasificador predice incorrectamente la clase negativa como positiva. \gls{iou} <\ \textit{threshold}
+    \item \textbf{\gls{fn}}: Número de predicciones donde el clasificador predice incorrectamente la clase positiva como negativa.
 \end{itemize}
 
 Típicamente el \textit{threshold} toma valores del 50\%, 75\% o 95\%.
@@ -220,7 +355,7 @@ $$\rho_{\text{interp}} = \max_{\tilde{r}:\tilde{r} \geq r} \rho\left ( \tilde{r}
 
 donde $\rho\left ( \tilde{r} \right )$ es la precisión medida en la exhaustividad $\tilde{r}$
 
-Por otro lado, el mAP es la media de los AP de todas las categorías de objetos. El mAP se representa mediante la siguiente ecuación:
+Por otro lado, el \gls{map} es la media de los \gls{ap} de todas las categorías de objetos. El \gls{map} se representa mediante la siguiente ecuación:
 
 \begin{equation}
 \label{eq:map}
@@ -238,7 +373,7 @@ Por otro lado, el mAP es la media de los AP de todas las categorías de objetos.
 \textcolor{red}{Explicar que se ha tomado 1500 imágenes de entrenamiento de las clases: person, handbag, backpack, suitcase y 300 imágenes de validación.}
 
 \vspace{0.5cm}
-\begin{lstlisting}[language=iPython,caption=Descarga set de datos Open Images Dataset v4,captionpos=b,label={lst:download-oidv4}]
+\begin{lstlisting}[language=iPython,caption=Descarga dataset Open Images Dataset v4,captionpos=b,label={lst:download-oidv4}]
 # Clonar el repositorio de Github
 git clone https://github.com/theAIGuysCode/OIDv4_ToolKit.git
 cd OIDv4_ToolKit
@@ -259,27 +394,27 @@ python convert_annotations.py
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.3\textwidth]{img/chapters/resultados/bases-datos/download-oidv4.png}
-\caption{\label{fig:download-oidv4}Descarga del set de datos Open Images Dataset v4}
+\includegraphics[width=0.3\textwidth]{img/chapters/resultados/datasets/download-oidv4.png}
+\caption{\label{fig:download-oidv4}Descarga del dataset Open Images Dataset v4}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.3\textwidth]{img/chapters/resultados/bases-datos/bbox-oidv4.png}
+\includegraphics[width=0.3\textwidth]{img/chapters/resultados/datasets/bbox-oidv4.png}
 \caption{\label{fig:bbox-oidv4}Estructura de las etiquetas de Open Images Dataset v4}
 \end{figure}
 
-La estructura que siguen las etiquetas del set de datos de Open Images Dataset v4 es la siguiente:
+La estructura que siguen las etiquetas del dataset de Open Images Dataset v4 es la siguiente:
 
 \texttt{nombre de la clase x left top y x right bottom y}
 
 \subsubsection{Métricas de calidad en Open Image Dataset v4}
 \label{subsubsec:metricas-calidad-openimagesv4}
 
-Tras entrenar YOLOv4 con el conjunto de datos personalizado que se ha explicado en el apartado anterior \ref{subsubsec:train-openimagesv4} se va a evaluar las métricas de calidad. Gracias al framework Darknet \cite{darknet13} es fácil poder evaluar las métricas aplicando el siguiente comando en el terminal:
+Tras entrenar YOLOv4 con el dataset personalizado que se ha explicado en el apartado anterior \ref{subsubsec:train-openimagesv4} se va a evaluar las métricas de calidad. Gracias al framework Darknet \cite{darknet13} es fácil poder evaluar las métricas aplicando el siguiente comando en el terminal:
 
 \vspace{0.5cm}
-\begin{lstlisting}[language=iPython,caption=Evaluación métricas de calidad del conjunto de datos utilizado para el entrenamiento de la red neuronal de detección de objetos,captionpos=b,label={lst:darknet-map}]
+\begin{lstlisting}[language=iPython,caption=Evaluación métricas de calidad del dataset utilizado para el entrenamiento de la red neuronal de detección de objetos,captionpos=b,label={lst:darknet-map}]
 # Evaluacion de metricas de interes
 ./darknet detector train data/obj.data cfg/yolov4-obj.cfg yolov4.conv.137 -dont_show -map
 \end{lstlisting}
@@ -287,18 +422,16 @@ Tras entrenar YOLOv4 con el conjunto de datos personalizado que se ha explicado 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.3\textwidth]{img/chapters/resultados/metricas/chart_train.png}
-\caption{\label{fig:chart-train}Evolución del mAP y pérdidas a lo largo de las interaciones durante el entrenamiento de la red neuronal con el set de datos de OIDv4}
+\caption{\label{fig:chart-train}Evolución del mAP y pérdidas a lo largo de las interacciones durante el entrenamiento de la red neuronal con el dataset de OIDv4}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.3\textwidth]{img/chapters/resultados/metricas/metrics-during-training.png}
-\caption{\label{fig:metrics-during-train}Métricas durante el entrenamiento de la red neuronal con el set de datos de OIDv4}
+\caption{\label{fig:metrics-during-train}Métricas durante el entrenamiento de la red neuronal con el dataset de OIDv4}
 \end{figure}
 
 En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:metricas-test1_3} y \ref{tab:metricas-test1_4} se reflejan las métricas más relevantes cada 1000 iteraciones del entrenamiento de la red neuronal.
-
-\newpage
 
 \begin{table}[ht]
 \centering
@@ -317,6 +450,8 @@ En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:met
 8.000               & 38,30                                                             & 87,69                                                              & 72,00                                                               & 58,89                                                               \\ \hline
 \end{tabular}
 \end{table}
+
+\newpage
 
 \begin{table}[ht]
 \centering
@@ -374,7 +509,7 @@ En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:met
 
 \newpage
 
-\textcolor{red}{Aquí explicar porque en función de las métricas obtenidas no es un buen modelo y se debe de reentrenar la red. El IoU sale muy bajo <\ 50\%, por tanto salen muchos FP}
+\textcolor{red}{Aquí explicar porque en función de las métricas obtenidas no es un buen modelo y se debe de reentrenar la red. El \gls{iou} sale muy bajo <\ 50\%, por tanto salen muchos FP}
 
 \begin{table}[ht]
 \centering
@@ -498,11 +633,12 @@ Suitcase       & 71,08           & 205         & 102         \\ \hline
 \caption{\label{fig:metrics-train2}Resumen métricas segundo entrenamiento de la red neuronal con el dataset de OIDv4}
 \end{figure}
 
+\newpage
 
 \section{Resultados experimentales}
 \label{sec:resultados-experimentales}
 
-Una vez elegido MS COCO 2017 dataset como conjunto de datos de referencia para usar con YOLOv4, se va a ver los resultados obtenidos en distintos algoritmos.
+Una vez elegido MS COCO 2017 como dataset de referencia para usar con YOLOv4, se va a ver los resultados obtenidos en distintos algoritmos.
 
 \subsection{Resultados en detección de objetos con YOLOv4}
 \label{subsec:resultados-yolov4-tf}
