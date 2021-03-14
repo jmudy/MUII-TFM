@@ -31,7 +31,7 @@ sudo apt-get install git-all
 \subsection{Instalación de Anaconda}
 \label{subsec:instalacion-anaconda}
 
-Anaconda se trata de la \textit{suite} más compleja para la Ciencia de Datos en R y Python, lenguajes de programación que actualmente son líderes en Machine Learning, Inteligencia Artificial y Big Data. Esta \textit{suite} gratuita y multiplataforma dispone de las \acrshort{ide}'s y librerías adecuadas para su manejo. Con ellos se evita tener que instalar manualmente un \acrshort{ide} y el lenguaje Python con sus correspondientes librerías que en ocasiones puede ser una operación tediosa y compleja.
+Anaconda se trata de la \textit{suite} más compleja para la Ciencia de Datos en R y Python, lenguajes de programación que actualmente son líderes en Machine Learning, Inteligencia Artificial y Big Data. Esta \textit{suite} gratuita y multiplataforma dispone de las \gls{ide}'s y librerías adecuadas para su manejo. Con ellos se evita tener que instalar manualmente un \gls{ide} y el lenguaje Python con sus correspondientes librerías que en ocasiones puede ser una operación tediosa y compleja.
 
 \begin{enumerate}
     \item Accede al siguiente enlace \cite{inst-conda} disponible en la bibliografía y descargue la versión más reciente del instalador de Anaconda para Linux:
@@ -97,11 +97,11 @@ cd yolov4-deepsort
 \subsection{Crear entorno virtual con Anaconda}
 \label{subsec:creacion-entorno}
 
-Con la finalidad de evitar tediosa y larga instalación de \acrshort{cuda} y \acrshort{cudnn} y tener únicamente instaladas las librerías necesarias para que funcione el código se va a instalar un entorno virtual en Anaconda.
+Con la finalidad de evitar tediosa y larga instalación de \gls{cuda} y \gls{cudnn} y tener únicamente instaladas las librerías necesarias para que funcione el código se va a instalar un entorno virtual en Anaconda.
 
-Desde la misma carpeta del repositorio de Github \ref{lst:descarga-repo} que se ha clonado hay dos ficheros con extensión .yml, donde viene indicadas la versión de Python que se va a necesitar, la versión de \acrshort{cuda} y \acrshort{cudnn} así como las librerías y dependencias necesarias. Para utilizar \acrshort{cuda} es necesario disponer de una \acrshort{gpu} de NVIDIA. Es muy importante verificar la capacidad de cálculo de la tarjeta gráfica NVIDIA que se emplea. En la siguiente dirección \cite{cuda-gpus} se puede comprobar la capacidad de cálculo los distintos modelos:
+Desde la misma carpeta del repositorio de Github \ref{lst:descarga-repo} que se ha clonado hay dos ficheros con extensión .yml, donde viene indicadas la versión de Python que se va a necesitar, la versión de \gls{cuda} y \gls{cudnn} así como las librerías y dependencias necesarias. Para utilizar \gls{cuda} es necesario disponer de una \gls{gpu} de NVIDIA. Es muy importante verificar la capacidad de cálculo de la tarjeta gráfica NVIDIA que se emplea. En la siguiente dirección \cite{cuda-gpus} se puede comprobar la capacidad de cálculo los distintos modelos:
 
-La capacidad de cálculo mínima para poder utilizar \acrshort{cuda} con al librería tensorflow-gpu es de 3.5. En función de la \acrshort{gpu} que dispongas, ejecute uno de los siguientes comandos para crear un entorno virtual de Anaconda con Python 3.7.0:
+La capacidad de cálculo mínima para poder utilizar \gls{cuda} con al librería tensorflow-gpu es de 3.5. En función de la \gls{gpu} que dispongas, ejecute uno de los siguientes comandos para crear un entorno virtual de Anaconda con Python 3.7.0:
 
 \vspace{0.5cm}
 
@@ -131,12 +131,12 @@ conda activate yolov4-gpu
 Los enlaces para descargar los datasets que se han utilizado para evaluar dos distintos algoritmos a lo largo del proyecto se encuentran a continuación:
 
 \begin{itemize}
-    \item PETS 2007 dataset \url{http://www.cvg.reading.ac.uk/PETS2007/data.html} \cite{pets2007-dataset}
-    \item AVSS AB 2007 dataset \url{http://www.eecs.qmul.ac.uk/~andrea/avss2007_d.html} \cite{AVSSAB2007-dataset}
-    \item GBA 2018 dataset \url{http://www.geintra-uah.org/datasets/gotpd1} \cite{gba-dataset}
-    \item ABODA dataset \url{https://github.com/kevinlin311tw/ABODA} \cite{aboda-dataset}
-    \item MS COCO 2017 dataset \url{https://cocodataset.org/#download} \cite{lin2015microsoft}
-    \item Open Images Dataset v4 \url{https://storage.googleapis.com/openimages/web/index.html} \cite{Kuznetsova_2020}
+    \item \gls{pets} dataset \url{http://www.cvg.reading.ac.uk/PETS2007/data.html} \cite{pets2007-dataset}
+    \item \gls{avss} dataset \url{http://www.eecs.qmul.ac.uk/~andrea/avss2007_d.html} \cite{AVSSAB2007-dataset}
+    \item \gls{gba2018} dataset \url{http://www.geintra-uah.org/datasets/gotpd1} \cite{gba-dataset}
+    \item \gls{aboda} dataset \url{https://github.com/kevinlin311tw/ABODA} \cite{aboda-dataset}
+    \item \gls{coco} dataset \url{https://cocodataset.org/#download} \cite{lin2015microsoft}
+    \item \gls{oidv4} dataset \url{https://storage.googleapis.com/openimages/web/index.html} \cite{Kuznetsova_2020}
     
     
     
@@ -150,6 +150,7 @@ En esta parte se especifica los comandos que se deben que ejecutar para poner en
 \pendiente{Queda pendiente este apartado que podrá ser completado cuando termine de redactar los apartados de desarrollo de algoritmo de detección de objetos abandonados}
 
 \subsection{Ejecutar algoritmo de detección de objetos YOLOv4}
+\label{subsec:ejecutar-deteccion-yolov4}
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Funciones de object tracking ,captionpos=b,label={lst:object-tracking}]
@@ -197,3 +198,15 @@ sin2_theta  = np.sin(theta)**2
 def test(a=¢100¢, b=True)
     <= >= == ¢2¢ + ¢3j¢ * ¢7e-3¢
 \end{lstlisting}
+
+\newpage
+
+\subsection{Ejecutar algoritmo de seguimiento de objetos YOLOv4 + DeepSORT}
+\label{subsec:ejecutar-seguimiento-yolov4-deepsort}
+
+\newpage
+
+\subsection{Ejecutar algoritmo de detección de objetos abandonados}
+\label{subsec:ejecutar-deteccion-abandoned-object}
+
+
