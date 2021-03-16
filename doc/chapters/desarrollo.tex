@@ -14,12 +14,26 @@
 \section{Introducción}
 \label{sec:intro-desarrollo}
 
-\textcolor{red}{Decir que se ha decidido por emplear algoritmos de detección con redes neuronales convolucionales para abordar los objetivos de este proyecto. Tal como se vió en la sección de conclusiones del capítulo del Estado del Arte se va a Utilizar YOLOv4 junto con DeepSORT para realizar el seguimiento de personas y objetos de interés. Contar que primero se va a probar con Darknet el funcionamiento de YOLOv4 y posteriormente se decide utilizar como framework Tensorflow ya que nos va a facilitar las tareas de programación. Después entrenamiento de la red con el dataset OID para ver si así mejora las métricas de calidad de MS COCO y comparar. Después probar YOLOv4 con Tensorflow convirtiendo el modelo y posteriormente utilizar DeepSORT y filtrar personas y objetos. Finalmente apartado donde se va a ver la estrategia para determinar como identificar un objeto abandonado, esquema del algoritmo e implementación, ya se verá en el apartado de resultados lo que sale.}
+En el presente \gls{tfm} se ha desarrollado una estrategia de detección de objetos abandonados para ser aplicado en sistemas de videovigilancia. Como ya se comentó en la sección \ref{sec:conclu-sota}, se utilizará como detector de objetos y personas \gls{yolov4} y como algoritmo de seguimiento \gls{deepsort}. A continuación, se describen las diferentes secciones que componen este capítulo.
+
+Primero se evaluará YOLOv4 sobre Darknet, framework de código abierto escrito en C y \gls{cuda}, y se observará la precisión y velocidad que se obtiene en la detección de objetos y personas. Posteriormente se convertirá el modelo de \gls{yolov4} de Darknet a Tensorflow, framework de código abierto escrito en Python y C++ orientado al desarrollo de algoritmos inteligentes de Machine Learning. Utilizar \gls{yolov4} con Tensorflow facilitará la programación del algoritmo de detección de objetos abandonados con Python ya que Darknet no es un framework de uso extendido y podría ser más difícil encontrar soluciones para los posibles errores. A continuación se reentrenará el modelo de la red \gls{yolov4} sobre el dataset \gls{oidv4} para observar si se obtienen mayores valores en las métricas de calidad respecto a \gls{coco}.
+
+Una vez se obtenido el modelo de \gls{yolov4} definitivo, se probará el algoritmo de seguimiento \gls{deepsort}. Solo nos interesa la detección y seguimiento de personas y objetos de interés, por lo que se filtrará la detección para que solo se identifiquen las clases que queremos.
+
+Finalmente se expondrá una estrategia para la detección de objetos abandonados basada en la detección de objetos y personas mediante \gls{cnn}'s y se implementará sobre el detector de objetos \gls{yolov4} junto al algoritmo de detección \gls{deepsort}. En el planteamiento del algoritmo de detección de objetos abandonados se tendrá que considerar dos posibles escenarios. El primero es que se identifique un objeto sin propietario que se encuentre estacionario durante toda la ejecución de la secuencia de vídeo. En el segundo escenario se deberá de crear una asociación entre persona y objeto. Una vez establecida la asociación se podrá evaluar cuando una persona abandona un objeto de su propiedad a una una distancia en píxeles 3 veces mayor a la distancia a la que se encontraba en el momento que se realizó la asociación durante un tiempo superior a 30 segundos.
+
+Cabe recalcar que en este capítulo se va a exponer cada uno de los procedimientos que se han llevado a cabo para poner en funcionamiento los algoritmos de detección, seguimiento y detección de objetos abandonados. Todos los resultados obtenidos durante el desarrollo de esta parte del proyecto se pueden contemplar en el capítulo \ref{cha:resultados}.
 
 \section{YOLOv4}
 \label{sec:desarrollo-yolov4}
 
-Darknet es uno de esos marcos de redes neuronales de código abierto escrito en C y CUDA y sirve como base de YOLO. Es rápido, fácil de instalar y admite cálculos de CPU y GPU. Darknet se utiliza como marco para entrenar YOLO, lo que significa que establece la arquitectura de la red. El primer autor de Darknet es el autor del propio YOLO (J Redmon).
+\gls{yolov4} es un algoritmo de detección que utiliza \textit{Deep Learning} y \gls{cnn} para detectar objetos. Como lo indica su nombre solo necesita ``ver'' la imagen una sola vez, lo cual permite ser el muy rápido aunque sacrificando precisión. Esta rapidez permite detectar objetos en tiempo real.
+
+\gls{yolov4} está originalmente implementado en Darknet, un framework de redes neuronales de código abierto escrito en C y \gls{cuda} y sirve como base de \gls{yolo}. Es rápido, fácil de instalar y admite cálculos de \gls{cpu} y \gls{gpu}. Darknet utiliza como framework para entrenar \gls{yolo}, lo que significa que establece la arquitectura de la red. El primer autor de Darknet es el autor del propio \gls{yolo} (J Redmon) y actualmente está siendo liderado por Alexey Bochkovskiy.
+
+\textcolor{red}{Aquí meter ya imágenes de yolo en acción. Hacer breve introducción a Tensorflow y explicar en que consiste la conversión de modelos y hacer comparativa sobre una imagen de Darknet vs Tensorflow}.
+
+\newpage
 
 \section{Datasets utilizados para el entrenamiento de YOLOv4}
 \label{sec:datasets-utilizados}
@@ -75,13 +89,13 @@ python convert_annotations.py
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.3\textwidth]{img/chapters/resultados/datasets/download-oidv4.png}
+\includegraphics[width=0.55\textwidth]{img/chapters/resultados/datasets/download-oidv4.png}
 \caption{\label{fig:download-oidv4}Descarga del dataset Open Images Dataset v4}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.3\textwidth]{img/chapters/resultados/datasets/bbox-oidv4.png}
+\includegraphics[width=0.45\textwidth]{img/chapters/resultados/datasets/bbox-oidv4.png}
 \caption{\label{fig:bbox-oidv4}Estructura de las etiquetas de Open Images Dataset v4}
 \end{figure}
 
@@ -93,16 +107,27 @@ La estructura que siguen las etiquetas del dataset de Open Images Dataset v4 es 
 
 \newpage
 
+\section{YOLOv4 + DeepSORT}
+\label{sec:desarrollo-yolov4+deepsort}
+
+\textcolor{red}{Aquí hacer una breve descripción de deepsort, muy breve porque ya se ha explicado en el capitulo del estado del arte, y poner imagenes de su funcionamiento sobre yolov4 en el framework tensorflow}.
+
+\newpage
+
 \section{Algoritmo de detección de objetos abandonados}
 \label{sec:algoritmo-object-detection}
 
 \textcolor{red}{Dibujar el esquema que voy a seguir para determinar cuando un objeto ha sido abandonado.}
 \url{https://app.diagrams.net/}
 
+\textcolor{red}{Intentar meter toda la chicha posible. Que quede pendiente meter aquí código de lo que he implementado para que no quede todo en el aire y se vean de repente los resultados, por lo menos que se vea la función que hace la asociación de persona objeto y la función que establece si la persona ha abandonado un objeto o si el objeto esta abandonado y sin propietario.}
+
 \newpage
 
 \section{Conclusiones}
 \label{sec:conclu-desarrollo}
+
+\textcolor{red}{Hacer unas breves conclusiones de lo que se ha conseguido en base a los objetivos que se han marcado en la introducción de este capítulo \ldots}
 
 \begin{algorithm}[H]
  \caption{How to write algorithms}
