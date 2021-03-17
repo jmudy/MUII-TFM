@@ -1,6 +1,6 @@
 
-\chapter{Estado del arte}
-\label{cha:estado-del-arte}
+\chapter{Estudio teórico}
+\label{cha:estudio-teórico}
 
 \begin{FraseCelebre}
   \begin{Frase}
@@ -20,10 +20,12 @@ En primer lugar se ha realizado un repaso de las diferentes técnicas que se han
 
 En segundo lugar se hará una breve introducción a las \gls{cnn}, un tipo de red neuronal artificial de \textit{Deep Learning} que utiliza imágenes en la entrada de la red para encontrar patrones en las imágenes con el objetivo de reconocer formas dentro de los objetos. También resulta interesante su uso en la clasificación de datos de audio o señales. En los últimos años se están utilizando para el reconocimiento facial o vehículos autónomos.
 
-Por último, después de introducir el concepto de \gls{cnn} y más enfocado a los contenidos de este trabajo, se extenderá la sección \ref{subsec:tecnicas-deteccion-personas-objetos} realizando un breve recorrido de los principales algoritmos de detección y seguimiento de personas y objetos basados en \gls{cnn}.
+Por último, y más enfocado a los contenidos de este trabajo, se extenderá la sección \ref{subsec:tecnicas-deteccion-personas-objetos} realizando un breve recorrido de los principales algoritmos de detección y seguimiento de personas y objetos basados en \gls{cnn}.
 
-\section{Técnicas utilizadas}
-\label{sec:tecnicas-utilizadas}
+\section{Estado del Arte}
+\label{sec:estado-del-arte}
+
+En esta sección se va a enumerar las distintas técnicas que han sido utilizadas en la identificación de objetos abandonados citando los trabajos más relevantes de otros grupos de investigación.
 
 \subsection{Segmentación de objetos en primer plano}
 \label{subsec:tecnicas-segmentacion-obj-primer-plano}
@@ -340,11 +342,16 @@ Una aplicación interesante de las redes neuronales convolucionales se encuentra
 
 La CNN resultante se ejecutó en varias bases de datos con un \gls{auc} en las imágenes de menor calidad de 0,91. Entrenando una red con imágenes de alta resolución de la base de datos INbreast \cite{moreira2011}, su mejor modelo logró un \gls{auc} por imagen de 0,95. Combinando todos sus modelos, este número se elevó hasta 0,98 con una sensibilidad del 86,7\% y una especificidad del 96,1\%. Esto muestra que las \gls{cnn} pueden realizar tareas que ahorran costos pero, lo que es más importante, salvan vidas. Con el resultado del artículo \cite{mammography2019}, esto significaría que la \gls{cnn} está superando al personal médico en la detección y clasificación de tumores. Los médicos tienen solo un 0,3\% más de probabilidades de detectar correctamente un tumor maligno, pero tienen un 7,2\% menos de probabilidades de encontrar correctamente que un paciente esté sano.
 
-\section{Algoritmos de detección de objetos}
-\label{sec:tecnicas-utilizadas-detection}
+\section{Técnicas utilizadas}
+\label{sec:técnicas-utilizadas}
 
-\subsection{Faster R-CNN}
-\label{subsec:faster-rcnn}
+\subsection{Algoritmos de detección de objetos}
+\label{subsec:tecnicas-utilizadas-detection}
+
+En esta sección se va exponer los distintos algoritmos de detección de objetos que están siendo utilizados en los últimos años. Por un lado están los detectores basados en regiones como Faster \gls{r-cnn} donde a partir de una imagen de entrada, se proponen múltiples regiones dentro de la imagen a través de algoritmo un algoritmo de búsqueda selectiva, de donde se obtienen múltiples regiones en base a características de la imagen que proporcionan potenciales zonas que pueden contener objetos. Estas regiones serán con las que se alimentará a la \gls{cnn} para clasificarlas y obtener a la clase que pertenecen. Esto último se consigue a través de \gls{svm}. Por otro lado están los detectores en tiempo real como \gls{yolo}, \gls{ssd} o EfficientDet donde la red neuronal solo necesita ``mirar'' una vez para predecir los objetos que hay en una imagen.
+
+\subsubsection{Faster R-CNN}
+\label{subsubsec:faster-rcnn}
 
 Faster \gls{r-cnn} es una extensión de Fast \gls{r-cnn} \cite{7410526}. Como su nombre indica, Faster \gls{r-cnn} es más rápido que Fast \gls{r-cnn} gracias a la red de propuesta regional (\gls{rpn}).
 
@@ -374,8 +381,8 @@ Faster R-CNN funciona de la siguiente manera:
 \caption{\label{fig:arquitectura-faster-rcnn}Arquitectura de Faster R-CNN}
 \end{figure}
 
-\subsubsection*{Region Proposal Network (RPN)}
-\label{subsubsec:region-proposal-network}
+\paragraph*{Region Proposal Network (RPN)}\mbox{} \\
+\label{parag:region-proposal-network}
 
 Los modelos \gls{r-cnn} y Fast \gls{r-cnn} dependen del algoritmo de búsqueda selectiva para generar propuestas de región. Cada propuesta se envía a una \gls{cnn} previamente capacitada para su clasificación. En \cite{ren2016faster} se propuso una red denominada red de propuestas regionales (\gls{rpn}) que puede producir las propuestas regionales. Esto tiene algunas ventajas:
 
@@ -388,8 +395,8 @@ Los modelos \gls{r-cnn} y Fast \gls{r-cnn} dependen del algoritmo de búsqueda s
 
 El \gls{rpn} funciona en el mapa de características de salida devuelto desde la última capa convolucional compartida con Fast \gls{r-cnn}. Esto se muestra en la siguiente figura. Sobre la base de una ventana rectangular de tamaño $n*n$, una ventana deslizante atraviesa el mapa de características. Para cada ventana, se generan varias propuestas de regiones candidatas. Estas propuestas no son las propuestas finales, ya que se filtrarán en función de su ``puntuación de objetividad''.
 
-\subsubsection*{Anchor}
-\label{subsubsec:anchor-faster-rcnn}
+\paragraph*{Anchor}\mbox{} \\
+\label{parag:anchor-faster-rcnn}
 
 Como se puede ver en la figura \ref{fig:variacion-anchor-boxes-faster-rcnn}, el mapa de características de la última capa de convolución compartida se pasa a través de una ventana deslizante rectangular de tamaño $n*n$, donde $n = 3$ para la red VGG-16. Para cada ventana, se generan propuestas de región $K$. Cada propuesta se parametriza según un cuadro de referencia que se denomina \textit{anchor box}. Los 2 parámetros de los anchor boxes son:
 
@@ -417,8 +424,8 @@ Para cada propuesta de región $n*n$, se extrae un vector de características (d
 
 La primera capa \gls{fc} (es decir, clasificador binario) tiene 2 salidas. El primero es para clasificar la región como fondo y el segundo es para clasificar la región como un objeto. La siguiente sección analiza cómo se asigna la puntuación de objetividad a cada ancla y cómo se utiliza para producir la etiqueta de clasificación.
 
-\subsection{SSD: Single Shot MultiBox Detector}
-\label{subsec:ssd}
+\subsubsection{SSD: Single Shot MultiBox Detector}
+\label{subsubsec:ssd}
 
 \gls{ssd} es un moldeo de detección de objetos en imágenes empleando únicamente una \gls{dnn}. \gls{ssd} discretiza el espacio de salida de los cuadros delimitadores en un conjunto de cuadros predeterminados en diferentes proporciones y escalas por ubicación del mapa de características. En el momento de la predicción, la red genera puntuaciones para la presencia de cada categoría de objeto en cada cuadro predeterminado y produce ajustes en el cuadro para que coincida mejor con la forma del objeto. Además, la red combina predicciones de múltiples mapas de características con diferentes resoluciones para manejar de forma natural objetos de varios tamaños.
 
@@ -432,8 +439,8 @@ En la figura \ref{fig:ssd-structure}, las primeras capas (cuadros blancos) son e
 \caption{\label{fig:ssd-structure}Arquitectura de una red neuronal convolucional con un detector SSD}
 \end{figure}
 
-\subsubsection*{Grid cell}
-\label{subsubsec:grid-cell-ssd}
+\paragraph*{Grid cell}\mbox{} \\
+\label{parag:grid-cell-ssd}
 
 En lugar de usar una ventana deslizante, \gls{ssd} divide la imagen usando una cuadrícula y cada celda de la cuadrícula es responsable de detectar objetos en esa región de la imagen. La detección de objetos simplemente significa predecir la clase y ubicación de un objeto dentro de esa región. Si no hay ningún objeto presente, se considera como la clase de fondo y se ignora la ubicación. Por ejemplo, como se puede observar en la figura usar una cuadrícula de 4x4 en el siguiente ejemplo. Cada celda de la cuadrícula puede mostrar la posición y la forma del objeto que contiene.
 
@@ -443,8 +450,8 @@ En lugar de usar una ventana deslizante, \gls{ssd} divide la imagen usando una c
 \caption{\label{fig:ejemplo-grid-cell}Ejemplo de una cuadrícula 4x4}
 \end{figure}
 
-\subsubsection*{Anchor box}
-\label{subsubsec:anchor-box-ssd}
+\paragraph*{Anchor box}\mbox{} \\
+\label{parag:anchor-box-ssd}
 
 Cada grid cell en \gls{ssd} se puede asignar con múltiples anchor boxes. Estos anchor boxes están predefinidos y cada uno es responsable de un tamaño y forma dentro de una grid cell. Por ejemplo, la piscina de la imagen siguiente corresponde a la anchor box más alta, mientras que el edificio corresponde a la anchor box más ancha.
 
@@ -456,24 +463,24 @@ Cada grid cell en \gls{ssd} se puede asignar con múltiples anchor boxes. Estos 
 
 \gls{ssd} usa una fase de coincidencia durante el entrenamiento, para hacer coincidir el anchor box apropiado con los cuadros delimitadores de cada objeto de ground truth dentro de una imagen. Básicamente, el anchor box con el mayor grado de superposición con un objeto es responsable de predecir la clase de ese objeto y su ubicación. Esta propiedad se utiliza para entrenar la red y para predecir los objetos detectados y sus ubicaciones una vez que la red ha sido entrenada. En la práctica, cada anchor box se especifica mediante una relación de aspecto y un nivel de zoom.
 
-\subsubsection*{Relación de aspecto}
-\label{subsubsec:aspect-ratio-ssd}
+\paragraph*{Relación de aspecto}\mbox{} \\
+\label{parag:aspect-ratio-ssd}
 
 No todos los objetos tienen forma cuadrada. Algunos son más largos y otros más anchos, en diversos grados. La arquitectura \gls{ssd} permite relaciones de aspecto predefinidas de los anchor boxes para tener en cuenta esto. El parámetro de proporciones se puede utilizar para especificar las diferentes proporciones de los cuadros de anclaje asociados con cada celda de la cuadrícula en cada nivel de zoom/escala.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.35\textwidth]{img/chapters/estado-del-arte/aspect_ratio-ejemplo-ssd.png}
+\includegraphics[width=0.30\textwidth]{img/chapters/estado-del-arte/aspect_ratio-ejemplo-ssd.png}
 \caption{\label{fig:aspect_ratio-ejemplo-ssd}El cuadro delimitador del edificio 1 es más alto, mientras que el cuadro delimitador del edificio 2 es más ancho}
 \end{figure}
 
-\subsubsection*{Nivel de zoom}
-\label{subsubsec:zoom-level-ssd}
+\paragraph*{Nivel de zoom}\mbox{} \\
+\label{parag:zoom-level-ssd}
 
 No es necesario que los anchor boxes tengan el mismo tamaño que grid cell. Podríamos estar interesados en encontrar objetos más pequeños o más grandes dentro de una celda de la cuadrícula. El parámetro de zoom se utiliza para especificar cuánto deben ampliarse o reducirse los cuadros de anclaje con respecto a cada celda de la cuadrícula. Al igual que lo que hemos visto en el ejemplo de el anchor box, el tamaño del edificio es generalmente más grande que la piscina.
 
-\subsubsection*{Campo receptivo}
-\label{subsubsec:receptive-field-ssd}
+\paragraph*{Campo receptivo}\mbox{} \\
+\label{parag:receptive-field-ssd}
 
 El campo receptivo se define como la región en el espacio de entrada que está mirando una función de \gls{cnn} en particular, es decir, que se ve afectada. Debido a la operación de convolución, las características en diferentes capas representan diferentes tamaños de región en la imagen de entrada. A medida que se profundiza, el tamaño representado por una característica aumenta. En este ejemplo que se puede observar en la figura \ref{fig:receptive-field-ssd}, se comienza con la capa inferior (5x5) y luego se aplica una convolución que da como resultado la capa intermedia (3x3) donde una característica (píxel verde) representa una región de 3x3 de la capa de entrada (capa inferior). Y luego se aplica la convolución a la capa intermedia y se obtiene la capa superior (2x2) donde cada característica corresponde a una región de 7x7 en la imagen de entrada. Este tipo de matriz 2D verde y naranja también se denomina mapas de características, que se refieren a un conjunto de características creadas al aplicar el mismo extractor de características en diferentes ubicaciones del mapa de entrada en una ventana deslizante. Las características del mismo mapa de características tienen el mismo campo receptivo y buscan el mismo patrón pero en diferentes ubicaciones. Esto crea la invariancia espacial de \texttt{ConvNet}.
 
@@ -483,22 +490,22 @@ Debido a esto, \gls{ssd} permite definir una jerarquía de celdas de cuadrícula
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.45\textwidth]{img/chapters/estado-del-arte/receptive-field.png}
+\includegraphics[width=0.4\textwidth]{img/chapters/estado-del-arte/receptive-field.png}
 \caption{\label{fig:receptive-field-ssd}Visualización de mapas de características de CNN y campo receptivo}
 \end{figure}
 
-\subsection{EfficientDet}
-\label{subsec:efficientdet}
+\subsubsection{EfficientDet}
+\label{subsubsec:efficientdet}
 
 EfficientDet se trata de un detector de objetos escalables y eficientes. Sobre la base de nuestro trabajo anterior sobre el escalado de redes neuronales que logra una alta precisión y es hasta 9 veces más pequeño y usa significativamente menos cálculos en comparación con los detectores del Estado del Arte. En la figura \ref{fig:arquitectura-efficientdet} se muestra la arquitectura de red general de los modelos.
 
+EfficientDet surge en noviembre de 2019 con la necesidad de aplicar soluciones en la mejora de la eficiencia computacional mediante la realización de un estudio sistemático de modelos de detección de última generación. Como ya se vio en la sección \ref{subsubsec:ssd}, los detectores de objetos tienen tres componentes principales: un backbone que extrae características de la imagen dada, una red de características que toma múltiples niveles de características de la red troncal como entrada y genera una lista de características fusionadas que representan características de la imagen y una red final que usa las características fusionadas para predecir la clase y ubicación de cada objeto. Al examinar las opciones de diseño para estos componentes, EfficientDet identifica varias optimizaciones clave para mejorar el rendimiento y la eficiencia.
+
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.8\textwidth]{img/chapters/estado-del-arte/arquitectura-efficientdet.png}
+\includegraphics[width=0.7\textwidth]{img/chapters/estado-del-arte/arquitectura-efficientdet.png}
 \caption{\label{fig:arquitectura-efficientdet}Arquitectura de EfficientDet}
 \end{figure}
-
-EfficientDet surge en noviembre de 2019 con la necesidad de aplicar soluciones en la mejora de la eficiencia computacional mediante la realización de un estudio sistemático de modelos de detección de última generación. Como ya se vio en la sección \ref{subsec:ssd}, los detectores de objetos tienen tres componentes principales: un backbone que extrae características de la imagen dada, una red de características que toma múltiples niveles de características de la red troncal como entrada y genera una lista de características fusionadas que representan características de la imagen y una red final que usa las características fusionadas para predecir la clase y ubicación de cada objeto. Al examinar las opciones de diseño para estos componentes, EfficientDet identifica varias optimizaciones clave para mejorar el rendimiento y la eficiencia.
 
 Los detectores de objetos anteriores se basan principalmente en ResNets, ResNeXt o AmoebaNet como backbones, que son menos potentes o tienen menor eficiencia que la de EfficientNet. Al implementar primero un backbone EfficientNet, es posible lograr una eficiencia mucho mayor. Por ejemplo, a partir de una RetinaNet que emplea el backbone ResNet-50, se puede observar que simplemente reemplazar ResNet-50 con EfficientNet-B3 puede mejorar la precisión en un 3\% y reducir los cálculos en un 20\%.
 
@@ -508,7 +515,7 @@ Para abordar estos problemas, EfficientDet presenta una nueva red de funciones b
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.8\textwidth]{img/chapters/estado-del-arte/comparativa_fpn+panet+nas-fpn+bifpn.png}
+\includegraphics[width=0.7\textwidth]{img/chapters/estado-del-arte/comparativa_fpn+panet+nas-fpn+bifpn.png}
 \caption{\label{fig:comparativa-bifpn}Comparativa entre biFPN y las demás redes de características previas}
 \end{figure}
 
@@ -518,8 +525,8 @@ Una tercera optimización implica lograr mejores compensaciones de precisión y 
 
 Combinando el nuevo backbone y Bi\gls{fpn}, surge una línea de base EfficientDet-D0 de tamaño pequeño y aplicando una escala compuesta para obtener EfficientDet-D1 a D7. Cada modelo consecutivo tiene un coste computacional más alto, que cubre una amplia gama de restricciones de recursos desde 3 mil millones de \gls{flops} hasta 300 mil millones de \gls{flops}, proporcionando una mayor precisión.
 
-\subsection{YOLOv4}
-\label{subsec:yolov4}
+\subsubsection{YOLOv4}
+\label{subsubsec:yolov4}
 
 \gls{yolo} es uno de los algoritmos de detección de objetos más eficientes que existen. La primera versión fue publicada por Joseph Redmon \cite{redmon2016look} en 2016 y la implementación más reciente \cite{bochkovskiy2020yolov4} está liderada por Alexey Bochkovsky. Predice tanto la posición (representada como un cuadro delimitador) como la clasificación de objetos en imágenes.
 
@@ -538,12 +545,12 @@ La principal diferencia entre \gls{yolov4} y las implementaciones anteriores es 
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.45\textwidth]{img/chapters/estado-del-arte/yolov4-vs-others.png}
+\includegraphics[width=0.4\textwidth]{img/chapters/estado-del-arte/yolov4-vs-others.png}
 \caption{\label{fig:yolov4-speed-accuracy-vs-others}Comparativa velocidad y precisión de YOLOv4 frente a otras arquitecturas}
 \end{figure}
 
-\subsubsection*{Estructura de un detector de objetos}
-\label{subsubsec:estructura-detector-objetos}
+\paragraph*{Estructura de un detector de objetos}\mbox{} \\
+\label{parag:estructura-detector-objetos}
 
 Todos los detectores de objetos toman una imagen como entrada y comprimen las características a través de una red neuronal convolucional. En la clasificación de imágenes, estos backbones son el final de la red y se pueden hacer predicciones a partir de ellas. En la detección de objetos, es necesario dibujar varios cuadros delimitadores alrededor de las imágenes junto con la clasificación, por lo que las capas de características convolucional del backbone deben mezclarse unas de otras. La combinación de capas de características del backbone ocurre en el neck.
 
@@ -551,12 +558,12 @@ También es útil dividir los detectores de objetos en dos categorías: detector
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.9\textwidth]{img/chapters/estado-del-arte/one-two-stage-detector.png}
+\includegraphics[width=0.75\textwidth]{img/chapters/estado-del-arte/one-two-stage-detector.png}
 \caption{\label{fig:one-two-stage-detector}Arquitectura de detectores de objetos de una y dos etapas}
 \end{figure}
 
-\subsubsection*{Backbone de YOLOv4}
-\label{subsubsec:yolov4-backbone}
+\paragraph*{Backbone de YOLOv4}\mbox{} \\
+\label{parag:yolov4-backbone}
 
 El backbone de la red de un detector de objetos típicamente suele estar preentrenada en la clasificación de ImageNet \cite{russakovsky2015imagenet}. El entrenamiento previo significa que los pesos de la red ya se han adaptado para identificar características relevantes en una imagen, aunque se modificarán en la nueva tarea de detección de objetos.
 
@@ -578,8 +585,8 @@ EfficientNet supera a las otras redes de tamaño comparable en clasificación de
 
 En base a los resultados experimentales, la red \gls{yolov4} final implementa CSPDarknet53 para el backbone.
 
-\subsubsection*{Neck de YOLOv4}
-\label{subsubsec:yolov4-neck}
+\paragraph*{Neck de YOLOv4}\mbox{} \\
+\label{parag:yolov4-neck}
 
 El siguiente paso en la detección de objetos es mezclar y combinar las características formadas en el backbone de ConvNet para prepararse para el paso de detección. \gls{yolov4} considera algunas opciones para el cuello que incluyen: \gls{fpn}, \gls{pan}, \gls{nas}-\gls{fpn}, Bi\gls{fpn}, \gls{asff} y \gls{sfam}.
 
@@ -593,63 +600,83 @@ Como se pudo observar en la figura \ref{fig:comparativa-bifpn}, EfficientDet uti
 
 Además, \gls{yolov4} agrega un bloque \gls{spp} después de CSPDarknet53 para aumentar el campo receptivo y separar las características más importantes del backbone.
 
-\subsubsection*{Head de YOLOv4}
-\label{subsubsec:yolov4-head}
+\paragraph*{Head de YOLOv4}\mbox{} \\
+\label{parag:yolov4-head}
 
 \gls{yolov4} implementa el mismo head \gls{yolo} que \gls{yolo}v3 \cite{redmon2018yolov3} para la detección con el anchor basado en pasos de detección y tres niveles de granularidad de detección.
 
-\section{Algoritmos de seguimiento de objetos}
-\label{sec:tecnicas-utilizadas-tracking}
+\subsection{Algoritmos de seguimiento de objetos}
+\label{subsec:tecnicas-utilizadas-tracking}
 
-\subsection{FairMOT}
-\label{subsec:fairmot}
+En el seguimiento de objetos tiene como objetivo localizar uno o varios objetos de interés en cada frame de un vídeo. Normalmente, se ubica el objetivo dibujando el rectángulo más pequeño posible (cuadro delimitador) donde se encuentra el objeto. Las aplicaciones de seguimiento de objetos en vídeo son amplias, como por ejemplo en la conducción autónoma, videovigilancia, interacción persona-computadora o en el análisis deportivo.
 
-\gls{fairmot}
+Existe una estrecha relación entre el seguimiento y la detección. La detección consiste en ubicar uno o varios objetos en una imagen determinada, mientras que el objetivo del seguimiento es ubicar estos objetos a lo largo de todo un vídeo, haciendo un seguimiento de qué objeto concreto a lo largo de los frames del vídeo. Para rastrear un objeto, primero se debe proporcionar la imagen de dicho objeto al algoritmo de rastreo, y esto se realiza mediante un algoritmo de detección (rastreadores basados en detección) o manualmente (rastreadores sin detección).
 
-\cite{zhang2020fair}
+Una forma inocente de realizar el seguimiento es aplicar un algoritmo de detección a cada fotograma de un vídeo, pero hay varias razones por las que el seguimiento es necesario o útil:
+\begin{itemize}
+    \item El seguimiento permite mantener las identidades de los objetos
+    \item La detección requiere un alto coste computacional
+    \item Los rastreadores sin detección permiten rastrear objetos para los que no se ha entrenado ningún detector
+    \item El seguimiento puede ayudar a abordar problemas comunes, como los  cambios de iluminación, desenfoque de movimiento, cambio de escala, oclusiones (cuando el objetivo está parcial o completamente oculto por otro objeto durante un período de tiempo en el vídeo) o una mala calidad de la imagen
+\end{itemize}
 
-\newpage
+\subsubsection{Seguimiento de un objeto}
+\label{subsubsec:seguimiento-un-objeto}
 
-\subsection{SORT}
-\label{subsec:sort}
-
-\gls{sort}
-
-\cite{Bewley_2016}
-
-\newpage
-
-\subsection{DeepSORT}
-\label{subsec:deepsort}
-
-\gls{deepsort}
-
-\cite{Wojke2017simple}
-
-Explicar que se trata de un algoritmo que combina El filtro de Kalman con el algoritmo húngaro.
+En \gls{sot}, el cuadro delimitador del objetivo en el primer fotograma se le da al rastreador. El objetivo del rastreador es localizar el mismo objetivo en todos los demás fotogramas. \gls{sot} pertenece a la categoría de seguimiento sin detección, porque el primer cuadro delimitador que se dibuja se le da manualmente al rastreador. Esto significa que los rastreadores de un solo objeto deberían poder rastrear cualquier objeto que se les proporcione, incluso un objeto en el que no se entrenó ningún modelo de clasificación.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=1\textwidth]{img/chapters/algoritmos/deepsort-example.png}
-\caption{\label{fig:tracking-example}Funcionamiento de Deepsort}
+\includegraphics[width=0.5\textwidth]{img/chapters/estado-del-arte/sot-usain-bolt.png}
+\caption{\label{fig:sot-usain-bolt}Ejemplo seguimiento de una única persona}
 \end{figure}
 
-En azul y naranja las detecciones, deepsort cuadros delimitadores blancos.
+\subsubsection{Seguimiento de múltiples objetos}
+\label{subsubsec:seguimiento-multiples-objeto}
 
-\subsubsection{Filtro de Kalman}
-\label{subsubsec:kalman-filter}
+En \gls{mot}, como su nombre lo indica, hay varios objetos para seguir. Se espera que el algoritmo de seguimiento primero determine la cantidad de objetos en cada fotograma y, segundo, realice un seguimiento de la identidad de cada objeto de un fotograma al siguiente.
 
-Explicar filtro de Kalman
+\gls{mot} es un problema desafiante ya que los cambios de ID son difíciles de evitar, especialmente en vídeos llenos de gente, y se desconoce la naturaleza y la cantidad de objetos en cada frame, por lo que los algoritmos \gls{mot} se basan en gran medida en algoritmos de detección, los cuales no son perfectos.
 
-\subsubsection{Algoritmo húngaro}
-\label{subsubsec:hungarian-algorithm}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.5\textwidth]{img/chapters/estado-del-arte/mot-gba.jpg}
+\caption{\label{fig:mot-gba}Ejemplo seguimiento de personas y objetos de interés}
+\end{figure}
 
-Explicar algoritmo húngaro.
+\subsubsection{Métodos tradicionales}
+\label{subsubsec:metodos-tradicionales-seguimiento}
+
+\paragraph*{Mean Shift}\mbox{} \\
+\label{parag:mean-shift}
+
+Mean Shift es un algoritmo iterativo no paramétrico y versátil que se puede usar para muchos propósitos, como modos de búsqueda o clusterings. Se ha utilizado ampliamente en el campo de seguimiento de objetivos debido a algunas ventajas como menos tiempos de iteración y mejor rendimiento en tiempo real. Sin embargo, debido a que solo se ha utilizado la representación de histograma de un solo color de la característica de destino en el algoritmo de Mean Shift, no se puede rastrear muy bien en algunos casos, especialmente en condiciones muy complicadas. Existen principalmente dos problemas que pueden hacer que el algoritmo de cambio medio tradicional sea inestable. El primer problema es cuando el color de fondo y el color de destino son similares, el rendimiento de seguimiento es significativamente insuficiente, el segundo es el problema de la oclusión parcial.
+
+\paragraph*{Optical Flow}\mbox{} \\
+\label{parag:optical-flow}
+
+Optical Flow es el patrón de movimiento aparente de los objetos de la imagen entre dos frames consecutivos causado por el movimiento del objeto o la cámara. El seguimiento con Optical Flow se basa en tres supuestos importantes:
+
+\begin{itemize}
+    \item Consistencia de brillo: se supone que el brillo alrededor de una región pequeña permanece casi constante, aunque la ubicación de la región puede cambiar
+    \item Coherencia espacial: los puntos vecinos en la escena normalmente pertenecen a la misma superficie y, por lo tanto, suelen tener movimientos similares
+    \item Persistencia temporal: el movimiento de un parche tiene un cambio gradual.
+    \item Movimiento limitado: los puntos no se mueven muy lejos o de forma desordenada.
+\end{itemize}
+
+Una vez que se satisfacen estos criterios, se usa método de Lucas-Kanade para obtener una ecuación para la velocidad de los puntos que se van a rastrear y, junto a técnicas de predicción, se puede rastrear un objeto dado a lo largo del vídeo.
+
+\subsubsection{SORT y DeepSORT}
+\label{subsubsec:sort+deepsort}
+
+
 
 \newpage
 
-\section{Conclusiones}
-\label{sec:conclu-sota}
+\subsection{Conclusiones}
+\label{subsec:conclu-tecnicas-utilizadas}
+
+\aviso{Ver si cambiar el nombre de la sección por si puede confundir con las conclusiones del capítulo entero}
 
 \begin{table}[ht]
 \centering
