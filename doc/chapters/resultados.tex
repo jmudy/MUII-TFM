@@ -14,9 +14,9 @@
 \section{Introducción}
 \label{sec:intro-resultados}
 
-En este capítulo se recogen los resultados obtenidos durante el diseño del sistema la detección de objetos abandonados. Para evaluar el funcionamiento de los distintos algoritmos que han sido empleados o diseñados es necesario realizar evaluaciones cuantitativas para validar su funcionamiento. En la detección de objetos, los investigadores evalúan sus algoritmos sobre los mismos datasets, de tal manera que se pueda contrastar los resultados con las propuestas de otros trabajos. Para evaluar un modelo de una red neuronal artificial se utilizan datasets de referencia para medir métricas de calidad para cuantificar el funcionamiento de los algoritmos.
+En este capítulo se recogen los resultados obtenidos durante el diseño del sistema la detección de objetos abandonados. Para evaluar el funcionamiento de los distintos algoritmos que han sido empleados o diseñados es necesario realizar evaluaciones cuantitativas para validar su funcionamiento. En la detección de objetos, los investigadores evalúan sus algoritmos sobre los mismos datasets, de tal manera que se pueda contrastar los resultados con las propuestas de trabajos previos. Para evaluar un modelo de una red neuronal artificial se utilizan datasets de referencia para medir métricas de calidad para cuantificar el funcionamiento de los algoritmos.
 
-Este capítulo está dividido en dos secciones diferenciadas. Primero, se va a detallar las métricas de calidad que se han empleado para validar los datasets de referencia empleados en el entrenamiento de la red neuronal \gls{yolov4} y se expondrán los datasets empleados para evaluar los algoritmos que se han propuesto en el capítulo \ref{cha:desarrollo}. Finalmente, se expondrán y interpretarán los resultados obtenidos al ejecutar los algoritmos sobre los datasets descritos anteriormente.
+Este capítulo está dividido en dos secciones diferenciadas. En la primera, se van a detallar las métricas de calidad que se han empleado para validar los datasets de referencia empleados en el entrenamiento de la red neuronal \gls{yolov4} y se expondrán los datasets empleados para evaluar los algoritmos que se han propuesto en el capítulo \ref{cha:desarrollo}. En la segunda, se expondrán y interpretarán los resultados obtenidos al ejecutar los algoritmos sobre los datasets descritos anteriormente.
 
 \section{Entorno experimental}
 \label{sec:desarrollo-resultados}
@@ -40,7 +40,7 @@ El \gls{iou} viene dado por el área de superposición entre el cuadro delimitad
 \text{IoU}=\frac{\text{area}\left(B_{p} \cap B_{gt} \right)}{\text{area}\left(B_{p} \cup B_{gt} \right)}    
 \end{equation}
 
-La siguiente imagen ilustra el \gls{iou} entre un cuadro delimitador de ground truth (en verde) y un cuadro delimitador detectado (en rojo).
+La siguiente figura ilustra el \gls{iou} entre un cuadro delimitador de ground truth (en verde) y un cuadro delimitador detectado (en rojo).
 
 \begin{figure}[ht]
 \centering
@@ -81,7 +81,7 @@ La precisión es la capacidad de un modelo para identificar solo los objetos rel
 \subsubsection{Recall}
 \label{subsubsec:recall}
 
-El Recall es la capacidad de un modelo para encontrar todos los casos relevantes (todos los cuadros delimitadores de ground truth). Es el porcentaje de verdadero positivo detectado entre todos los ground truths relevantes y viene dado por la siguiente expresión:
+El Recall es la capacidad de un modelo para encontrar todos los casos relevantes (todos los cuadros delimitadores de ground truth). Es el porcentaje de verdadero positivo detectado entre todos los ground truths relevantes y viene dado por la siguiente expresión \ref{eq:recall}:
 
 \begin{equation}
 \label{eq:recall}
@@ -91,7 +91,7 @@ El Recall es la capacidad de un modelo para encontrar todos los casos relevantes
 \subsubsection{F-Score}
 \label{subsubsec:f-score}
 
- El F-Score se trata de una medida estadística de precisión muy utilizado en las pruebas test de algoritmos. Es la media armónica que combina los valores de la precisión y el Recall. Viene dado por la expresión \ref{eq:f-score}:
+ El F-Score se trata de una medida estadística de precisión muy utilizada en las pruebas test de algoritmos. Es la media armónica que combina los valores de la precisión y el Recall. Viene dado por la expresión \ref{eq:f-score}:
 
 \begin{equation}
 \label{eq:f-score}
@@ -124,11 +124,11 @@ Por otro lado, el \gls{map} es la media de los \gls{ap} de todas las categorías
 \subsection{Datasets utilizados}
 \label{subsec:datasets-utilizados}
 
-Se van a describir los datasets más relevantes en la detección de objetos abandonados en los sistemas de videovigilancia así como los datasets de referencia sobre las que se validará previamente en base a las métricas de calidad el modelo entrenado o pre-entrenado utilizado.
+Se van a describir los datasets más relevantes en la detección de objetos abandonados en los sistemas de videovigilancia así como los datasets de referencia sobre las que se validará previamente, en base a las métricas de calidad, el modelo entrenado o pre-entrenado utilizado.
 
-En la tabla \ref{tab:datasets} se resumen los contenidos más relevantes de los datasets como son: número de secuencias, longitud media en minutos.
+En la tabla \ref{tab:datasets} se resumen los contenidos más relevantes de los datasets como son: número de secuencias, longitud media en minutos, escenario o tipo de desafío.
 
-Por otro lado se exponen diferentes \textit{challenges} que se consideran de interés para la detección de objetos abandonados:
+Los \textit{challenges} que se consideran de interés para la detección de objetos abandonados se numeran a continuación:
 
 \begin{itemize}
     \item I = cambios de iluminación/sombras
@@ -155,7 +155,7 @@ ABODA                       & 11                     & 1,90                     
 
 \subsubsection{PETS2007 Dataset}
 
-Este dataset \gls{pets} está formado por secuencias multisensores que contienen tres tipos escenarios con una complejidad ascendente: personas merodeando, robo de equipaje y equipaje desatendido/abandonado.
+El dataset \gls{pets} \cite{pets2007-dataset} está formado por secuencias que contienen tres tipos escenarios con una complejidad ascendente: personas merodeando, robo de equipaje y equipaje desatendido/abandonado.
 
 \paragraph*{Definición de merodear}\mbox{} \\
 \label{parag:definicion-merodear}
@@ -165,12 +165,12 @@ Merodear se define como una persona que entra en escena y permanece dentro de la
 \paragraph*{Definición de objeto desatendido}\mbox{} \\
 \label{parag:definicion-desatendido-objeto}
 
-En este estudio se utilizan tres reglas para determinar si el equipaje es atendido por una persona o no:
+Se utilizan tres reglas para determinar si el equipaje está atendido por parte de una persona o no:
 
 \begin{itemize}
     \item Un equipaje es propiedad y es atendido por una persona o personas que ingresan al lugar con el equipaje hasta el punto en que el equipaje no está en contacto físico con la persona (regla contextual).
     \item En este punto, el equipaje es atendido por el propietario únicamente cuando se encuentran a una distancia de un metro del equipaje (regla espacial). Todas las distancias se miden entre los centroides del objeto en el plano del suelo (es decir, z = 0). Si una persona se encuentra a 2 metros de su equipaje, el sistema no debe activar ninguna alarma.
-    \item Un equipaje está desatendido cuando el propietario está a más de b metros (donde b $\geqslant$ a) del equipaje. Si una persona cruza la línea a b = 3 metros, el sistema debe usar la regla espacio-temporal el equipaje. Si el equipaje se encuentra en el rango de [2,3] metros se determina como una zona de advertencia.
+    \item Un equipaje está desatendido cuando el propietario está a más de 3 metros del equipaje. Si una persona cruza la línea de los 3 metros, el sistema debe usar la regla espacio-temporal el equipaje. Si el equipaje se encuentra en el rango de [2,3] metros se determina como una zona de advertencia.
 \end{itemize}
 
 \paragraph*{Definición de objeto abandonado}\mbox{} \\
@@ -178,7 +178,7 @@ En este estudio se utilizan tres reglas para determinar si el equipaje es atendi
 
 El abandono de una pieza de equipaje se define espacial y temporalmente. El abandono se define como:
 
-Un bulto de equipaje que ha sido desatendido por el propietario por un período de 25 segundos consecutivos en el cual el propietario no ha vuelto a atender el equipaje, ni el equipaje ha sido atendido por una segunda parte. Si una pieza de equipaje se deja desatendida durante 25 segundos, se activa el evento de alarma.
+Un bulto de equipaje que ha sido desatendido por el propietario por un período de 25 segundos consecutivos en el cual el propietario no ha vuelto a atender el equipaje, ni el equipaje ha sido atendido por una segunda persona. Si una pieza de equipaje se deja desatendida durante 25 segundos, se activa una alarma.
 
 \paragraph*{Definición de robo de pieza de equipaje}\mbox{} \\
 \label{parag:definicion-robo-pieza-equipaje}
@@ -199,8 +199,8 @@ El robo de una pieza de equipaje se define utilizando únicamente una restricci�
     \label{fig:pets2007_2}
   \end{subfigure}
   \caption{Imágenes extraídas del dataset PETS2007 \cite{pets2007-dataset}.
-    (\protect\subref{fig:pets2007_1}) Frame de la secuencia S08-fourthView donde un hombre deja su equipaje en el suelo.
-    (\protect\subref{fig:pets2007_2}) Otro frame de la secuencia S08-fourthView donde el abandona el lugar sin su equipaje.}
+    (\protect\subref{fig:pets2007_1}) Fotograma de la secuencia S08-fourthView donde un hombre deja su equipaje en el suelo.
+    (\protect\subref{fig:pets2007_2}) Otro fotograma de la secuencia S08-fourthView donde el hombre abandona el lugar sin su equipaje.}
   \label{fig:pets2007_S08}
 \end{figure}
 
@@ -230,16 +230,16 @@ La resolución de todas las secuencias es PAL standard (768 x 576 píxeles y 25 
     \label{fig:pets2007_4}
   \end{subfigure}
   \caption{Imágenes extraídas del dataset PETS2007 \cite{pets2007-dataset}.
-    (\protect\subref{fig:pets2007_3}) Frame de la secuencia S07-thirdView donde una mujer se encuentra junto a su equipaje.
-    (\protect\subref{fig:pets2007_4}) Otro frame de la secuencia S07-thirdView donde la mujer abandona el lugar sin su bolso.}
+    (\protect\subref{fig:pets2007_3}) Fotograma de la secuencia S07-thirdView donde una mujer se encuentra junto a su equipaje.
+    (\protect\subref{fig:pets2007_4}) Otro fotograma de la secuencia S07-thirdView donde la mujer abandona el lugar sin su bolso.}
   \label{fig:pets2007_S07}
 \end{figure}
 
-En este proyecto solo se va a tener en cuenta tener en cuenta cuando un equipaje ha sido abandonado en un tiempo superior a 30 segundos o cuando ha sido desatendido por su propietario alejándose más de 3 veces la distancia que se establece en el momento de la asociación persona-objeto.
+En este proyecto solo se va a tener en cuenta tener en cuenta cuando un equipaje ha sido abandonado en un tiempo superior a 15 segundos o cuando ha sido desatendido por su propietario alejándose más de 3 veces la distancia que se establece en el momento de la asociación persona-objeto.
 
 \subsubsection{AVSSAB2007 Dataset}
 
-\gls{avss} es un subconjunto de datos del dataset AVSS 2007, el cual fue creado para el \textit{i-LIDS bag and vehicle detection challenge} que se celebró en la 14\textsuperscript{th} IEEE International Conference on Advanced Video and Signal based Surveillance en septiembre de 2007. En ella se tenía como objetivo atraer artículos del Estado del Arte para presentar metodologías para la detección de eventos. Tiene la intención de informar sobre la precisión, solidez y complejidad de las secuencias de vídeo del dataset.
+\gls{avss} \cite{AVSSAB2007-dataset} es un subconjunto de datos del dataset AVSS 2007, el cual fue creado para el \textit{i-LIDS bag and vehicle detection challenge} que se celebró en la 14\textsuperscript{th} IEEE International Conference on Advanced Video and Signal based Surveillance en septiembre de 2007. En ella se tenía como objetivo atraer artículos del Estado del Arte para presentar metodologías para la detección de eventos. Tiene la intención de informar sobre la precisión, solidez y complejidad de las secuencias de vídeo del dataset.
 
 Se ha utilizado el subconjunto de secuencias dedicadas a la detección de objetos abandonados. Este subdataset está formado por tres secuencias de vídeo grabadas a una resolución de 720 x 576 píxeles a 25 \gls{fps}. El modelo de la cámara no se especifica.
 
@@ -274,14 +274,14 @@ Todas las secuencias presentan la misma estructura en la sucesión de eventos:
     \label{fig:avssab2007_2}
   \end{subfigure}
   \caption{Imágenes extraídas del dataset AVSSAB2007 \cite{AVSSAB2007-dataset}.
-    (\protect\subref{fig:avssab2007_1}) Frame de la secuencia AVSSAB2007-Easy donde el hombre abandona la zona cercana su maleta.
-    (\protect\subref{fig:avssab2007_2}) Frame de la secuencia AVSSAB2007-Medium donde una mujer se encuentra junto a su bolsa de mano en la zona media del andén del metro.}
+    (\protect\subref{fig:avssab2007_1}) Fotograma de la secuencia AVSSAB2007-Easy donde el hombre abandona su maleta en la zona cercana.
+    (\protect\subref{fig:avssab2007_2}) Fotograma de la secuencia AVSSAB2007-Medium donde una mujer se encuentra junto a su bolsa de mano en la zona media del andén del metro.}
   \label{fig:avssab2007_near_medium}
 \end{figure}
 
 \subsubsection{GBA2018 Dataset}
 
-El dataset \gls{gba2018} fue grabado y etiquetado por el grupo de investigación \gls{geintra} en la \gls{eps} de la \gls{uah} durante la realización del \gls{tfm} de David Valdivieso López \cite{valdivieso2018}. Está orientado a la evaluación de algoritmos de detección de objetos abandonados y eventos anómalos como estampidas. El dataset está formado 8 secuencias en 2 escenarios distintos grabadas con una GoPro HERO4 a una resolución de 1920 x 1080 píxeles a 60 \gls{fps}.
+El dataset \gls{gba2018} \cite{gba-dataset} fue grabado y etiquetado por el grupo de investigación \gls{geintra} en la \gls{eps} de la \gls{uah} durante la realización del \gls{tfm} de David Valdivieso López \cite{valdivieso2018}. Está orientado a la evaluación de algoritmos de detección de objetos abandonados y eventos anómalos como estampidas. El dataset está formado 8 secuencias en 2 escenarios distintos grabadas con una GoPro HERO4 a una resolución de 1920 x 1080 píxeles a 60 \gls{fps}.
 
 \begin{figure}[ht]
 \centering
@@ -289,7 +289,7 @@ El dataset \gls{gba2018} fue grabado y etiquetado por el grupo de investigación
 \caption{\label{fig:roi-hall-eps}ROI del hall de la Escuela Politécnica Superior (UAH)}
 \end{figure}
 
-En el primer escenario se muestra como región de interés el hall de la \gls{eps} desde un plano alejado donde ocurren eventos como abandono de maletas, mochilas y bolsas de mano. Se trata de un escenario complejo ya que hay cambios de luz natural como artificial y personas y objetos situados a distancias largas, lo que puede dificultar la tarea de detección.
+En el primer escenario se muestra como \gls{roi} el hall de la \gls{eps} desde un plano alejado donde ocurren eventos como abandono de maletas, mochilas y bolsas de mano. Se trata de un escenario complejo ya que hay cambios tanto de luz natural como artificial y personas y objetos situados a distancias largas, lo que puede dificultar la tarea de detección.
 
 \begin{figure}[ht!]
   \centering
@@ -305,14 +305,14 @@ En el primer escenario se muestra como región de interés el hall de la \gls{ep
     \label{fig:GBA_2}
   \end{subfigure}
   \caption{Imágenes extraídas de secuencias del primer escenario del dataset GBA2018 \cite{gba-dataset}.
-    (\protect\subref{fig:GBA_1}) Frame de la secuencia GBA-far-video2 donde dos bolsas de mano han sido abandonadas en mitad del hall.
-    (\protect\subref{fig:GBA_2}) Frame de la secuencia GBA-far-video3 donde varias bolsas y maletas están alejadas de sus propietarios.}
+    (\protect\subref{fig:GBA_1}) Fotograma de la secuencia GBA-far-video2 donde dos bolsas de mano han sido abandonadas en medio del hall.
+    (\protect\subref{fig:GBA_2}) Fotograma de la secuencia GBA-far-video3 donde varias bolsas y maletas están alejadas de sus propietarios.}
   \label{fig:GBA1}
 \end{figure}
 
-La región de interés del segundo escenario se encuentra en el pasillo que conecta el hall con la cafetería. El plano de la grabación es más cercano respecto al primer escenario con lo que se consideran secuencias más fáciles de evaluar ya que no se encuentran elementos de interés alejados ni tampoco hay cambios bruscos en la iluminación.
+El \gls{roi} del segundo escenario se encuentra en el pasillo que conecta el hall con la cafetería. El plano de grabación es más cercano respecto al anterior con lo que se consideran secuencias más fáciles de evaluar ya que no se encuentran elementos de interés alejados ni tampoco hay cambios bruscos en la iluminación.
 
-\begin{figure}[ht!]
+\begin{figure}[ht]
   \centering
   \begin{subfigure}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{img/chapters/resultados/datasets/GBA_3.jpg}
@@ -326,16 +326,14 @@ La región de interés del segundo escenario se encuentra en el pasillo que cone
     \label{fig:GBA_4}
   \end{subfigure}
   \caption{Imágenes extraídas de secuencias del segundo escenario del dataset GBA2018 \cite{gba-dataset}.
-    (\protect\subref{fig:GBA_3}) Frame de la secuencia GBA-near-big-video2 donde una bolsa de mano es abandonada en el pasillo de la cafetería.
-    (\protect\subref{fig:GBA_4}) Frame de la secuencia GBA-near-big-video4 donde dos personas abandonan una pequeña bolsa de mano.}
+    (\protect\subref{fig:GBA_3}) Fotograma de la secuencia GBA-near-big-video2 donde una bolsa de mano es abandonada en el pasillo de la cafetería.
+    (\protect\subref{fig:GBA_4}) Fotograma de la secuencia GBA-near-big-video4 donde dos personas abandonan una pequeña bolsa de mano.}
   \label{fig:GBA2}
 \end{figure}
 
-\newpage
-
 \subsubsection{ABODA Dataset}
 
-\gls{aboda} es un dataset propuesto por primera vez en 2015 para la detección de objetos abandonados. \gls{aboda} está formado por 11 secuencias etiquetadas con varios escenarios de aplicaciones reales que son un desafío para la detección de objetos abandonados. Las situaciones incluyen escenas de gran aglomeración de personas, cambios en las condiciones de iluminación, detección nocturna, así como ambientes interiores y exteriores.
+\gls{aboda} \cite{aboda-dataset} es un dataset propuesto por primera vez en 2015 para la detección de objetos abandonados. \gls{aboda} está formado por 11 secuencias etiquetadas con varios escenarios de aplicaciones reales que son un desafío para la detección de objetos abandonados. Las situaciones incluyen escenas de gran aglomeración de personas, cambios en las condiciones de iluminación, detección nocturna, así como ambientes interiores y exteriores.
 
 Algunas secuencias de vídeo están grabadas a resoluciones: de 720 x 480 píxeles a 30 \gls{fps}, y otras secuencias a 640 x 480 píxeles y 30 \gls{fps}. El modelo de la cámara no se especifica.
 
@@ -355,12 +353,12 @@ La figura \ref{fig:aboda1} muestra los fotogramas de vídeo1 grabados en un ento
     \label{fig:aboda_2}
   \end{subfigure}
   \caption{Imágenes extraídas del dataset ABODA \cite{aboda-dataset}.
-    (\protect\subref{fig:aboda_1}) Frame donde dos chicos conversan en el hall.
-    (\protect\subref{fig:aboda_2}) Otro frame donde los dos chicos abandonan una mochila.}
+    (\protect\subref{fig:aboda_1}) Fotograma donde dos chicos conversan en el hall.
+    (\protect\subref{fig:aboda_2}) Otro fotograma donde los dos chicos abandonan una mochila.}
   \label{fig:aboda1}
 \end{figure}
 
-Este conjunto de datos también incluye escenas de aglomeración de personas como las que se encuentran en aeropuertos y estaciones de tren, iluminación variable de día y grabaciones nocturnas.
+Este dataset también incluye escenas de aglomeración de personas que se encuentran en aeropuertos o estaciones de tren, iluminación variable de día y grabaciones nocturnas.
 
 \begin{figure}[ht]
   \centering
@@ -376,8 +374,8 @@ Este conjunto de datos también incluye escenas de aglomeración de personas com
     \label{fig:aboda_4}
   \end{subfigure}
   \caption{Imágenes extraídas del dataset ABODA \cite{aboda-dataset}.
-    (\protect\subref{fig:aboda_3}) Frame de la secuencia video5 de una grabación nocturna.
-    (\protect\subref{fig:aboda_4}) Frame de la secuencia video11 donde hay varias personas haciendo cola en un aeropuerto.}
+    (\protect\subref{fig:aboda_3}) Fotograma de la secuencia video5 de una grabación nocturna.
+    (\protect\subref{fig:aboda_4}) Fotograma de la secuencia video11 donde hay varias personas haciendo cola en un aeropuerto.}
   \label{fig:aboda2}
 \end{figure}
 
@@ -407,11 +405,13 @@ Tras entrenar \gls{yolov4} con el dataset personalizado tal como se ha explicado
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.5\textwidth]{img/chapters/resultados/metricas/metrics-during-training.png}
+\includegraphics[width=0.9\textwidth]{img/chapters/resultados/metricas/metrics-during-training.png}
 \caption{\label{fig:metrics-during-train}Métricas durante el entrenamiento de la red neuronal con el dataset de OIDv4}
 \end{figure}
 
 En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:metricas-test1_3} y \ref{tab:metricas-test1_4} se reflejan las métricas más relevantes cada 1000 iteraciones del entrenamiento de la red neuronal.
+
+\newpage
 
 \begin{table}[ht]
 \centering
@@ -430,8 +430,6 @@ En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:met
 8.000               & 38,30                                                             & 87,69                                                              & 72,00                                                               & 58,89                                                               \\ \hline
 \end{tabular}
 \end{table}
-
-\newpage
 
 \begin{table}[ht]
 \centering
@@ -487,9 +485,9 @@ En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:met
 \end{tabular}
 \end{table}
 
-\newpage
-
 \textcolor{red}{Aquí explicar porque en función de las métricas obtenidas no es un buen modelo y se debe de reentrenar la red. El \gls{iou} sale muy bajo <\ 50\%, por tanto salen muchos FP}
+
+\newpage
 
 \begin{table}[ht]
 \centering
@@ -601,7 +599,7 @@ Suitcase       & 71,08           & 205         & 102         \\ \hline
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=1\textwidth]{img/chapters/resultados/metricas/metrics-train1.png}
+\includegraphics[width=0.85\textwidth]{img/chapters/resultados/metricas/metrics-train1.png}
 \caption{\label{fig:metrics-train1}Resumen métricas primer entrenamiento de la red neuronal con el dataset de OIDv4}
 \end{figure}
 
@@ -609,7 +607,7 @@ Suitcase       & 71,08           & 205         & 102         \\ \hline
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=1\textwidth]{img/chapters/resultados/metricas/metrics-train2.png}
+\includegraphics[width=0.85\textwidth]{img/chapters/resultados/metricas/metrics-train2.png}
 \caption{\label{fig:metrics-train2}Resumen métricas segundo entrenamiento de la red neuronal con el dataset de OIDv4}
 \end{figure}
 
@@ -622,11 +620,11 @@ Suitcase       & 71,08           & 205         & 102         \\ \hline
 
 \url{https://old.photojoiner.net/}
 
-\textcolor{red}{También hacer tablas durante un número determinado de frames donde, a modo de ejemplo se calcule las métricas más relevantes}.
+\textcolor{red}{También hacer tablas durante un número determinado de fotogramas donde, a modo de ejemplo se calcule las métricas más relevantes}.
 
 \newpage
 
-\subsection{Resultados en tracking con DeepSORT}
+\subsection{Resultados en tracking con Deep SORT}
 \label{subsec:resultados-deepsort}
 
 \textcolor{red}{Poner imágenes de las detecciones en los datasets empleados y explicar con detalle los problemas con los que nos podemos encontrar a la hora de hacer un seguimiento o \textit{tracking} de objetos y personas, se pierde el rastreo y se vuelve a asociar una nueva ID a ese individuo, también explicar que debido al \textit{threshold} que pongamos se pueden perder objetos, pero tampoco es conveniente bajarlo a más de X porque entonces se confunden objetos o se trackean varias veces}.
@@ -637,6 +635,12 @@ Suitcase       & 71,08           & 205         & 102         \\ \hline
 \label{subsec:resultados-abandon-algorithm}
 
 \textcolor{red}{Poner imágenes de detecciones de objetos abandonados y explicar de manera visual como es posible que hayan problemas cuando se pierde el \textit{tracking} de un objeto o persona y se tiene que reasignar como nuevo ID y posteriormente tener que volver a hacer una asociación de persona-objeto y evaluar si se abandona o no dicho objeto}.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{img/chapters/resultados/abandono/abandoned-avssab2007-example2.png}
+\caption{\label{fig:propietario-desaparece-plano}Propietario maleta desaparece del plano de visión}
+\end{figure}
 
 \textcolor{red}{Aquí meter un subsubapartado con métricas relevantes en la detección de objetos abandonados}.
 
