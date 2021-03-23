@@ -14,7 +14,7 @@
 \section{Introducción}
 \label{sec:intro-resultados}
 
-En este capítulo se recogen los resultados obtenidos durante el diseño del sistema la detección de objetos abandonados. Para evaluar el funcionamiento de los distintos algoritmos que han sido empleados o diseñados es necesario realizar evaluaciones cuantitativas para validar su funcionamiento. En la detección de objetos, los investigadores evalúan sus algoritmos sobre los mismos datasets, de tal manera que se pueda contrastar los resultados con las propuestas de trabajos previos. Para evaluar un modelo de una red neuronal artificial se utilizan datasets de referencia para medir métricas de calidad para cuantificar el funcionamiento de los algoritmos.
+En este capítulo se recogen los resultados obtenidos durante el diseño del sistema la detección de objetos abandonados. Para evaluar el funcionamiento de los distintos algoritmos que han sido empleados o diseñados es necesario realizar evaluaciones cuantitativas y cualitativas para validar su funcionamiento. En la detección de objetos, los investigadores evalúan sus algoritmos sobre los mismos datasets, de tal manera que se pueda contrastar los resultados con las propuestas de trabajos previos. Para evaluar un modelo de una red neuronal artificial se utilizan datasets de referencia para medir métricas de calidad para cuantificar el funcionamiento de los algoritmos.
 
 Este capítulo está dividido en dos secciones diferenciadas. En la primera, se van a detallar las métricas de calidad que se han empleado para validar los datasets de referencia empleados en el entrenamiento de la red neuronal \gls{yolov4} y se expondrán los datasets empleados para evaluar los algoritmos que se han propuesto en el capítulo \ref{cha:desarrollo}. En la segunda, se expondrán y interpretarán los resultados obtenidos al ejecutar los algoritmos sobre los datasets descritos anteriormente.
 
@@ -199,8 +199,8 @@ El robo de una pieza de equipaje se define utilizando únicamente una restricci�
     \label{fig:pets2007_2}
   \end{subfigure}
   \caption{Imágenes extraídas del dataset PETS2007 \cite{pets2007-dataset}.
-    (\protect\subref{fig:pets2007_1}) Fotograma de la secuencia S08-fourthView donde un hombre deja su equipaje en el suelo.
-    (\protect\subref{fig:pets2007_2}) Otro fotograma de la secuencia S08-fourthView donde el hombre abandona el lugar sin su equipaje.}
+    (\protect\subref{fig:pets2007_1}) Fotograma de la secuencia S08-camera4 donde un hombre deja su equipaje en el suelo.
+    (\protect\subref{fig:pets2007_2}) Otro fotograma de la secuencia S08-camera4 donde el hombre abandona el lugar sin su equipaje.}
   \label{fig:pets2007_S08}
 \end{figure}
 
@@ -235,7 +235,7 @@ La resolución de todas las secuencias es PAL standard (768 x 576 píxeles y 25 
   \label{fig:pets2007_S07}
 \end{figure}
 
-En este proyecto solo se va a tener en cuenta tener en cuenta cuando un equipaje ha sido abandonado en un tiempo superior a 15 segundos o cuando ha sido desatendido por su propietario alejándose más de 3 veces la distancia que se establece en el momento de la asociación persona-objeto.
+En este proyecto solo se va a tener en cuenta tener en cuenta cuando un equipaje ha sido abandonado sin propietario en un tiempo superior a 15 segundos o cuando ha sido desatendido por su propietario alejándose más de 5 veces la distancia que se establece en el momento de la asociación persona-objeto.
 
 \subsubsection{AVSSAB2007 Dataset}
 
@@ -274,8 +274,8 @@ Todas las secuencias presentan la misma estructura en la sucesión de eventos:
     \label{fig:avssab2007_2}
   \end{subfigure}
   \caption{Imágenes extraídas del dataset AVSSAB2007 \cite{AVSSAB2007-dataset}.
-    (\protect\subref{fig:avssab2007_1}) Fotograma de la secuencia AVSSAB2007-Easy donde el hombre abandona su maleta en la zona cercana.
-    (\protect\subref{fig:avssab2007_2}) Fotograma de la secuencia AVSSAB2007-Medium donde una mujer se encuentra junto a su bolsa de mano en la zona media del andén del metro.}
+    (\protect\subref{fig:avssab2007_1}) Fotograma de la secuencia AVSSAB-Easy donde el hombre abandona su maleta en la zona cercana.
+    (\protect\subref{fig:avssab2007_2}) Fotograma de la secuencia AVSSAB-Medium donde una mujer se encuentra junto a su bolsa de mano en la zona media del andén del metro.}
   \label{fig:avssab2007_near_medium}
 \end{figure}
 
@@ -384,7 +384,7 @@ Este dataset también incluye escenas de aglomeración de personas que se encuen
 
 Una vez elegido MS COCO como dataset de referencia para usar con \gls{yolov4}, se va a ver los resultados obtenidos en distintos algoritmos.
 
-\textcolor{red}{Hacer breve introducción donde se explique que primero se van a ver los resultados obtenidos tras entrenar la red neuronal dos veces, después se analizará la precisión en la detección y seguimiento de YOLOv4 y DeepSORT y finalmente se evaluará el funcionamiento del detector de objetos abandonados}
+\textcolor{red}{Hacer introducción donde se explique que primero se va a relizar una evaluación cuantitativa de los entrenamientos de las redes neuronales y después una evaluación cualitativa del funcionamiento de los algoritmos}
 
 \subsection{Métricas de calidad en Open Image Dataset v4}
 \label{subsec:metricas-calidad-openimagesv4}
@@ -634,7 +634,7 @@ Suitcase       & 71,08           & 205         & 102         \\ \hline
 \subsection{Resultados en algoritmo de detección de objetos abandonados}
 \label{subsec:resultados-abandon-algorithm}
 
-\textcolor{red}{Poner imágenes de detecciones de objetos abandonados y explicar de manera visual como es posible que hayan problemas cuando se pierde el \textit{tracking} de un objeto o persona y se tiene que reasignar como nuevo ID y posteriormente tener que volver a hacer una asociación de persona-objeto y evaluar si se abandona o no dicho objeto}.
+\textcolor{red}{Poner ejemplos de avssab2007easy (warning + abandoned), avssab2007medium (sin asignacion de propietario), aboda (warning + abandoned), gba (warning + abandoned), pets2007 y alguno de gba problemas de con cambios de identidad con lo que es imposible trackear un objeto}
 
 \begin{figure}[ht]
 \centering

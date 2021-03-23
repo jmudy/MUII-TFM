@@ -1,13 +1,12 @@
 
-\chapter{Manual de usuario e instalación}
-\label{cha:manual-usuario-instalacion}
+\chapter{Manual de usuario}
+\label{cha:manual-usuario}
 
 \section{Introducción}
 \label{sec:intro-manual-de-usuario}
 
-En este apéndice se va a dividir en dos secciones diferenciadas donde se va a explicar como instalar y configurar todas las herramientas necesarias para la puesta a punto del proyecto. Y por otro lado, un manual de usuario donde se va a explicar como ejecutar cada uno de los algoritmos se han utilizado en el capítulo \ref{cha:resultados}.
-Cabe destacar que, tal y como se indica en el sección \ref{sec:intro-pliego} del Apéndice \ref{cha:pliego-de-condiciones}, el equipo donde se instalará todo el software descrito en este apartado para programar los distintos algoritmos, se ha optado por utilizar un sistema operativo Ubuntu 18.04.4 LTS. Por tanto, todos los comandos de instalaciones y puesta en funcionamiento están orientados a un equipo que disponga de Linux.
-
+Este apéndice se va a dividir en dos secciones diferenciadas donde se va a explicar como instalar y configurar todas las herramientas necesarias para la puesta a punto del proyecto. Y por otro lado, un manual de usuario donde se va a explicar como ejecutar cada uno de los algoritmos que se han utilizado en los capítulos \ref{cha:desarrollo} y \ref{cha:resultados}.
+Cabe destacar que, tal y como se indica en el sección \ref{sec:intro-pliego}, el equipo donde se instalará todo el software descrito en este apartado para programar los distintos algoritmos, tiene un sistema operativo Ubuntu 18.04.4 LTS. Por tanto, todos los comandos de instalaciones y puesta en funcionamiento estarán orientados a un equipo que disponga de Linux.
 
 \section{Guía de instalación}
 \label{sec:sec-guia-instalacion}
@@ -15,7 +14,7 @@ Cabe destacar que, tal y como se indica en el sección \ref{sec:intro-pliego} de
 \subsection{Instalación de Git}
 \label{subsec:instalacion-git}
 
-Git se trata de una herramienta de control de versiones distribuido de código que trabaja de una manera muy rápida y potente. Tiene un sistema para trabajar mediante ramas que pueden seguir una linea de progreso diferente a la principal, de tal manera que se pueden hacer pruebas del código o que distintas personas trabajen en ramas distintas y posteriormente, cuando haya una versión final, se pueda incluir en la rama principal. Para proyectos como el presente, es necesario de tener disponible historial completo de versiones para su correcto desarrollo.
+Git es una herramienta de control de versiones distribuido de código que trabaja de una manera muy rápida y potente. Tiene un sistema para trabajar mediante ramas que pueden seguir una línea de progreso diferente a la principal, de tal manera que se pueden hacer pruebas del código o que distintas personas trabajen en ramas paralelas y posteriormente, en una versión final de la implementación, se pueda incluir en la rama principal. Para proyectos como el presente, es necesario tener disponible historial completo de versiones para su correcto desarrollo.
 
 Para poder instalar Git abra el terminal y ejecute los siguientes comandos:
 
@@ -31,7 +30,7 @@ sudo apt-get install git-all
 \subsection{Instalación de Anaconda}
 \label{subsec:instalacion-anaconda}
 
-Anaconda se trata de la \textit{suite} más compleja para la Ciencia de Datos en R y Python, lenguajes de programación que actualmente son líderes en Machine Learning, Inteligencia Artificial y Big Data. Esta \textit{suite} gratuita y multiplataforma dispone de las \gls{ide}'s y librerías adecuadas para su manejo. Con ellos se evita tener que instalar manualmente un \gls{ide} y el lenguaje Python con sus correspondientes librerías que en ocasiones puede ser una operación tediosa y compleja.
+Anaconda se trata de la \textit{suite} más compleja para la Ciencia de Datos en R y Python, lenguajes de programación que actualmente son líderes en Machine Learning, Inteligencia Artificial y Big Data. Esta \textit{suite} gratuita y multiplataforma dispone de las \gls{ide}'s y librerías adecuadas para su manejo. Con Anaconda se evita tener que instalar manualmente un \gls{ide} y el lenguaje Python, con sus correspondientes librerías, que en ocasiones puede ser una operación tediosa y compleja.
 
 \begin{enumerate}
     \item Accede al siguiente enlace \cite{inst-conda} disponible en la bibliografía y descargue la versión más reciente del instalador de Anaconda para Linux:
@@ -57,7 +56,7 @@ cd /home/<username>/Downloads
 sha256sum Anaconda3-2020.02-Linux-x86_64.sh
 \end{lstlisting}
     
-    \item Ejecute la secuencias de comandos de Anaconda. Presione \texttt{yes} para aceptar los términos de la licencia. Pulse acontinuación \texttt{ENTER} cuando seleccione la ubicación de la instalación y finalmente presione \texttt{yes} para confirmar el \texttt{PATH} de Anaconda con tu \texttt{.bashrc}:
+    \item Ejecute la secuencias de comandos de Anaconda. Presione \texttt{yes} para aceptar los términos de la licencia. Pulse a continuación \texttt{ENTER} cuando seleccione la ubicación de la instalación y finalmente presione \texttt{yes} para confirmar el \texttt{PATH} de Anaconda con tu \texttt{.bashrc}:
     
     \vspace{0.5cm}
     
@@ -76,10 +75,10 @@ source /home/<username>/.bashrc
 \end{lstlisting}
 \end{enumerate}
 
-\subsection{Descarga del repositorio del proyecto}
-\label{subsec:descarga-repo}
+\subsection{Descarga de los repositorios del proyecto}
+\label{subsec:descargas-repos}
 
-En esta subsección se indica como descargar el repositorio donde se ha programado los algoritmos de detección de objetos abandonados. Para ello se debe de seguir los comandos que se muestran a continuación:
+En esta sección se indica como descargar los repositorios de GitHub donde se han programado los algoritmos de detección y seguimiento de objetos abandonados. Para ello, se debe de ejecutar los comandos que se muestran a continuación:
 
 \vspace{0.5cm}
 
@@ -87,21 +86,36 @@ En esta subsección se indica como descargar el repositorio donde se ha programa
 # Acceder a la carpeta Documents del usuario
 cd /home/<username>/Documents
 
-# Clonar el repositorio de GitHub
+# Clonar los dos repositorios de GitHub
+git clone https://github.com/jmudy/tensorflow-yolov4-tflite
 git clone https://github.com/jmudy/yolov4-deepsort.git
 
-# Acceder dentro de la carpeta clonada
+# Acceder al repositorio de deteccion de objetos con YOLOv4
+cd tensorflow-yolov4-tflite
+
+# O bien al de seguimiento y deteccion de objetos abandonados con YOLOv4 y Deep SORT
 cd yolov4-deepsort
 \end{lstlisting}
 
 \subsection{Crear entorno virtual con Anaconda}
 \label{subsec:creacion-entorno}
 
-Con la finalidad de evitar tediosa y larga instalación de \gls{cuda} y \gls{cudnn} y tener únicamente instaladas las librerías necesarias para que funcione el código se va a instalar un entorno virtual en Anaconda.
+Con la finalidad de evitar la tediosa y larga instalación de \gls{cuda} y \gls{cudnn} y tener únicamente instaladas las librerías necesarias para que funcione el código, se va a instalar un entorno virtual en Anaconda.
 
-Desde la misma carpeta del repositorio de Github \ref{lst:descarga-repo} que se ha clonado hay dos ficheros con extensión .yml, donde viene indicadas la versión de Python que se va a necesitar, la versión de \gls{cuda} y \gls{cudnn} así como las librerías y dependencias necesarias. Para utilizar \gls{cuda} es necesario disponer de una \gls{gpu} de NVIDIA. Es muy importante verificar la capacidad de cálculo de la tarjeta gráfica NVIDIA que se emplea. En la siguiente dirección \cite{cuda-gpus} se puede comprobar la capacidad de cálculo los distintos modelos:
+Desde cualquiera de las carpetas de los repositorios de Github que se han clonado, hay dos ficheros con extensión .yml, donde viene indicadas la versión de Python que se va a necesitar, la versión de \gls{cuda} y \gls{cudnn} así como las librerías y dependencias necesarias. Para utilizar \gls{cuda} es necesario disponer de una \gls{gpu} de NVIDIA. Es muy importante verificar la capacidad de cálculo de la tarjeta gráfica NVIDIA que se emplee. En la siguiente dirección \cite{cuda-gpus} se puede comprobar la capacidad de cálculo de los distintos modelos o bien puede consultar la que esté utilizando introduciendo los siguientes comandos en el terminal:
 
-La capacidad de cálculo mínima para poder utilizar \gls{cuda} con al librería tensorflow-gpu es de 3.5. En función de la \gls{gpu} que dispongas, ejecute uno de los siguientes comandos para crear un entorno virtual de Anaconda con Python 3.7.0:
+\begin{lstlisting}[language=iPython,caption=Comprobar capacidad computación de la GPU,captionpos=b,label={lst:check-compute-capability}]
+# Iniciar Python en terminal
+python
+
+# Importar libreria tensorflow
+import tensorflow as tf
+
+# Test sobre el dispositivo GPU que se este empleando
+tf.test.gpu_device_name()
+\end{lstlisting}
+
+La capacidad de cálculo mínima para poder utilizar \gls{cuda} junto a la librería tensorflow-gpu es de 3.5. En función de la \gls{gpu} que se disponga, ejecute uno de los siguientes comandos para crear un entorno virtual de Anaconda con Python 3.7.0:
 
 \vspace{0.5cm}
 
@@ -113,7 +127,7 @@ conda env create -f conda-cpu.yml
 conda env create -f conda-gpu.yml
 \end{lstlisting}
 
-Una vez instalado el entorno virtual se puede acceder a él ejecutando el siguiente comando:
+Una vez instalado el entorno virtual se puede activar ejecutando el siguiente comando:
 
 \vspace{0.5cm}
 
@@ -128,86 +142,86 @@ conda activate yolov4-gpu
 \subsection{Descargar los datasets}
 \label{subsec:descarga-datasets}
 
-Los enlaces para descargar los datasets que se han utilizado para evaluar dos distintos algoritmos a lo largo del proyecto se encuentran a continuación:
+Los enlaces para descargar los datasets que se han utilizado para evaluar los distintos algoritmos a lo largo del proyecto se encuentran a continuación:
 
 \begin{itemize}
     \item \gls{pets} dataset \url{http://www.cvg.reading.ac.uk/PETS2007/data.html} \cite{pets2007-dataset}
     \item \gls{avss} dataset \url{http://www.eecs.qmul.ac.uk/~andrea/avss2007_d.html} \cite{AVSSAB2007-dataset}
-    \item \gls{gba2018} dataset \url{http://www.geintra-uah.org/datasets/gotpd1} \cite{gba-dataset}
+    \item \gls{gba2018} dataset \url{https://bit.ly/3tIJdUx} \cite{gba-dataset}
     \item \gls{aboda} dataset \url{https://github.com/kevinlin311tw/ABODA} \cite{aboda-dataset}
     \item \gls{coco} dataset \url{https://cocodataset.org/#download} \cite{lin2015microsoft}
     \item \gls{oidv4} dataset \url{https://storage.googleapis.com/openimages/web/index.html} \cite{Kuznetsova_2020}
     
-    
-    
-    
 \end{itemize}
 
-\section{Manual de usuario}
-\label{sec:manual-usuario}
+\section{Guía de ejecución}
+\label{sec:guia-ejecucion}
 
-En esta parte se especifica los comandos que se deben que ejecutar para poner en funcionamiento el algoritmo de detección de objetos, el algoritmo de seguimiento o \textit{tracking} de personas y objetos y por último el algoritmo el cual determinar si un objeto ha sido abandonado o perdido.
-\pendiente{Queda pendiente este apartado que podrá ser completado cuando termine de redactar los apartados de desarrollo de algoritmo de detección de objetos abandonados}
+En esta parte se especifica los comandos que se deben ejecutar para poner en funcionamiento el algoritmo de detección de objetos, el algoritmo de seguimiento de personas y objetos y por último, el algoritmo de detección de objetos abandonados. Cabe destacar que el repositorio con nombre \texttt{yolov4-deepsort} se utiliza tanto para ejecutar el script de seguimiento con \gls{deepsort} como para ejecutar el algoritmo de detección de objetos abandonados.
 
 \subsection{Ejecutar algoritmo de detección de objetos YOLOv4}
 \label{subsec:ejecutar-deteccion-yolov4}
 
+Para ejecutar el algoritmo de detección de \gls{yolov4} en el framework Tensorflow entre en la carpeta del repositorio \texttt{tensorflow-yolov4-tflite}, descargue y convierta el modelo Darknet a Tensorflow. Para ello, abra el terminal y ejecute los siguientes comandos:
+
 \vspace{0.5cm}
-\begin{lstlisting}[language=iPython,caption=Funciones de object tracking ,captionpos=b,label={lst:object-tracking}]
-def init_deepsort_params():
-    # Definition of the parameters
-    max_cosine_distance = 0.4
-    nn_budget = None
+\begin{lstlisting}[language=iPython,caption=Descarga de pesos y conversion modelo YOLOv4,captionpos=b,label={lst:descarga-weights-convertir-modelo}]
+# Descargar los pesos de YOLOv4
+wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights -P ./data/
 
-    model_filename = 'model_data/mars-small128.pb'
-    encoder = gdet.create_box_encoder(model_filename, batch_size=1)
-    # calculate cosine distance metric
-    metric = nn_matching.NearestNeighborDistanceMetric("cosine", max_cosine_distance, nn_budget)
-    # initialize tracker
-    tracker = Tracker(metric)
-    return encoder, tracker
-    
-def load_obj_detector_cfg():
-    config = ConfigProto()
-    config.gpu_options.allow_growth = True
-    session = InteractiveSession(config=config)
-    STRIDES, ANCHORS, NUM_CLASS, XYSCALE = utils.load_config(FLAGS)
-    input_size = FLAGS.size
-    video_path = FLAGS.video
-    return input_size, video_path
-
+# Convertir modelo Darknet de YOLOv4 a modelo Tensorflow
+python save_model.py --weights ./data/yolov4.weights --output ./checkpoints/yolov4-608 --input_size 608 --model yolov4
 \end{lstlisting}
 
-Probamos referenciar el código \ref{lst:install-git}, el código \ref{lst:descarga-repo} y el también el código \ref{lst:object-tracking}
+Por último, introduzca el vídeo que se quiera analizar dentro de la carpeta del repositorio. Se recomienda introducir los vídeos a analizar en la carpeta \texttt{./data/video/} y los vídeos generados en la carpeta \texttt{./detections}.
 
-Ejemplo por si hay que usar alguna variable = a un número:
-
-\begin{lstlisting}[language=iPython]
-<- #there shouldn't be quotation marks
-"""
----------
-sin2_theta  = np.sin(theta)**2
-"""
-import math
-import numpy as np
-from lib.analytical import csa
-
-sin2_theta  = np.sin(theta)**2
-+= -= *= /= + - * / ? < > & % == <=
-# += -= *= /= + - * / ? < > & % == <=
-def test(a=¢100¢, b=True)
-    <= >= == ¢2¢ + ¢3j¢ * ¢7e-3¢
+\vspace{0.5cm}
+\begin{lstlisting}[language=iPython,caption=Ejecutar script detección de objetos con YOLOv4 en Tensorflow,captionpos=b,label={lst:ejecutar-yolov4-tf}]
+# Cambiar la ruta donde se encuentre el video que se quiera analizar y la ruta donde se
+# quiere guardar el video que se genere
+python detect_video.py --weights ./checkpoints/yolov4-608 --size 608 --model yolov4 --video <path_to_input_video> --output <path_to_output_video>
 \end{lstlisting}
 
-\newpage
+Si no se dispone del equipo necesario para instalar todas las dependencias necesarias se recomienda acceder al siguiente \href{https://colab.research.google.com/drive/1ZwcfV2hFZKcsyXaqKp9AGuEi5TY-QwVW?usp=sharing}{link} donde se facilita un Notebook de Google Colab para ejecutar exactamente los mismos comandos desde el servicio cloud de Google.
+
+Recuerde que, tal y como se explicó en la sección \ref{sec:desarrollo-yolov4}, también se pueden modificar parámetros como el tamaño del resize, el umbral del \gls{iou} o el umbral de confianza añadiendo los flags que sean pertinentes.
 
 \subsection{Ejecutar algoritmo de seguimiento de objetos YOLOv4 + Deep SORT}
 \label{subsec:ejecutar-seguimiento-yolov4-deepsort}
 
+Para ejecutar el algoritmo de seguimiento con \gls{deepsort} y \gls{yolov4} entre en la carpeta del repositorio \texttt{yolov4-deepsort}, descargue y convierta el modelo Darknet a Tensorflow de igual manera que se hizo el script \ref{lst:descarga-weights-convertir-modelo} de la sección \ref{subsec:ejecutar-deteccion-yolov4}.
 
-\newpage
+Una vez se tenga el modelo de YOLOv4 convertido, introduzca el vídeo que se quiera analizar dentro de la carpeta del repositorio. Se recomienda introducir los vídeos a analizar en la carpeta \texttt{./data/video/} y los vídeos generados en la carpeta \texttt{./outputs}.
+
+Por último, ejecutar el script de seguimiento de personas y objetos introduciendo el siguiente comando en el terminal:
+
+\vspace{0.5cm}
+\begin{lstlisting}[language=iPython,caption=Ejecutar script seguimiento de personas y objetos con DeepSORT,captionpos=b,label={lst:ejecutar-yolov4-deepsort}]
+# Cambiar la ruta donde se encuentre el video que se quiera analizar y la ruta donde se
+# quiere guardar el video que se genere
+python detect_video.py --weights ./checkpoints/yolov4-608 --size 608 --model yolov4 --video <path_to_input_video> --output <path_to_output_video>
+\end{lstlisting}
+
+Si no se dispone del equipo necesario para instalar todas las dependencias necesarias se recomienda acceder al siguiente \href{https://colab.research.google.com/drive/18vL9LH8e9VaimA9LzBD35Cn4AOm6C17I?usp=sharing}{link} donde se facilita un Notebook de Google Colab para ejecutar exactamente los mismos comandos desde el servicio cloud de Google.
+
+Recuerde que, tal y como se explicó en la sección \ref{sec:desarrollo-yolov4}, también se pueden modificar parámetros como el tamaño del resize, el umbral del \gls{iou} o el umbral de confianza añadiendo los flags que sean pertinentes.
 
 \subsection{Ejecutar algoritmo de detección de objetos abandonados}
 \label{subsec:ejecutar-deteccion-abandoned-object}
 
+Para ejecutar el algoritmo de detección de objetos abandonados con \gls{deepsort} y \gls{yolov4} entre en la carpeta del repositorio \texttt{yolov4-deepsort}, descargue y convierta el modelo Darknet a Tensorflow de igual manera que se hizo el script \ref{lst:descarga-weights-convertir-modelo} de la sección \ref{subsec:ejecutar-deteccion-yolov4}.
 
+Una vez se tenga el modelo de YOLOv4 convertido, introduzca el vídeo que se quiera analizar dentro de la carpeta del repositorio. Se recomienda introducir los vídeos a analizar en la carpeta \texttt{./data/video/} y los vídeos generados en la carpeta \texttt{./outputs}.
+
+Por último, ejecutar el script de detección de objetos abandonados introduciendo el siguiente comando en el terminal:
+
+\vspace{0.5cm}
+\begin{lstlisting}[language=iPython,caption=Ejecutar script detección de objetos abandonados con YOLOv4 y Deep SORT,captionpos=b,label={lst:ejecutar-yolov4-abandoned-object}]
+# Cambiar la ruta donde se encuentre el video que se quiera analizar y la ruta donde se
+# quiere guardar el video que se genere
+python abandoned_object.py --weights ./checkpoints/yolov4-608 --size 608 --model yolov4 --video <path_to_input_video> --output <path_to_output_video>
+\end{lstlisting}
+
+Si no se dispone del equipo necesario para instalar todas las dependencias necesarias se recomienda acceder al siguiente \href{https://colab.research.google.com/drive/18vL9LH8e9VaimA9LzBD35Cn4AOm6C17I?usp=sharing}{link} donde se facilita un Notebook de Google Colab para ejecutar exactamente los mismos comandos desde el servicio cloud de Google.
+
+Recuerde que, tal y como se explicó en la sección \ref{sec:desarrollo-yolov4}, también se pueden modificar parámetros como el tamaño del resize, el umbral del \gls{iou} o el umbral de confianza añadiendo los flags que sean pertinentes.

@@ -16,23 +16,23 @@
 
 En este capítulo se ha realizado un estudio del marco teórico que engloba este trabajo donde se revisará los últimos estudios relacionados con los sistemas de detección de objetos abandonados. 
 
-En primer lugar se ha realizado un repaso de las diferentes técnicas que se han utilizado hasta día de hoy en la detección de objetos en imágenes. La segmentación de objetos en movimiento situados en primer plano, la detección de objetos estacionarios, el reconocimiento de comportamientos o la detección de personas y objetos mediante el uso de \gls{cnn} son los métodos de detección más relevantes en los últimos años.
+En primer lugar, se ha realizado un repaso de las diferentes técnicas que se han utilizado hasta día de hoy en la detección de objetos abandonados en imágenes. La segmentación de objetos en movimiento situados en primer plano, la detección de objetos estacionarios, el reconocimiento de comportamientos o la detección de personas y objetos mediante el uso de \gls{cnn} son los métodos de detección más relevantes en los últimos años.
 
-En segundo lugar se hará una breve introducción a las \gls{cnn}, un tipo de red neuronal artificial de \textit{Deep Learning} que utiliza imágenes en la entrada de la red para encontrar patrones en las imágenes con el objetivo de reconocer formas dentro de los objetos. También resulta interesante su uso en la clasificación de datos de audio o señales. En los últimos años se están utilizando para el reconocimiento facial o vehículos autónomos.
+En segundo lugar, se hará una breve introducción a las \gls{cnn}, un tipo de red neuronal artificial de \textit{Deep Learning}, que utiliza imágenes en la entrada de la red para encontrar patrones en las imágenes con el objetivo de reconocer formas dentro de los objetos. También resulta interesante su uso en la clasificación de datos de audio o señales. En los últimos años se están utilizando para el reconocimiento facial o vehículos autónomos.
 
-Por último, y más enfocado a los contenidos de este trabajo, se extenderá la sección \ref{subsec:tecnicas-deteccion-personas-objetos} realizando un breve recorrido de los principales algoritmos de detección y seguimiento de personas y objetos basados en \gls{cnn}.
+Por último, y más enfocado a los contenidos de este trabajo, se extenderá la sección \ref{subsec:tecnicas-deteccion-personas-objetos} realizando un breve recorrido por los principales algoritmos de detección y seguimiento de personas y objetos basados en \gls{cnn}.
 
 \section{Estado del Arte}
 \label{sec:estado-del-arte}
 
-En esta sección se va a enumerar las distintas técnicas que han sido utilizadas en la identificación de objetos abandonados citando los trabajos más relevantes de otros grupos de investigación.
+En esta sección se va a enumerar las distintas técnicas que han sido utilizadas en la identificación de objetos abandonados citando los trabajos más relevantes de otros investigadores.
 
 \subsection{Segmentación de objetos en primer plano}
 \label{subsec:tecnicas-segmentacion-obj-primer-plano}
 
-El análisis de vídeo se trata de una de los campos de investigación más amplios en la actualidad. Muchas las aplicaciones han necesitado tener un primer paso en la detección de movimiento de objetos en un escenario como en \cite{cheung2005robust} donde se ha realizado una sustracción del fondo para la videovigilancia de tráfico urbano o en espacios de aprendizaje multimedia \cite{4381122}. Una etapa básica en estos sistemas se trata de la separación de los objetos que se encuentran en un primer plano con el fondo.
+El análisis de vídeo se trata de uno de los campos de investigación más amplios en la actualidad. Muchas de las aplicaciones han necesitado tener un primer paso en la detección de movimiento de objetos en un escenario como en \cite{cheung2005robust} donde se ha realizó una sustracción del fondo para la videovigilancia de tráfico urbano o en espacios de aprendizaje multimedia \cite{4381122}. Una etapa básica en estos sistemas se trata de la separación de los objetos que se encuentran en un primer plano con el fondo.
 
-Típicamente la forma de modelar el fondo es obtener una imagen que se encuentre en el fondo sin ningún objeto en movimiento \cite{BOUWMANS201431}. En ocasiones el modelo de representación debe de ser robusto ya que nos podemos encontrar con fondos de escenarios que sufran cambios debidos a alteraciones en la iluminación u objetos que han sido introducidos y/o retirados.
+Típicamente, la forma de modelar el fondo es obtener una imagen que se encuentre en el fondo sin ningún objeto en movimiento \cite{BOUWMANS201431}. En ocasiones el modelo de representación debe de ser robusto, ya que nos podemos encontrar con fondos de escenarios que sufran cambios debidos a alteraciones en la iluminación u objetos que han sido introducidos y/o retirados.
 
 Por tanto, los dos principales problemas con los que nos encontramos en la sustracción del fondo son la detección de cambios y la detección de movimientos. Cuando hablamos de detección de cambios hablamos de los cambios producidos entre dos imágenes. Cuando se realiza una sustracción del fondo podemos encontrarnos con dos casos, que una imagen corresponda al fondo y la otra imagen corresponda a la imagen actual, o bien que los cambios se han producido por el movimiento de las personas u objetos.
 
@@ -49,7 +49,7 @@ A continuación se expone con más detalle cada una de las etapas que compone la
 \subsubsection*{Inicialización del fondo}
 \label{subsubsec:inicializacion-del-fondo}
 
-Modelado del fondo donde se describe el tipo de modelo que se esta utilizando para representar. Principalmente se determina la capacidad del modelo para trata con fondos estáticos (unimodal) o fondos dinámicos (multimodal).
+Consiste en el modelado del fondo donde se describe el tipo de modelo que se está utilizando para representar. Principalmente se determina la capacidad del modelo para trata con fondos estáticos (unimodal) o fondos dinámicos (multimodal).
 
 En esta etapa se inicializa el modelo donde generalmente se utiliza el primer fotograma sobre un conjunto de fotogramas de entrenamiento, los cuales contienen o no objetos en primer plano. El principal desafío es obtener un primer modelo de fondo cuando más de la mitad de los fotogramas entrenamiento contiene objetos en primer plano.
 
@@ -60,7 +60,7 @@ En esta etapa se inicializa el modelo donde generalmente se utiliza el primer fo
 El mantenimiento del fondo se encarga de adaptar el modelo a los cambios que puedan ser ocasionados a lo largo del tiempo. En esta etapa de aprendizaje se debe de realizar en línea por lo que el algoritmo debe de ser incremental. Los puntos claves en este proceso son los siguientes:
 
 \begin{itemize}
-    \item \textbf{Esquemas de mantenimiento}. En trabajos previos \cite{4712338} se presentan tres esquemas de mantenimientos: ciegos, selectivos y adaptativos difusos. El mantenimiento ciego del fondo actualiza todos los píxeles con las mismas reglas que se emplean en un filtro IIR:
+    \item \textbf{Esquemas de mantenimiento}. En trabajos previos como en \cite{4712338} se presentan tres esquemas de mantenimientos: ciegos, selectivos y adaptativos difusos. El mantenimiento ciego del fondo actualiza todos los píxeles con las mismas reglas que se emplean en un filtro IIR:
     
     \begin{equation}
     \label{eq:IIR-filter}
@@ -104,7 +104,7 @@ El mantenimiento del fondo se encarga de adaptar el modelo a los cambios que pue
     El problema es que una clasificación errónea puede resultar un error permanente en el modelo del fondo. Este problema se puede solucionar mediante un esquema adaptativo difuso que toma en cuenta la incertidumbre de la clasificación. Esto puede lograrse graduando la regla de actualización utilizando el resultado de la detección del primer plano.
     
     \item \textbf{Ratio de aprendizaje}. Determina la velocidad de adaptación en los cambios de escena. Este ratio puede ser fijo, ajustado dinámicamente o difuso.
-    \item \textbf{Mecanismos de mantenimiento}. El ratio de aprendizaje determina la velocidad de adaptación a los cambios de iluminación pero también el tiempo que necesita un cambio en el fondo hasta que se incorpora en el modelo, así como el tiempo donde un objeto que se encuentra en el primer plano estático puede sobrevivir antes de ser incluido en el modelo. El ratio de aprendizaje por tanto se encarga de diferentes desafíos diferenciados. Para desacoplar el mecanismo de adaptación y el de incorporación, \cite{1415580} utilizo un conjunto de contadores que representa el número de veces que un píxel se clasifica como píxel de primer plano. Cuando este número es mayor que cierto umbral, el píxel se considera que se encuentra en el fondo. Esto da un límite de tiempo de cuanto tiempo un píxel se encuentra en como píxel del primer plano estático.
+    \item \textbf{Mecanismos de mantenimiento}. El ratio de aprendizaje determina la velocidad de adaptación a los cambios de iluminación pero también el tiempo que necesita un cambio en el fondo hasta que se incorpora en el modelo, así como el tiempo donde un objeto que se encuentra en el primer plano estático puede sobrevivir antes de ser incluido en el modelo. El ratio de aprendizaje por tanto se encarga de diferentes desafíos diferenciados. Para desacoplar el mecanismo de adaptación y el de incorporación, \cite{1415580} se utilizó un conjunto de contadores que representa el número de veces que un píxel se clasifica como píxel de primer plano. Cuando este número es mayor que cierto umbral, el píxel se considera que se encuentra en el fondo. Esto da un límite de tiempo de cuanto tiempo un píxel se encuentra como píxel del primer plano estático.
     \item \textbf{Frecuencia de actualización}. El objetivo es actualizar el fondo solo cuando sea necesario. El mantenimiento se puede realizar en cada fotograma, sin embargo si no se producen cambios no es necesaria la actualización de los píxeles en cada fotograma.
 \end{itemize}
 
@@ -116,7 +116,7 @@ Esta etapa se trata de una tarea de clasificación que se encarga de etiquetar p
 \subsubsection*{Aplicaciones donde se utiliza la sustracción del fondo}
 \label{subsubsec:aplicaciones-background-subtraction}
 
-La segmentación de objetos en movimiento sobre el primer plano se utiliza en multitud de aplicaciones donde se emplea visión por computador como pueden ser:
+La segmentación de objetos en movimiento sobre el primer plano se utiliza en multitud de aplicaciones donde se emplea visión por computadora como pueden ser:
 
 \begin{itemize}
     \item \textbf{Videovigilancia inteligente}. Se trata de una de las aplicaciones donde más se utiliza esta metodología. El objetivo es detectar objetos en movimiento u objetos abandonados para garantizar la seguridad aérea, para calcular estadísticas de tráfico como se puede ver en la figura \ref{fig:background-subtraction-example} o para vigilancia marítima. Los objetos de interés suelen ser variados como vehículos, aviones, barcos, personas o equipajes.
@@ -135,7 +135,7 @@ La segmentación de objetos en movimiento sobre el primer plano se utiliza en mu
 
 La detección de objetos estacionarios está recibiendo una atención especial ya que se trata de una fase de análisis crítico en aplicaciones como la detección de objetos abandonados o vehículos estacionados en áreas públicas. El reconocimiento de objetos estacionarios en escenarios de grandes aglomeraciones de personas supone una tarea desafiante.
 
-Se producen problemas ocasionados por las oclusiones o variación de colores y formas conforme las personas se mueven. Otros problemas que surgen son la iluminación, la velocidad de los objetos y la densidad de los objetos se deben de tener en cuenta. En la detección de objetos en primer planos, los métodos basados en la sustracción de fondo se han vuelto muy populares debido a que se suelen emplear cámaras fijas y los cambios de iluminación son muy graduales \cite{1217925}. En trabajos previos como en \cite{5279450} se propone enfoque en el análisis de imágenes estáticas.
+Se producen problemas ocasionados por las oclusiones o variación de colores y formas conforme las personas se mueven. Otros problemas que surgen son la iluminación, la velocidad de los objetos y la densidad de los objetos se deben de tener en cuenta. En la detección de objetos en primer plano, los métodos basados en la sustracción de fondo se han vuelto muy populares debido a que se suelen emplear cámaras fijas y los cambios de iluminación son muy graduales \cite{1217925}. En trabajos previos como en \cite{5279450} se propone enfoque en el análisis de imágenes estáticas.
 
 En la figura \ref{fig:metodos-sustraccion-objeto-estacionario} se muestra clasificación de sustracción del fondo en base al método utilizado.
 
@@ -149,13 +149,13 @@ Dependiendo del uso de los mapas en primer plano calculados en el análisis de s
 
 \begin{itemize}
     \item \textbf{Basado en análisis fotograma a fotograma}. Se emplean técnicas de sustracción del fondo seguidas de otro tipo análisis. En función de este tipo de análisis se puede clasificar en: basados en el uso de técnicas estándar de fondo seguido de otra etapa de análisis, basados en la acumulación de máscaras en primer plano calculadas fotograma a fotograma, o basado en las propiedades del modelo de sustracción de fondo utilizado.
-    \item \textbf{Basado en análisis de submuestreo}. Estos propuestas tratan de detectar objetos estacionarios analizando las secuencias de vídeos a diferentes velocidades de fotogramas. 
+    \item \textbf{Basado en análisis de submuestreo}. Estas propuestas tratan de detectar objetos estacionarios analizando las secuencias de vídeos a diferentes velocidades de fotogramas. 
 \end{itemize}
 
 Los enfoques que combinan uno o más modelos de sustracción de fondo han sido menos estudiados. No obstante, una clasificación basada en el procesamiento de la velocidad de los fotogramas se puede realizar de la siguiente manera:
 
 \begin{itemize}
-    \item \textbf{Basado en analisis fotograma a fotograma}. En esta categoría tenemos méotodso que combinan diferentes propiedades usando dos o varias técnicas sustracciones de fondo.
+    \item \textbf{Basado en análisis fotograma a fotograma}. En esta categoría tenemos métodos que combinan diferentes propiedades usando dos o varias técnicas sustracciones de fondo.
     \item \textbf{Basado en un análisis de submuestreo}. Estos enfoques detectan objetos estacionarios analizando las secuencias de vídeo con varios métodos de sustracción de fondo a diferentes velocidades de fotogramas.
 \end{itemize}
 
@@ -169,7 +169,7 @@ Se pueden clasificar los algoritmos de detección de personas en: las técnicas 
 \subsubsection*{Hipótesis de objeto inicial}
 \label{subsubsec:hipotesis-inicial-deteccion-personas-objetos}
 
-Hay dos enfoques principales de detección de objetos convencionales (ver figura \ref{fig:people-detection-classification}): los que se basan en algún tipo de segmentación de la escena en primer plano (objetos) y el fondo \cite{868681} y los que se basan en un enfoque de escaneo exhaustivo \cite{4408936}. También hay algunos enfoques que intentan combinar ambos enfoques juntos \cite{4220664}. El resultado de esta etapa es la ubicación y dimensión (cuadro delimitador) de los diferentes objetos de la escena candidatas a ser una persona.
+Hay dos enfoques principales de detección de objetos convencionales (ver figura \ref{fig:people-detection-classification}): los que se basan en algún tipo de segmentación de la escena en primer plano (objetos) y el fondo \cite{868681} y los que se basan en un enfoque de búsqueda exhaustiva \cite{4408936}. También hay algunos enfoques que intentan combinar ambos enfoques juntos \cite{4220664}. El resultado de esta etapa es la ubicación y dimensión (cuadro delimitador) de los diferentes objetos de la escena candidatas a ser una persona.
 
 \begin{figure}[ht]
 \centering
@@ -185,9 +185,9 @@ El uso de la segmentación genera directamente los objetos candidatos a ser pers
 \paragraph*{Búsqueda exhaustiva}\mbox{} \\
 \label{parag:deteccion-objetos-personas-busqueda-exhaustiva}
 
-La otra técnica para obtener la hipótesis de ubicación inicial del objeto es la búsqueda exhaustiva. Por lo general, consiste en escanear la imagen completa buscando similitudes con el modelo de persona elegido en múltiples escalas y ubicaciones. A través de este mecanismo se obtiene un mapa de confianza de detección denso o volumen (escala y ubicación). Para llegar a detecciones individuales, estos enfoques deben buscar máximos locales en el volumen de densidad y luego aplicar alguna forma de supresión no máxima.
+La otra técnica para obtener la hipótesis de ubicación inicial del objeto es la búsqueda exhaustiva. Por lo general, consiste en escanear la imagen completa buscando similitudes con el modelo de persona elegido en múltiples escalas y ubicaciones. A través de este mecanismo se obtiene un mapa de confianza de detección denso (escala y ubicación). Para llegar a detecciones individuales, estos enfoques deben buscar máximos locales en el volumen de densidad y luego aplicar alguna forma de supresión no máxima.
 
-Hay muchas propuestas de detección de personas en el Estado del Arte que utilizan esta técnica, de hecho, esta técnica es actualmente la más utilizada. Dentro de esta técnica, se pueden utilizar dos enfoques diferentes como se indica en \cite{5674059}. Existen algunas propuestas que obtienen este volumen de densidad implícitamente muestreando en una cuadrícula 3D discreta (ubicación y escala) evaluando diferentes ventanas de detección con un clasificador. Este es el caso del uso de detectores basados en ventanas deslizantes como en \cite{4409057}.
+Hay muchas propuestas de detección de personas en el Estado del Arte que utilizan esta técnica, de hecho, esta técnica es actualmente la más utilizada. Dentro de esta técnica, se pueden utilizar dos enfoques diferentes como se expone en \cite{5674059}. Existen algunas propuestas que obtienen este volumen de densidad implícitamente muestreando en una cuadrícula 3D discreta (ubicación y escala) evaluando diferentes ventanas de detección con un clasificador. Este es el caso del uso de detectores basados en ventanas deslizantes como en \cite{4409057}.
 
 \subsubsection*{Modelos de personas}
 \label{subsubsec:modelos-personas-deteccion-personas-objetos}
@@ -223,23 +223,23 @@ En esta sección se va a revisar los métodos existentes \cite{BENMABROUK2018480
 \caption{\label{fig:video-surveillance-system}Sistema de videovigilancia inteligente}
 \end{figure}
 
-El primero consta de dos pasos. Primero, se extraen características de bajo nivel, con el objetivo de detectar la región de interés en la escena. Luego, se generan primitivas basadas en características de bajo nivel para describir la región de interés. El segundo nivel proporciona información semántica sobre la acción humana y determina si el comportamiento es normal o no.
+El primero consta de dos pasos. Primero, se extraen características de bajo nivel, con el objetivo de detectar la \gls{roi} en la escena. Luego, se generan primitivas basadas en características de bajo nivel para describir la región de interés. El segundo nivel proporciona información semántica sobre la acción humana y determina si el comportamiento es normal o no.
 
 La detección de comportamientos anormales en la videovigilancia es una tarea desafiante en la visión por computadora y últimamente ha experimentado importantes avances. Las etapas de procesamiento de bajo nivel permiten detectar y describir el objeto en movimiento en la escena. Sin embargo, esos pasos no permiten comprender el tipo de acción que realiza el objeto en movimiento ni determinar si su comportamiento es normal o no. Dado que existen múltiples trabajos propuestos que se relacionan con el reconocimiento de conductas anormales en la videovigilancia, en esta sección se va a hacer una revisión de:
 
 \begin{itemize}
-    \item Modelado de frameworks y métodos de clasificación
+    \item Modelado de marcos y métodos de clasificación
     \item Densidad de escenas e interacción de objetos en movimiento
 \end{itemize}
 
-\subsubsection*{Modelado de frameworks y métodos de clasificación}
+\subsubsection*{Modelado de marcos y métodos de clasificación}
 \label{subsubsec:modelado-frameworks-métodos-clasificación}
 
-El reconocimiento de un comportamiento anormal depende del framework propuesto y del método utilizado para clasificar los comportamientos. Dado el tipo de muestras requeridas para el proceso de aprendizaje (normal o anormal), los métodos de clasificación se pueden categorizar en métodos supervisados, semi-supervisados y no supervisados.
+El reconocimiento de un comportamiento anormal depende del marco de referencia propuesto y del método utilizado para clasificar los comportamientos. Dado el tipo de muestras requeridas para el proceso de aprendizaje (normal o anormal), los métodos de clasificación se pueden categorizar en métodos supervisados, semi-supervisados y no supervisados.
 
 Los métodos supervisados tienen como objetivo modelar comportamientos normales y anormales a través de datos etiquetados. Por lo general, están diseñados para detectar comportamientos anormales específicos predefinidos en la fase de entrenamiento, como la detección de enfrentamiento entre personas, la detección de merodeos y detección de caídas. En la literatura se proponen varios métodos supervisados con el objetivo de detectar un evento interesante en un vídeo. Uno de los más populares es el enfoque \gls{bow} \cite{ACAMPORA2015130}. Consiste en representar cada vídeo o fotograma mediante un histograma de palabras. Primero, se construye un diccionario de palabras. Luego, el histograma se calcula contando la frecuencia de cada palabra dentro del diccionario en el vídeo. El enfoque \gls{bow} se usa generalmente con el clasificador de \gls{svm}, que es una herramienta eficiente para la detección de comportamiento agresivo y el reconocimiento de anomalías de multitudes.
 
-Los métodos semi supervisados solo necesitan datos de vídeo normales para el entrenamiento y se pueden dividir en categorías basadas en reglas y basadas en modelos. La primera categoría tiene como objetivo desarrollar una regla utilizando patrones normales. Cualquier muestra que no se ajuste a esta regla se considera un valor atípico (anomalía). En \cite{6751449} se propuso un método basado en reglas que utiliza codificación escasa para detectar comportamientos anormales. Aunque lograron un buen resultado en un tiempo de ejecución corto (150 \gls{fps}), su resultado se ve muy afectado por el valor de umbral. Otros trabajos se basan en la construcción de algunas reglas para clasificar el comportamiento en normal y anormal. En \cite{6931308} se propone un sistema de detección de caídas basado en reglas extraídas utilizando características de forma.
+Los métodos semi-supervisados solo necesitan datos de vídeo normales para el entrenamiento y se pueden dividir en categorías basadas en reglas y basadas en modelos. La primera categoría tiene como objetivo desarrollar una regla utilizando patrones normales. Cualquier muestra que no se ajuste a esta regla se considera un valor atípico (anomalía). En \cite{6751449} se propuso un método basado en reglas que utiliza codificación escasa para detectar comportamientos anormales. Aunque se logró un buen resultado en un tiempo de ejecución corto (150 \gls{fps}), su resultado se ve muy afectado por el valor de umbral. Otros trabajos se basan en la construcción de algunas reglas para clasificar el comportamiento en normal y anormal. En \cite{6931308} se propone un sistema de detección de caídas basado en reglas extraídas utilizando características de forma.
 
 Los métodos no supervisados tienen como objetivo aprender comportamientos normales y anormales utilizando propiedades estadísticas extraídas de datos no etiquetados. En \cite{alvar2014} propusieron un método de comportamiento anormal utilizando un marco de aprendizaje no supervisado basado en Dominant Set. En \cite{Ren2013UnsupervisedKL} presentaron un marco de kernel no supervisado para la detección de anomalías basado en el espacio de características y la \gls{svdd}.
 
@@ -275,9 +275,9 @@ En este tipo de escena, no es posible rastrear y analizar el comportamiento de c
 \caption{\label{fig:abnormal-behaviors-crowded-scene}Comportamientos anómalos en multitudes}
 \end{figure}
 
-La interacción grupal incluye comportamientos realizados por varias personas, como el causado por el pánico grupal y la violencia en el estadio de fútbol. Muchos trabajos se enfocaron en detectar eventos inusuales que ocurren en escenas concurridas. En \cite{5206641} se propuso un método para detectar el comportamiento anormal de la multitud utilizando un modelo de fuerza social que estima la fuerza de interacción entre individuos. Primero, calcularon el modelo de fuerza social y luego usaron el enfoque \gls{bow} para clasificar los eventos como normales y anormales. \cite{6202466} propusieron un método para la detección de anomalías utilizando múltiples modelos de comportamiento social que se determinan en función del flujo óptico y la advección de partículas. \cite{CHO201464} utilizaron agentes estáticos y dinámicos para caracterizar la interacción grupal. Los agentes estáticos tienen como objetivo observar los comportamientos individuales calculando la variación del flujo óptico. Los agentes dinámicos calculan la interacción grupal utilizando el modelo de fuerza social. En \cite{7019309} se basan en la detección y el análisis de movimiento para describir la anomalía. En \cite{6910023} proponen un método de detección de grupos sociales en una escena abarrotada basado en dos características que son la dirección de la mirada y la atención visual. Esas dos características se utilizan para especificar la intención de la persona en el vídeo.
+La interacción grupal incluye comportamientos realizados por varias personas, como el causado por el pánico grupal y la violencia en el estadio de fútbol. Muchos trabajos se enfocaron en detectar eventos inusuales que ocurren en escenas concurridas. En \cite{5206641} se propuso un método para detectar el comportamiento anormal de la multitud utilizando un modelo de fuerza social que estima la fuerza de interacción entre individuos. Primero, calcularon el modelo de fuerza social y luego usaron el enfoque \gls{bow} para clasificar los eventos como normales y anormales. En \cite{6202466} propusieron un método para la detección de anomalías utilizando múltiples modelos de comportamiento social que se determinan en función del flujo óptico y la advección de partículas. En \cite{CHO201464} utilizaron agentes estáticos y dinámicos para caracterizar la interacción grupal. Los agentes estáticos tienen como objetivo observar los comportamientos individuales calculando la variación del flujo óptico. Los agentes dinámicos calculan la interacción grupal utilizando el modelo de fuerza social. En \cite{7019309} se basan en la detección y el análisis de movimiento para describir la anomalía. En \cite{6910023} proponen un método de detección de grupos sociales en una escena abarrotada basado en dos características que son la dirección de la mirada y la atención visual. Esas dos características se utilizan para especificar la intención de la persona en el vídeo.
 
-En \cite{6239348} detectaron la violencia de masas en tiempo real basándose en un nuevo detector Violent Flows. Utilizando este método y la mecánica de fluidos. En \cite{CHAKER2017266} se introdujeron un marco no supervisado basado en el modelo de red social para capturar la interacción de la multitud y la dinámica de la escena. El comportamiento de la multitud se detecta utilizando la estimación de la posición del flujo adyacente \cite{7790305}.
+En \cite{6239348} detectaron la violencia de masas en tiempo real basándose en un nuevo detector Violent Flows. En \cite{CHAKER2017266} se introdujeron un marco no supervisado basado en el modelo de red social para capturar la interacción de la multitud y la dinámica de la escena. El comportamiento de la multitud se detectó en \cite{7790305} utilizando la estimación de la posición del flujo adyacente.
 
 \section{Redes neuronales convolucionales (CNN)}
 \label{sec:intro-redes-neuronales-convolucionales}
@@ -296,7 +296,7 @@ Las redes neuronales convolucionales (\gls{cnn}) son un subconjunto de algoritmo
     \item \textbf{Espacialidad}. Los \gls{mlp} no tienen en cuenta las relaciones espaciales en las imágenes. El hecho de que dos píxeles se encuentren cerca es información significativa.
 \end{itemize}
 
-Las \gls{cnn} resuelven el problema de la comprensión de las imágenes, utilizando con mayor facilidad redes complejidad. La red neurona especial tiene en cuenta que la cercanía entre píxeles tiene significado y que los elementos de interés pueden aparecer en cualquier parte de una imagen. Esto se logra mediante el uso de una operación de convolución lineal. El uso de esta operación en una o mas capas es lo que define a una \gls{cnn}. En ocasiones las suposiciones subyacentes a las opciones de diseño de las \gls{cnn} deben disminuirse o alterarse debido a la naturaleza de los datos de entrada. Aunque la complejidad computacional es más manejable, las redes tienden a ser más profundas. Esto crea algoritmos inteligentes para calcular las convoluciones.
+Las \gls{cnn} resuelven el problema de la comprensión de las imágenes, utilizando redes de complejidad más manejable. La red neuronal especial tiene en cuenta que la cercanía entre píxeles tiene significado y que los elementos de interés pueden aparecer en cualquier parte de una imagen. Esto se logra mediante el uso de una operación de convolución lineal. El uso de esta operación en una o más capas es lo que define a una \gls{cnn}. En ocasiones las suposiciones subyacentes a las opciones de diseño de las \gls{cnn} deben disminuirse o alterarse debido a la naturaleza de los datos de entrada. Aunque la complejidad computacional es más manejable, las redes tienden a ser más profundas. Esto crea algoritmos inteligentes para calcular las convoluciones.
 
 La idea principal detrás de la convolución es la identificación de características en los datos de entrada mediante la aplicación de un kernel (también conocido como filtro) en los datos de entrada. Tanto los datos de entrada como el kernel tienen una estructura similar a una cuadrícula y se pueden representar como tensores, que son matrices multidimensionales. El kernel puede ser de cualquier tamaño y, por lo general, es más pequeño que los datos de entrada. Los núcleos se utilizan para identificar características en los datos de entrada, como los bordes de una imagen. Los datos de entrada se convolucionan con el kernel, lo que significa que el kernel se ``desliza'' a través de los datos de entrada, calculando el producto escalar o el producto matricial (según las dimensiones) entre la parte superpuesta de los datos de entrada y el kernel. En la figura \ref{fig:ejemplo-convolucion} se puede ver un ejemplo ilustrativo de la operación de convolución.
 
@@ -313,7 +313,7 @@ La operación de convolución se define como:
 s(t) = (x*w)(t) = \int x(a)w(t-a)da
 \end{equation}
 
-donde $x$ es la función que se asigna a un valor específico en los datos de entrada y $w$ representa el núcleo. Esta formulación se puede considerar como un promedio de suavizado de $x$ en todo su dominio, dando mayor peso a los valores más cercanos a $t$. Si los valores de entrada son discretos, la operación de convolución se puede reescribir mediante la suma:
+donde $x$ es la función que se asigna a un valor específico en los datos de entrada y $w$ representa el núcleo. Esta formulación se puede considerar como un promedio de suavizado de $x$ en todo su dominio, dando mayor peso a los valores más cercanos a $t$. Si los valores de entrada son discretos, la operación de convolución se puede reescribir mediante el siguiente sumatorio:
 
 \begin{equation}
 \label{eq:operacion-convolucion2}
@@ -340,7 +340,7 @@ Una aplicación interesante de las redes neuronales convolucionales se encuentra
 \caption{\label{fig:ejemplo-mamografia}Ejemplo de convolución de datos de entrada bidimensionales}
 \end{figure}
 
-La CNN resultante se ejecutó en varias bases de datos con un \gls{auc} en las imágenes de menor calidad de 0,91. Entrenando una red con imágenes de alta resolución de la base de datos INbreast \cite{moreira2011}, su mejor modelo logró un \gls{auc} por imagen de 0,95. Combinando todos sus modelos, este número se elevó hasta 0,98 con una sensibilidad del 86,7\% y una especificidad del 96,1\%. Esto muestra que las \gls{cnn} pueden realizar tareas que ahorran costos pero, lo que es más importante, salvan vidas. Con el resultado del artículo \cite{mammography2019}, esto significaría que la \gls{cnn} está superando al personal médico en la detección y clasificación de tumores. Los médicos tienen solo un 0,3\% más de probabilidades de detectar correctamente un tumor maligno, pero tienen un 7,2\% menos de probabilidades de encontrar correctamente que un paciente esté sano.
+La \gls{cnn} resultante se ejecutó en varias bases de datos con un \gls{auc} en las imágenes de menor calidad de 0,91. Entrenando una red con imágenes de alta resolución de la base de datos INbreast \cite{moreira2011}, su mejor modelo logró un \gls{auc} por imagen de 0,95. Combinando todos sus modelos, este número se elevó hasta 0,98 con una sensibilidad del 86,7\% y una especificidad del 96,1\%. Esto muestra que las \gls{cnn} pueden realizar tareas que ahorran costos pero, lo que es más importante, salvan vidas. En base al resultado del artículo \cite{mammography2019}, esto significaría que la \gls{cnn} está superando al personal médico en la detección y clasificación de tumores. Los médicos tienen solo un 0,3\% más de probabilidades de detectar correctamente un tumor maligno, pero tienen un 7,2\% menos de probabilidades de encontrar correctamente que un paciente esté sano.
 
 \section{Algoritmos de detección de objetos}
 \label{sec:tecnicas-utilizadas-detection}
@@ -352,7 +352,7 @@ En esta sección se va exponer los distintos algoritmos de detección de objetos
 
 Faster \gls{r-cnn} \cite{ren2016faster} es una extensión de Fast \gls{r-cnn} \cite{7410526}. Como su nombre indica, Faster \gls{r-cnn} es más rápido que Fast \gls{r-cnn} gracias a la red de propuesta regional (\gls{rpn}).
 
-La arquitectura de Faster \gls{r-cnn} se muestra en la siguiente figura. Consta de 2 módulos:
+La arquitectura de Faster \gls{r-cnn} se muestra en la figura \ref{fig:arquitectura-faster-rcnn}. Consta de 2 módulos:
 
 \begin{itemize}
     \item \gls{rpn}: para generar propuestas regionales.
@@ -363,7 +363,7 @@ El módulo \gls{rpn} es responsable de generar propuestas regionales. Aplica el 
 
 Las capas convolucionales se comparten entre los módulos \gls{rpn} y Fast \gls{r-cnn}.
 
-Faster R-CNN funciona de la siguiente manera:
+Faster \gls{r-cnn} funciona de la siguiente manera:
 
 \begin{itemize}
     \item El \gls{rpn} genera propuestas regionales.
@@ -390,7 +390,7 @@ Los modelos \gls{r-cnn} y Fast \gls{r-cnn} dependen del algoritmo de búsqueda s
     \item Debido a que comparten las mismas capas convolucionales, el \gls{rpn} y el Fast \gls{r-cnn} se pueden fusionar/unificar en una sola red. Por lo tanto, el entrenamiento se realiza solo una vez.
 \end{enumerate}
 
-El \gls{rpn} funciona en el mapa de características de salida devuelto desde la última capa convolucional compartida con Fast \gls{r-cnn}. Esto se muestra en la siguiente figura. Sobre la base de una ventana rectangular de tamaño $n*n$, una ventana deslizante atraviesa el mapa de características. Para cada ventana, se generan varias propuestas de regiones candidatas. Estas propuestas no son las propuestas finales, ya que se filtrarán en función de su ``puntuación de objetividad''.
+El \gls{rpn} funciona en el mapa de características de salida devuelto desde la última capa convolucional compartida con Fast \gls{r-cnn}. Esto se muestra en la figura \ref{fig:variacion-anchor-boxes-faster-rcnn}. Sobre la base de una ventana rectangular de tamaño $n*n$, una ventana deslizante atraviesa el mapa de características. Para cada ventana, se generan varias propuestas de regiones candidatas. Estas propuestas no son las propuestas finales, ya que se filtrarán en función de su ``puntuación de objetividad''.
 
 \subsubsection*{Anchor}
 \label{subsubsec:anchor-faster-rcnn}
@@ -402,7 +402,7 @@ Como se puede ver en la figura \ref{fig:variacion-anchor-boxes-faster-rcnn}, el 
     \item Relación de aspecto
 \end{enumerate}
 
-Generalmente, hay 3 escalas y 3 relaciones de aspecto y, por lo tanto, hay un total de $K = 9$ casillas de anclaje. Pero $K$ puede ser diferente de 9. En otras palabras, $K$ regiones se producen a partir de cada propuesta de región, donde cada una de las $K$ regiones varía en la escala o en la relación de aspecto. Algunas de las variaciones del ancla se muestran en la figura \ref{fig:variacion-anchor-boxes-faster-rcnn}.
+Generalmente, hay 3 escalas y 3 relaciones de aspecto y, por lo tanto, hay un total de $K = 9$ casillas de anclaje. Pero $K$ puede ser diferente de 9. En otras palabras, las $K$ regiones se producen a partir de cada propuesta de región, donde cada una de las $K$ regiones varía en la escala o en la relación de aspecto. Algunas de las variaciones del ancla se muestran en la figura \ref{fig:variacion-anchor-boxes-faster-rcnn}.
 
 \begin{figure}[ht]
 \centering
@@ -419,14 +419,14 @@ Para cada propuesta de región $n*n$, se extrae un vector de características (d
     \item La segunda capa \gls{fc} se llama \texttt{reg}, que devuelve un vector 4-D que define el cuadro delimitador de la región.
 \end{enumerate}
 
-La primera capa \gls{fc} (es decir, clasificador binario) tiene 2 salidas. El primero es para clasificar la región como fondo y el segundo es para clasificar la región como un objeto. La siguiente sección analiza cómo se asigna la puntuación de objetividad a cada ancla y cómo se utiliza para producir la etiqueta de clasificación.
+La primera capa \gls{fc} (es decir, clasificador binario) tiene 2 salidas. El primero es para clasificar la región como fondo y el segundo es para clasificar la región como un objeto. La siguiente sección analiza cómo se asigna la puntuación de objetividad a cada anchor box y cómo se utiliza para producir la etiqueta de clasificación.
 
 \subsection{SSD: Single Shot MultiBox Detector}
 \label{subsec:ssd}
 
-\gls{ssd} \cite{Liu_2016} es un moldeo de detección de objetos en imágenes empleando únicamente una \gls{dnn}. \gls{ssd} discretiza el espacio de salida de los cuadros delimitadores en un conjunto de cuadros predeterminados en diferentes proporciones y escalas por ubicación del mapa de características. En el momento de la predicción, la red genera puntuaciones para la presencia de cada categoría de objeto en cada cuadro predeterminado y produce ajustes en el cuadro para que coincida mejor con la forma del objeto. Además, la red combina predicciones de múltiples mapas de características con diferentes resoluciones para manejar de forma natural objetos de varios tamaños.
+\gls{ssd} \cite{Liu_2016} es un modelo de detección de objetos en imágenes empleando únicamente una \gls{dnn}. \gls{ssd} discretiza el espacio de salida de los cuadros delimitadores en un conjunto de cuadros predeterminados en diferentes proporciones y escalas por ubicación del mapa de características. En el momento de la predicción, la red genera puntuaciones para la presencia de cada categoría de objeto en cada cuadro predeterminado y produce ajustes en el cuadro para que coincida mejor con la forma del objeto. Además, la red combina predicciones de múltiples mapas de características con diferentes resoluciones para manejar de forma natural objetos de varios tamaños.
 
-\gls{ssd} tiene dos componentes: un modelo backbone y un \gls{ssd} head. El modelo backbone suele ser una red de clasificación de imágenes previamente entrenadas como extractor de características. Típicamente suele ser una red como \texttt{ResNet} entrenada en ImageNet \cite{russakovsky2015imagenet} de la que se ha eliminado la capa de clasificación final completamente conectada. Por tanto, nos quedamos con una \gls{dnn} que es capaz de extraer el significado semántico de la imagen de entrada al tiempo que conserva la estructura espacial de la imagen, aunque con una resolución más baja. Para \texttt{ResNet34}, el backbone da como resultado un mapa de características de 256 7x7 para una imagen de entrada. El \gls{ssd} head es solo una o más capas convolucionales agregadas a este backbone y las salidas se interpretan como los cuadros delimitadores y las clases de objetos en la ubicación espacial de las activaciones de las capas finales.
+\gls{ssd} tiene dos componentes: un modelo backbone y un \gls{ssd} head. El modelo backbone suele ser una red de clasificación de imágenes previamente entrenadas como extractor de características. Típicamente suele ser una red como ResNet entrenada en ImageNet \cite{russakovsky2015imagenet} de la que se ha eliminado la capa de clasificación final completamente conectada. Por tanto, nos quedamos con una \gls{dnn} que es capaz de extraer el significado semántico de la imagen de entrada al tiempo que conserva la estructura espacial de la imagen, aunque con una resolución más baja. Para ResNet34, el backbone da como resultado un mapa de características de 256 7x7 para una imagen de entrada. El \gls{ssd} head es solo una o varias capas convolucionales agregadas a este backbone y las salidas se interpretan como los cuadros delimitadores y las clases de objetos en la ubicación espacial de las activaciones de las capas finales.
 
 En la figura \ref{fig:ssd-structure}, las primeras capas (cuadros blancos) son el backbone, las últimas capas (cuadros azules) representan el SSD head.
 
@@ -474,14 +474,14 @@ No todos los objetos tienen forma cuadrada. Algunos son más largos y otros más
 \subsubsection*{Nivel de zoom}
 \label{subsubsec:zoom-level-ssd}
 
-No es necesario que los anchor boxes tengan el mismo tamaño que grid cell. Podríamos estar interesados en encontrar objetos más pequeños o más grandes dentro de una celda de la cuadrícula. El parámetro de zoom se utiliza para especificar cuánto deben ampliarse o reducirse los cuadros de anclaje con respecto a cada celda de la cuadrícula. Al igual que lo que hemos visto en el ejemplo de el anchor box, el tamaño del edificio es generalmente más grande que la piscina.
+No es necesario que los anchor boxes tengan el mismo tamaño que la grid cell. Podríamos estar interesados en encontrar objetos más pequeños o más grandes dentro de una celda de la cuadrícula. El parámetro de zoom se utiliza para especificar cuánto deben ampliarse o reducirse los cuadros de anclaje con respecto a cada celda de la cuadrícula. Al igual que lo que hemos visto en el ejemplo de el anchor box, el tamaño del edificio es generalmente más grande que la piscina.
 
 \subsubsection*{Campo receptivo}
 \label{subsubsec:receptive-field-ssd}
 
-El campo receptivo se define como la región en el espacio de entrada que está mirando una función de \gls{cnn} en particular, es decir, que se ve afectada. Debido a la operación de convolución, las características en diferentes capas representan diferentes tamaños de región en la imagen de entrada. A medida que se profundiza, el tamaño representado por una característica aumenta. En este ejemplo que se puede observar en la figura \ref{fig:receptive-field-ssd}, se comienza con la capa inferior (5x5) y luego se aplica una convolución que da como resultado la capa intermedia (3x3) donde una característica (píxel verde) representa una región de 3x3 de la capa de entrada (capa inferior). Y luego se aplica la convolución a la capa intermedia y se obtiene la capa superior (2x2) donde cada característica corresponde a una región de 7x7 en la imagen de entrada. Este tipo de matriz 2D verde y naranja también se denomina mapas de características, que se refieren a un conjunto de características creadas al aplicar el mismo extractor de características en diferentes ubicaciones del mapa de entrada en una ventana deslizante. Las características del mismo mapa de características tienen el mismo campo receptivo y buscan el mismo patrón pero en diferentes ubicaciones. Esto crea la invariancia espacial de \texttt{ConvNet}.
+El campo receptivo se define como la región en el espacio de entrada que está mirando una función de \gls{cnn} en particular, es decir, que se ve afectada. Debido a la operación de convolución, las características en diferentes capas representan diferentes tamaños de región en la imagen de entrada. A medida que se profundiza, el tamaño representado por una característica aumenta. En este ejemplo que se puede observar en la figura \ref{fig:receptive-field-ssd}, se comienza con la capa inferior (5x5) y luego se aplica una convolución que da como resultado la capa intermedia (3x3) donde una característica (píxel verde) representa una región de 3x3 de la capa de entrada (capa inferior). Y luego se aplica la convolución a la capa intermedia y se obtiene la capa superior (2x2) donde cada característica corresponde a una región de 7x7 en la imagen de entrada. Este tipo de matriz 2D verde y naranja también se denomina mapas de características, que se refieren a un conjunto de características creadas al aplicar el mismo extractor de características en diferentes ubicaciones del mapa de entrada en una ventana deslizante. Las características del mismo mapa de características tienen el mismo campo receptivo y buscan el mismo patrón pero en diferentes ubicaciones. Esto crea la invariancia espacial de ConvNet.
 
-El campo receptivo es la premisa central de la arquitectura SSD, ya que permite detectar objetos a diferentes escalas y generar un cuadro delimitador más ajustado. el backbone ResNet34 genera mapas de características de 256 7x7 para una imagen de entrada. Si especificamos una cuadrícula de 4x4, el enfoque más simple es simplemente aplicar una convolución a este mapa de características y convertirlo a 4x4. Este enfoque puede funcionar hasta cierto punto y es exactamente la idea de \gls{yolo}. El paso extra dado por \gls{ssd} es que aplica más capas convolucionales al mapa de características del backbone y hace que cada una de estas capas de convolución genere resultados de detección de objetos. Como las capas anteriores que tienen un campo receptivo más pequeño pueden representar objetos de menor tamaño, las predicciones de las capas anteriores ayudan a tratar con objetos de menor tamaño.
+El campo receptivo es la premisa central de la arquitectura \gls{ssd}, ya que permite detectar objetos a diferentes escalas y generar un cuadro delimitador más ajustado. el backbone ResNet34 genera mapas de características de 256 7x7 para una imagen de entrada. Si especificamos una cuadrícula de 4x4, el enfoque más simple es sencillamente aplicar una convolución a este mapa de características y convertirlo a 4x4. Este enfoque puede funcionar hasta cierto punto y es exactamente la idea de \gls{yolo}. El paso extra dado por \gls{ssd} es que aplica más capas convolucionales al mapa de características del backbone y hace que cada una de estas capas de convolución genere resultados de detección de objetos. Como las capas anteriores que tienen un campo receptivo más pequeño pueden representar objetos de menor tamaño, las predicciones de las capas anteriores ayudan a tratar con objetos de menor tamaño.
 
 Debido a esto, \gls{ssd} permite definir una jerarquía de celdas de cuadrícula en diferentes capas. Por ejemplo, se podría usar una cuadrícula de 4x4 para encontrar objetos más pequeños, una cuadrícula de 2x2 para encontrar objetos de tamaño medio y una cuadrícula de 1x1 para encontrar objetos que cubran toda la imagen.
 
@@ -494,9 +494,9 @@ Debido a esto, \gls{ssd} permite definir una jerarquía de celdas de cuadrícula
 \subsection{EfficientDet}
 \label{subsec:efficientdet}
 
-EfficientDet \cite{tan2020efficientdet} se trata de un detector de objetos escalables y eficientes. Sobre la base de nuestro trabajo anterior sobre el escalado de redes neuronales que logra una alta precisión y es hasta 9 veces más pequeño y usa significativamente menos cálculos en comparación con los detectores del Estado del Arte. En la figura \ref{fig:arquitectura-efficientdet} se muestra la arquitectura de red general de los modelos.
+EfficientDet \cite{tan2020efficientdet} se trata de un detector de objetos escalable y eficiente. Sobre la base del trabajo que se realizó anterior sobre el escalado de redes neuronales se logra una alta precisión y es hasta 9 veces más pequeño y usa significativamente menos cálculos en comparación con los detectores del Estado del Arte. En la figura \ref{fig:arquitectura-efficientdet} se muestra la arquitectura de red general de los modelos.
 
-EfficientDet surge en noviembre de 2019 con la necesidad de aplicar soluciones en la mejora de la eficiencia computacional mediante la realización de un estudio sistemático de modelos de detección de última generación. Como ya se vio en la sección \ref{subsec:ssd}, los detectores de objetos tienen tres componentes principales: un backbone que extrae características de la imagen dada, una red de características que toma múltiples niveles de características de la red troncal como entrada y genera una lista de características fusionadas que representan características de la imagen y una red final que usa las características fusionadas para predecir la clase y ubicación de cada objeto. Al examinar las opciones de diseño para estos componentes, EfficientDet identifica varias optimizaciones clave para mejorar el rendimiento y la eficiencia.
+EfficientDet surge en noviembre de 2019 con la necesidad de aplicar soluciones en la mejora de la eficiencia computacional mediante la realización de un estudio sistemático de modelos de detección de última generación. Como ya se vio en la sección \ref{subsec:ssd}, los detectores de objetos tienen tres componentes principales: un backbone que extrae características de una imagen dada, una red de características que toma múltiples niveles de características de la red troncal como entrada y genera una lista de características fusionadas que representan características de la imagen y una red final que usa las características fusionadas para predecir la clase y ubicación de cada objeto. Al examinar las opciones de diseño para estos componentes, EfficientDet identifica varias optimizaciones clave para mejorar el rendimiento y la eficiencia.
 
 \begin{figure}[ht]
 \centering
@@ -520,7 +520,7 @@ Para mejorar aún más la eficiencia, EfficientDet plantea una nueva técnica de
 
 Una tercera optimización implica lograr mejores compensaciones de precisión y eficiencia bajo diferentes limitaciones de recursos. Escalar conjuntamente la profundidad, el ancho y la resolución de una red puede mejorar significativamente la eficiencia del reconocimiento de imágenes. EfficientDet ofrece un nuevo método de escalado compuesto para detectores de objetos, que escala conjuntamente la resolución/profundidad/ancho. Cada componente de la red, es decir, el backbone, la característica y la red de predicción de cuadro/clase, tendrá un único factor de escala compuesto que controla todas las dimensiones de escala utilizando reglas basadas en heurísticas. Este enfoque permite determinar fácilmente cómo escalar el modelo calculando el factor de escala para las restricciones de recursos de destino dadas.
 
-Combinando el nuevo backbone y Bi\gls{fpn}, surge una línea de base EfficientDet-D0 de tamaño pequeño y aplicando una escala compuesta para obtener EfficientDet-D1 a D7. Cada modelo consecutivo tiene un coste computacional más alto, que cubre una amplia gama de restricciones de recursos desde 3 mil millones de \gls{flops} hasta 300 mil millones de \gls{flops}, proporcionando una mayor precisión.
+Combinando el nuevo backbone y Bi\gls{fpn}, surge una línea de base EfficientDet-D0 de tamaño pequeño y aplicando una escala compuesta para obtener de EfficientDet-D1 a D7. Cada modelo consecutivo tiene un coste computacional más alto, que cubre una amplia gama de restricciones de recursos desde 3 mil millones de \gls{flops} hasta 300 mil millones de \gls{flops}, proporcionando una mayor precisión.
 
 \subsection{YOLOv4}
 \label{subsec:yolov4}
@@ -538,7 +538,7 @@ Combinando el nuevo backbone y Bi\gls{fpn}, surge una línea de base EfficientDe
 
 \gls{yolo} divide la imagen en una imagen de 19x19, donde cada celda predice 5 cuadros delimitadores de la forma $y = (Pc, bx, by, bw, bh, c)$. Esto da $19x19x5 = 1.805$ cuadros delimitadores diferentes por imagen. La eliminación de las cajas con un $Pc$ bajo se denomina \textit{non-max suppression}.
 
-La principal diferencia entre \gls{yolov4} y las implementaciones anteriores es el enfoque en la velocidad. El objetivo del nuevo algoritmo \gls{yolo} es que cualquier persona que tenga una \gls{gpu} decente pueda aplicar el algoritmo para lograr una precisión increíble para el reconocimiento de imágenes que se ejecuta en tiempo real. En la figura \ref{fig:yolov4-speed-accuracy-vs-others}, se muestran los resultados de la comparación entre \gls{yolov4} y otras arquitecturas, donde es evidente que \gls{yolov4} supera a la mayoría de las otras redes neuronales en términos de precisión promedio y lo hace a más del doble de la velocidad de fotogramas. Esto diferencia mucho a \gls{yolov4} de los otros algoritmos, ya que se puede utilizar en la clasificación de objetos en tiempo real con una precisión casi humana. Por ejemplo, la \gls{cnn} puede diferenciar entre automóviles, bicicletas y camiones que circulan por una carretera. Con su alta velocidad y precisión sorprendentemente buena, \gls{yolo} es ampliamente adoptado y, como tal, es un éxito.
+La principal diferencia entre \gls{yolov4} y las implementaciones anteriores es el enfoque en la velocidad. El objetivo del nuevo algoritmo \gls{yolo} es que cualquier persona que disponga de una \gls{gpu} de alta gama pueda aplicar el algoritmo para lograr una alta precisión para el reconocimiento de imágenes ejecutándose en tiempo real. En la figura \ref{fig:yolov4-speed-accuracy-vs-others}, se muestran los resultados de la comparación entre \gls{yolov4} y otras arquitecturas, donde es evidente que \gls{yolov4} supera a la mayoría de las otras redes neuronales en términos de precisión promedio y lo hace a más del doble de la velocidad de fotogramas. Esto diferencia mucho a \gls{yolov4} de los otros algoritmos, ya que se puede utilizar en la clasificación de objetos en tiempo real con una precisión casi humana. Por ejemplo, la \gls{cnn} puede diferenciar entre automóviles, bicicletas y camiones que circulan por una carretera. Con su alta velocidad y precisión sorprendentemente buena, \gls{yolo} es ampliamente adoptado y, como tal, es un éxito.
 
 \begin{figure}[ht]
 \centering
@@ -551,7 +551,7 @@ La principal diferencia entre \gls{yolov4} y las implementaciones anteriores es 
 
 Todos los detectores de objetos toman una imagen como entrada y comprimen las características a través de una red neuronal convolucional. En la clasificación de imágenes, estos backbones son el final de la red y se pueden hacer predicciones a partir de ellas. En la detección de objetos, es necesario dibujar varios cuadros delimitadores alrededor de las imágenes junto con la clasificación, por lo que las capas de características convolucional del backbone deben mezclarse unas de otras. La combinación de capas de características del backbone ocurre en el neck.
 
-También es útil dividir los detectores de objetos en dos categorías: detectores de una etapa y detectores de dos etapas. La detección ocurre en el head. Los detectores de dos etapas desacoplan la tarea de localización y clasificación de objetos para cada cuadro delimitador. Los detectores de una etapa hacen las predicciones para la localización y clasificación de objetos al mismo tiempo. \gls{yolo} es un detector de una etapa, por lo tanto, solo mira una vez.
+También es útil dividir los detectores de objetos en dos categorías: detectores de una etapa y detectores de dos etapas. La detección ocurre en el head. Los detectores de dos etapas desacoplan la tarea de localización y clasificación de objetos para cada cuadro delimitador. Los detectores de una etapa hacen las predicciones para la localización y clasificación de objetos al mismo tiempo. \gls{yolo} es un detector de una etapa, por lo tanto, solo mira una vez (You Only Look Once).
 
 \begin{figure}[ht]
 \centering
@@ -578,7 +578,7 @@ En CSPResNext50 y CSPDarknet53, DenseNet se ha editado para separar el mapa de c
 
 EfficientNet fue diseñado por Google Brain para estudiar principalmente el problema de escala de las redes neuronales convolucionales. Hay muchas decisiones que puede tomar al escalar su ConvNet, incluido el tamaño de entrada, la escala de ancho, la escala de profundidad y la escala de todo lo anterior. El artículo \cite{tan2020efficientdet} postula que hay un punto óptimo para todos estos y, a través de la búsqueda, lo encuentran.
 
-EfficientNet supera a las otras redes de tamaño comparable en clasificación de imágenes. Los autores de \gls{yolov4} postulan, sin embargo, que las otras redes pueden funcionar mejor en la configuración de detección de objetos y deciden experimentar con todas ellas.
+EfficientNet supera a las otras redes de tamaño comparable en clasificación de imágenes. Los autores de \gls{yolov4} postulan, sin embargo, que las otras redes pueden funcionar mejor en la configuración de detección de objetos y decidieron experimentar con todas ellas.
 
 En base a los resultados experimentales, la red \gls{yolov4} final implementa CSPDarknet53 para el backbone.
 
@@ -586,7 +586,6 @@ En base a los resultados experimentales, la red \gls{yolov4} final implementa CS
 \label{subsubsec:yolov4-neck}
 
 El siguiente paso en la detección de objetos es mezclar y combinar las características formadas en el backbone de ConvNet para prepararse para el paso de detección. \gls{yolov4} considera algunas opciones para el cuello que incluyen: \gls{fpn}, \gls{pan}, \gls{nas}-\gls{fpn}, Bi\gls{fpn}, \gls{asff} y \gls{sfam}.
-
 
 
 Los componentes del neck normalmente fluyen hacia arriba y hacia abajo entre las capas y conectan solo las pocas capas al final de la red convolucional.
@@ -602,12 +601,16 @@ Además, \gls{yolov4} agrega un bloque \gls{spp} después de CSPDarknet53 para a
 
 \gls{yolov4} implementa el mismo head \gls{yolo} que \gls{yolo}v3 \cite{redmon2018yolov3} para la detección con el anchor basado en pasos de detección y tres niveles de granularidad de detección.
 
-\subsection{Comparativa de los diferentes detetectores}
+\subsection{Comparativa de los diferentes detectores}
 \label{subsec:comparativa-detectores}
 
-En las siguientes tablas se recoge las métricas obtenidas con el dataset \gls{coco} en los algoritmos que se han visto en esta sección, destacando los valores de \gls{map} y \gls{fps} en diferentes \gls{gpu}s.
+En esta sección se va a evaluar cuantitativamente las principales métricas de los detectores de objetos que se han expuesto anteriormente. Estas métricas, junto a otras muy importantes en la evaluación de modelos entrenados en las distintas arquitecturas, se explicarán con más detalle en la sección \ref{subsec:metricas-calidad}.
 
-\textcolor{red}{Explicar que el dataset MS COCO se va a detallar mejor en la seccion XXXX y que las metricas de calidad como el map se explicaran mejor en la seccion XXXX para que no haya duda de que significa cada cosa}
+Las métricas que se recogen en las siguientes tablas han sido obtenidas en base al dataset \gls{coco}, un conjunto de datos de referencia que se emplea para la evaluar el rendimiento de los modelos de visión por computadora de última generación. Este dataset se describirá con mayor detalle en la sección \ref{subsec:coco-dataset}.
+
+En la tabla \ref{tab:maxwell-speed-accuracy} se muestran los resultados obtenidos en los detectores \gls{yolov4} y \gls{ssd} utilizando \gls{gpu}'s NVIDIA Maxwell.
+
+Como se puede observar, \gls{yolov4} obtuvo un AP50 o \gls{map} de 64,9\% a 31 \gls{fps} frente a un 48,5\% a 22 \gls{fps} que logró \gls{ssd}. Cabe destacar que se están comparando ambos detectores a partir de un tamaño de imágenes de la capa de entrada a la red de 512x512. En términos de velocidad y precisión, \gls{yolov4} se posiciona por encima.
 
 \begin{table}[ht]
 \centering
@@ -625,6 +628,10 @@ SSD             & VGG-16                 & 300           & 43 (M)          & 25,
 \end{tabular}
 \end{table}
 
+En la tabla \ref{tab:pascal-speed-accuracy} se muestran los resultados obtenidos en los detectores \gls{yolov4} y Faster \gls{r-cnn} utilizando \gls{gpu}'s NVIDIA Pascal.
+
+Como se puede observar, \gls{yolov4} obtuvo un AP50 o \gls{map} de 62,8\% a 54 \gls{fps} frente a un 59,2\% a 9,4 \gls{fps} que logró Faster \gls{r-cnn}. El tamaño de las imágenes de capa de entrada a la red de Faster \gls{r-cnn} no se especificó en el benchmark, por lo que se ha comparado con el tamaño más pequeño con el que se realizó la evaluación en \gls{yolov4}, es decir, 416x416. En términos de velocidad y precisión, \gls{yolov4} se posiciona por encima. 
+
 \begin{table}[ht]
 \centering
 \caption{Velocidad y precisión YOLOv4 y Faster R-CNN con Pascal GPU: Titan X (Pascal), Titan Xp, GTX 1080 Ti, o Tesla P100 GPU, datos extraídos de \cite{bochkovskiy2020yolov4} y \cite{ren2016faster}}
@@ -640,6 +647,10 @@ YOLOv4                & CSPDarknet-53          & 608           & 33 (P)         
 \end{tabular}
 \end{table}
 
+En la tabla \ref{tab:volta-speed-accuracy} se muestran los resultados obtenidos en los detectores \gls{yolov4} y EfficientDet utilizando \gls{gpu}'s NVIDIA Volta.
+
+Como se puede observar, \gls{yolov4} obtuvo un AP50 o \gls{map} de 64,9\% a 83 \gls{fps} frente a un 52,2\% a 62,5 \gls{fps} que logró EfficientDet. Cabe destacar que se están comparando ambos detectores a partir de un tamaño de imágenes de la capa de entrada a la red de 512x512. En términos de velocidad y precisión, \gls{yolov4} se posiciona por encima.
+
 \begin{table}[ht]
 \centering
 \caption{Velocidad y precisión YOLOv4 y EfficientDet con Volta GPU: Titan Volta or Tesla V100 GPU, datos extraídos de \cite{bochkovskiy2020yolov4} y \cite{tan2020efficientdet}}
@@ -647,18 +658,18 @@ YOLOv4                & CSPDarknet-53          & 608           & 33 (P)         
 \begin{tabular}{llcccc}
 \hline
 \textbf{Method}          & \textbf{Backbone}      & \textbf{Size}        & \textbf{FPS}         & \textbf{AP}          & \textbf{AP50}        \\ \hline
-YOLOv4                   & CSPDarknet-53          & 416                  & 96 (M)               & 41,2\%               & 62,8\%               \\
-\textbf{YOLOv4}          & \textbf{CSPDarknet-53} & \textbf{512}         & \textbf{83 (M)}      & \textbf{43,0\%}      & \textbf{64,9\%}      \\
-YOLOv4                   & CSPDarknet-53          & 608                  & 62 (M)               & 43,5\%               & 65,7\%               \\
+YOLOv4                   & CSPDarknet-53          & 416                  & 96 (V)               & 41,2\%               & 62,8\%               \\
+\textbf{YOLOv4}          & \textbf{CSPDarknet-53} & \textbf{512}         & \textbf{83 (V)}      & \textbf{43,0\%}      & \textbf{64,9\%}      \\
+YOLOv4                   & CSPDarknet-53          & 608                  & 62 (V)               & 43,5\%               & 65,7\%               \\
                          &                        & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
-\textbf{EfficientDet-D0} & \textbf{Efficient-B0}  & \textbf{512}         & \textbf{62,5 (M)}    & \textbf{33,8\%}      & \textbf{52,2\%}      \\
-EfficientDet-D1          & Efficient-B1           & 640                  & 50,0 (M)             & 39,6\%               & 58,6\%               \\
-EfficientDet-D2          & Efficient-B2           & 768                  & 41,7 (M)             & 43,0\%               & 62,3\%               \\
-EfficientDet-D3          & Efficient-B3           & 896                  & 23,8 (M)             & 45,8\%               & 65,0\%               \\ \hline
+\textbf{EfficientDet-D0} & \textbf{Efficient-B0}  & \textbf{512}         & \textbf{62,5 (V)}    & \textbf{33,8\%}      & \textbf{52,2\%}      \\
+EfficientDet-D1          & Efficient-B1           & 640                  & 50,0 (V)             & 39,6\%               & 58,6\%               \\
+EfficientDet-D2          & Efficient-B2           & 768                  & 41,7 (V)             & 43,0\%               & 62,3\%               \\
+EfficientDet-D3          & Efficient-B3           & 896                  & 23,8 (V)             & 45,8\%               & 65,0\%               \\ \hline
 \end{tabular}
 \end{table}
 
-\newpage
+En vista a los resultados se puede concluir que, entre todos los detectores de objetos que se han expuesto, \gls{yolov4} es el mejor en cuanto a velocidad y precisión. Cabe señalar que siempre se obtiene la misma precisión y la única métrica que se ve afectada por la utilización de una \gls{gpu} u otra es la velocidad en términos de \gls{fps}. Por tanto, se tomará \gls{yolov4} como algoritmo de detección de personas y objetos para el desarrollo de este proyecto.
 
 \section{Algoritmos de seguimiento de objetos}
 \label{sec:tecnicas-utilizadas-tracking}
@@ -735,47 +746,73 @@ Aunque consigue un buen rendimiento general en términos de precisión y exactit
 \subsubsection*{Tratamiento de los rastreos y estimación de estado}
 \label{subsubsec:track-handling-and-state-estimation}
 
-La estructura de tratamiento de rastreos y el filtro de Kalman es mayormente idéntico a la formulación original de \gls{sort} \cite{Bewley_2016}.
+El marco de tratamiento de rastreos y el filtro de Kalman son mayormente idénticod a la formulación original de \gls{sort} \cite{Bewley_2016}. Se supone un escenario de seguimiento muy general en el que la cámara no está calibrada y no se dispone de información del \textit{egomotion}. Aunque estas circunstancias suponen un reto para el marco de filtrado, es la configuración mas común considerada en los recientes benchmarks de \gls{mot} \cite{milan2016mot16}. El escenario de seguimiento se define en el espacio de estado de ocho dimensiones $(u,v,\gamma,h,\dot{u},\dot{v},\dot{\gamma},\dot{h})$ que contiene la posición del centro al cuadro delimitador $(u,v)$, la relación de aspecto $\gamma$, la altura $h$ y sus respectivas velocidades en coordenadas de imagen. Se utiliza un filtro de Kalman estándar con movimiento de velocidad constante y un modelo de observación lineal, en el que se toma las coordenadas de delimitación $(u,v,\gamma,h)$ como observaciones directas del estado del objeto.
 
-$(u,v,\gamma,h,\dot{u},\dot{v},\dot{\gamma},\dot{h})$
+Para cada rastreo $k$ se cuenta con un número de fotogramas desde la última asociación con éxito de la medición $a_{k}$. Este contador se incrementa durante la predicción del filtro de Kalman y se pone a cero cuando la pista se ha asociado a una medición. Se considera que los rastreos que superan una edad máxima predefinida $A_{\text{max}}$ han abandonado la escena y se eliminan del conjunto de rastreos. Se inician nuevas hipótesis de rastreos para cada detección que no puede asociarse a un rastreo existente. Estos nuevos rastreos se clasifican como tentativas durante sus tres primeros fotogramas. Durante este tiempo, se espera una asociación exitosa de la medición en cada paso de tiempo. Los rastreos que no se asocian con éxito a una medición dentro de los tres primeros fotogramas se eliminan.
 
 \subsubsection*{Problema de asignación}
 \label{subsubsec:assignment-problem}
+
+Una forma convencional de resolver la asociación entre los estados de Kalman predichos y las mediciones llegadas es construir un problema de asignación que pueda resolverse mediante el algoritmo húngaro. En la formulación del problema se integra la información sobre el movimiento y la apariencia mediante la combinación de dos métricas adecuadas.
+
+Para incorporar la información de movimiento se utiliza la distancia (al cuadrado) de Mahalanobis entre los estados de Kalman predichos y las nuevas mediciones llegadas:
 
 \begin{equation}
 \label{eq:equation1-deepsort}
 d^{(1)} (i,j) = (\boldsymbol{d}_{j} - \boldsymbol{y}_{i})^{\text{T}} \boldsymbol{S}_{i}^{-1} (\boldsymbol{d}_{j} - \boldsymbol{y}_{i}),
 \end{equation}
 
+donde se denota la proyección de la $i$-th distribución del rastreo en el espacio de medición por $(\boldsymbol{y}_{i}, \boldsymbol{S}_{i})$ y la $j$-th detección del cuadro delimitador por $\boldsymbol{d}_{j}$. La distancia Mahalanobis tiene en cuenta la incertidumbre de la estimación del estado midiendo cuantas desviaciones estándar se aleja la detección de la ubicación media del rastreo. Además, utilizando esta métrica es posible excluir las asociaciones poco probables mediante el umbral de la distancia de Mahalanobis en un intervalo de confianza del 95\% calculado a partir de la inversa de distribución $\chi^{2}$. Se denota esta decisión con un indicador
+
 \begin{equation}
 \label{eq:equation2-deepsort}
 b_{i,j}^{(1)} = \mathbbm{1}[d^{(1)} (i,j) \leq t^{(1)}]
 \end{equation}
 
+que evalua a 1 si la asociación entre el rastreo $i$-th y la detección $j$-th es admisible. Para el espacio de medición cuatridimensional el umbral de Mahalanobis correspondiente es $t^{(1)} = 9,4877$.
+
+Mientras que la distancia de Mahalanobis es una métrica de asociación adecuada cuando la incertidumbre del movimiento es baja, la formulación del problema del espacio de la imagen de distribución de estado predicha obtenida del marco de filtrado de Kalman sólo proporciona una estimación aproximada de la ubicación del objeto. En particular, el movimiento de la cámara de movimiento puede introducir desplazamientos rápidos en el plano de la imagen, lo que hace que la distancia de Mahalanobis sea una métrica poco informada para el seguimiento a través de oclusiones. Por tanto, se integra una segunda métrica en el problema de asignación. Para cada cuadro de detección $\boldsymbol{d}_{j}$ se calcula un descriptor de apariencia $\boldsymbol{r}_{j}$ con $\parallel \boldsymbol{r}_{j} \parallel = 1$. Además, se mantiene una galería $\mathcal{R}_{k} = \{\boldsymbol{r}_{k}^{(i)}\}_{k=1}^{L_{k}}$ de los últimos $L_{k} = 100$ descriptores de apariencia asociados a cada rastreo $k$. Por tanto, la segunda métrica mide la meor distancia del coseno entre el rastreo $i$-th y la detección $j$-th en el espacio de apariencia:
+
 \begin{equation}
 \label{eq:equation3-deepsort}
-d_{i,j}^{(2)} = \text{min} \{1 - \boldsymbol{r}_{j}^{\text{T}} \boldsymbol{r}_{k}^{(i)} \ | \ \boldsymbol{r}_{k}^{(i)} \in \mathcal{R}_i \}.
+d_{i,j}^{(2)} = \text{min} \{1 - \boldsymbol{r}_{j}^{\text{T}} \boldsymbol{r}_{k}^{(i)} \ | \ \boldsymbol{r}_{k}^{(i)} \in \mathcal{R}_{i} \}.
 \end{equation}
+
+Se introduce una variable binaria para indicar si una asociación es admisible según esta métrica
 
 \begin{equation}
 \label{eq:equation4-deepsort}
 b_{i,j}^{(2)} = \mathbbm{1}[d^{(2)} (i,j) \leq t^{(2)}]
 \end{equation}
 
+y se encuentra un umbral adecuado para este indicador en un conjunto de datos de entrenamiento separado. En la práctica, se aplica una \gls{cnn} previamente capacitada para calcular los descriptores de apariencia del cuadro delimitador. La arquitectura de la red se explica en la sección \ref{subsubsec:deep-appearance-descriptor}.
+
+En combinación, ambas métricas se complementan sirviendo diferentes aspectos del problema de asignación. Por un lado, la distancia de Mahalanobis proporciona información sobre las posibles ubicaciones de los objetos basadas en el movimiento que son especialmente útiles para las predicciones a corto plazo. Por otro lado, la distancia del coseno tiene en cuenta la información de la apariencia que son particularmente útiles para recuperar identidades después de oclusiones a largo plazo, cuando el movimiento es menos discriminativo. Para construir el problema de asociación se combina ambas técnicas mediante una suma ponderada
+
 \begin{equation}
 \label{eq:equation5-deepsort}
 c_{i,j} = \lambda \ d^{(1)}(i,j) + (1 + \lambda)d^{(2)}(i,j)
 \end{equation}
+
+donde se considera asociación admisible si se encuentra dentro de la puerta regional de ambas métricas:
 
 \begin{equation}
 \label{eq:equation6-deepsort}
 b_{i,j} = \prod_{m=1}^{2} b_{i,j}^{(m)}.
 \end{equation}
 
+La influencia de cada métrica en el coste de asociación combinado se puede controlar mediante el hiperparámetro $\lambda$. Se establece un $\lambda = 0$ cuando hay un movimiento sustancial de la cámara. Con esta configuración solo se usa información de apariencia en el término de coste de asociación. Sin embargo, la puerta de Mahalanobis todavía se usa para ignorar asignaciones no factibles basadas en posibles ubicaciones de objetos inferidas por el filtro de Kalman.
+
 \subsubsection*{Matching Cascade}
 \label{subsubsec:matching-cascade}
 
-En lugar de resolver las asociaciones entre medidas y pistas en un problema de asignación global, se introduce una cascada que resuelve una serie de subproblemas. Considerando que cuando un objeto está ocluido durante un periodo de tiempo más largo, las predicciones posteriores del filtro Kalman aumentan la incertidumbre asociada a la localización del objeto. En consecuencia, la masa de probabilidad se extiende en el espacio de estados y la probabilidad de la observación se vuelve menos puntiaguda. Intuitivamente, la métrica de asociación debería tener en cuenta esta dispersión de la masa de probabilidad aumentando la distancia de medición a la pista. De forma contraria a la intuición, cuando dos rastreos compiten por la misma detección, la distancia de Mahalanobis favorece una mayor incertidumbre, porque reduce la distancia en desviaciones estándar de cualquier detección hacia la media del rastreo proyectado. Este es un comportamiento no deseado, ya que puede conducir a un aumento de las fragmentaciones de los rastreos y a la inestabilidad de las mismas. Por lo tanto, se introduce una cascada de coincidencia que da prioridad a los objetos vistos con más frecuencia para codificar la noción de dispersión de probabilidades en la probabilidad de asociación.
+En lugar de resolver las asociaciones de medidas de rastreos en un problema de asignación global, se introduce una cascada que resuelve una serie de subproblemas. Se considera que cuando un objeto está ocluido durante un periodo de tiempo más largo, las predicciones posteriores del filtro Kalman aumentan la incertidumbre asociada a la localización del objeto. En consecuencia, la masa de probabilidad se extiende en el espacio de estados y la probabilidad de la observación se vuelve más baja. Intuitivamente, la métrica de asociación debería tener en cuenta esta dispersión de la masa de probabilidad aumentando la distancia de medición del rastreo. De forma contraria a la intuición, cuando dos rastreos compiten por la misma detección, la distancia de Mahalanobis favorece una mayor incertidumbre, porque reduce la distancia en desviaciones estándar de cualquier detección hacia la media del rastreo proyectado. Este es un comportamiento no deseado, ya que puede conducir a un aumento de las fragmentaciones de los rastreos y a la inestabilidad de las mismas. Por lo tanto, se introduce una cascada de coincidencia que da prioridad a los objetos vistos con más frecuencia para codificar la noción de dispersión de probabilidades en la probabilidad de asociación.
+
+En la figura \ref{fig:matching-cascade} se recalca el algoritmo de emparejamiento. Como entrada se proporciona el conjunto de índices de rastreos $\mathcal{T}$ y detecciones $\mathcal{D}$ así como la edad máxima $A_{\text{max}}$. En las líneas 1 y 2 se calcula la matriz de costes de asociación y la matriz de asociaciones admisibles. A continuación, se itera sobre la edad del rastreo $n$ para resolver un problema de asignación lineal para rastreos de edad creciente. En la línea 6 se selecciona el subconjunto de rastreos $\mathcal{T}_{n}$ que no han sido asociadas a una detección en los últimos $n$ fotogramas. En la línea 7 se resuelve la asignación lineal entre $\mathcal{T}_{n}$ y las detecciones no coincidentes $\mathcal{U}$.
+
+En las líneas 8 y 9 se actualiza el conjunto de coincidencias y detecciones no coincidentes, que se devuelve tras la finalización en la línea 11.
+
+En la etapa final de emparejamiento, se ejecuta la \gls{iou} en el conjunto de rastreos no confirmados y no emparejados de edad $n = 1$. Esto ayuda a tener en cuenta los cambios repentinos de apariencia, por ejemplo, debido a la oclusión parcial con la geometría estática de la escena, y a aumentar la robustez contra la inicialización errónea.
 
 \begin{figure}[ht]
 \centering
@@ -783,14 +820,10 @@ En lugar de resolver las asociaciones entre medidas y pistas en un problema de a
 \caption{\label{fig:matching-cascade}Matching Cascade}
 \end{figure}
 
-En la figura \ref{fig:matching-cascade} se recalca el algoritmo de emparejamiento. Como entrada se proporciona el conjunto de índices de rastreos $\mathcal{T}$ y detecciones $\mathcal{D}$ así como el máximo age $A_{\text{max}}$. En las líneas 1 y 2 \ldots
-
-\newpage
-
 \subsubsection*{Descriptor de apariencia profunda}
 \label{subsubsec:deep-appearance-descriptor}
 
-Al utilizar consultas simples en los vecinos más cercanos sin aprendizaje métrico adicional, se requiere una incrustación de características discriminante que debe ser entrenada fuera de línea, antes de la aplicación real de seguimiento en línea. En la versión original \cite{Wojke2017simple}, se empleó una \gls{cnn} entrenada en el dataset de reidentificación de personas MARS \cite{10.1007/978-3-319-46466-4_52} que contiene más de 1.100.000 imágenes de 1.261 peatones, lo que la hace muy adecuada para el aprendizaje métrico profundo en un contexto de seguimiento de personas.
+Mediante el uso de consultas simples al vecino más cercano sin aprendizaje métrico adicional, se requiere una incrustación de características discriminante que debe ser entrenada fuera de línea, antes de la aplicación real de seguimiento en línea. En la versión original de \gls{deepsort}, se empleó una \gls{cnn} entrenada en el dataset de reidentificación de personas MARS \cite{10.1007/978-3-319-46466-4_52} que contiene más de 1.100.000 imágenes de 1.261 peatones, lo que la hace muy adecuada para el aprendizaje métrico profundo en un contexto de seguimiento de personas.
 
 \begin{table}[ht]
 \centering
@@ -813,4 +846,4 @@ Batch and $\ell_2$ normalization &                            & 128             
 \end{tabular}
 \end{table}
 
-La arquitectura de la \gls{cnn} de la red que se muestra en la tabla \ref{tab:final-bach-l2-normalization}. Empleando una red residual amplia con dos capas convolucionales seguidas de seis bloques residuales. El mapa global de características de dimensionalidad 128 se computa en la capa densa 10. Un batch final y una normalización $\ell_2$ proyectan los rasgos en la hiperesfera unitaria para que sean compatibles con la métrica de apariencia del coseno. En total la red tiene 2.800.864 parámetros y una pasada de 32 cuadros delimitadores tarda aproximadamente 30 ms en una \gls{gpu} NVIDIA GeForce GTX 1050. Esta red es muy adecuada para el seguimiento en línea, siempre que se disponga de una \gls{gpu} moderna.
+La arquitectura de la \gls{cnn} de la red se muestra en la tabla \ref{tab:final-bach-l2-normalization}. Se trata de una red residual amplia con dos capas convolucionales seguidas de seis bloques residuales. El mapa global de características de dimensionalidad 128 se computa en la capa densa 10. Un batch final y una normalización $\ell_2$ proyectan los rasgos en la hiperesfera unitaria para que sean compatibles con la métrica de apariencia del coseno. En total la red tiene 2.800.864 parámetros, y el pase de avance de 32 cuadros delimitadores tarda aproximadamente 30 ms en una \gls{gpu} NVIDIA GeForce GTX 1050. Esta red es muy adecuada para el seguimiento en línea, siempre que se disponga de una \gls{gpu} moderna.

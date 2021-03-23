@@ -20,11 +20,11 @@ Primero se evaluará YOLOv4 sobre Darknet, framework de código abierto escrito 
 
 Una vez obtenido el modelo de \gls{yolov4} definitivo, se probará el algoritmo de seguimiento \gls{deepsort}. Solo nos interesa la detección y seguimiento de personas y objetos de interés, por lo que se filtrará la detección para que solo se identifiquen las clases que queremos.
 
-Finalmente, se expondrá una estrategia para la detección de objetos abandonados basada en la detección de objetos y personas mediante \gls{cnn}'s y se implementará sobre el detector de objetos \gls{yolov4} junto al algoritmo de detección \gls{deepsort}. En el planteamiento del algoritmo de detección de objetos abandonados se tendrá que considerar dos posibles escenarios. El primero es que se identifique un objeto sin propietario que se encuentre estacionario durante toda la ejecución de la secuencia de vídeo. En este caso, se emitirá una señal de alarma cuando se superen los 15 segundos del objeto inmóvil. En el segundo escenario se deberá de crear una asociación entre persona y objeto. Una vez establecida la asociación se podrá evaluar cuando una persona abandona un objeto de su propiedad a una una distancia en píxeles 3 veces mayor a la distancia a la que se encontraba en el momento que se realizó la asociación o durante un tiempo superior a 15 segundos.
+Finalmente, se expondrá una estrategia para la detección de objetos abandonados basada en la detección de objetos y personas mediante \gls{cnn}'s y se implementará sobre el detector de objetos \gls{yolov4} junto al algoritmo de detección \gls{deepsort}. En el planteamiento del algoritmo de detección de objetos abandonados se tendrá que considerar dos posibles escenarios. El primero es que se identifique un objeto sin propietario que se encuentre estacionario durante toda la ejecución de la secuencia de vídeo. En este caso, se emitirá una señal de alarma cuando se superen los 15 segundos del objeto inmóvil. En el segundo escenario se deberá de crear una asociación entre persona y objeto. Una vez establecida la asociación se podrá evaluar cuando una persona abandona un objeto de su propiedad a una una distancia en píxeles 5 veces mayor a la distancia a la que se encontraba en el momento que se realizó la asociación.
 
 Cabe recalcar que en este capítulo se va a exponer cada uno de los procedimientos que se han llevado a cabo para poner en funcionamiento los algoritmos de detección, seguimiento y detección de objetos abandonados. Todos los resultados obtenidos durante el desarrollo de esta parte del proyecto se pueden consultar en el capítulo \ref{cha:resultados}.
 
-\section{YOLOv4}
+\section{Detección de personas y objetos con YOLOv4}
 \label{sec:desarrollo-yolov4}
 
 \gls{yolov4} es un algoritmo de detección que utiliza \textit{Deep Learning} y \gls{cnn} para detectar objetos. Como lo indica su nombre solo necesita ``ver'' la imagen una sola vez, lo cual permite ser el muy rápido aunque sacrificando precisión. Esta rapidez permite detectar objetos en tiempo real.
@@ -52,6 +52,8 @@ Cabe recalcar que en este capítulo se va a exponer cada uno de los procedimient
   \label{fig:predictions-darknet-tf}
 \end{figure}
 
+\textcolor{red}{Dado que el algoritmo de seguimiento es una extensión del algoritmo de detección se comentará solamente el de DeepSORT para no comentar dos veces los mismos fragmentos del código, haciendo referencia al código del apéndice en las funciones más relevante del script de detección y seguimiento}.
+
 \newpage
 
 \section{Datasets utilizados para el entrenamiento de YOLOv4}
@@ -61,6 +63,8 @@ Cabe recalcar que en este capítulo se va a exponer cada uno de los procedimient
 \label{subsec:coco-dataset}
 
 \textcolor{red}{El dataset \gls{coco} es gran dataset que contiene más de 200.000 imágenes distribuidas en 80 clases de objetos que representan escenas del mundo real. Se trata de un dataset lo suficientemente grande para que una red bien entrenada sea capaz de aprender características visuales de calidad para el reconocimiento y detección de objetos en imágenes.}
+
+Referenciar \cite{lin2015microsoft}
 
 \begin{figure}[ht]
 \centering
@@ -73,18 +77,22 @@ Cabe recalcar que en este capítulo se va a exponer cada uno de los procedimient
 \subsection{Open Images Dataset v4}
 \label{subsec:OIDv4-dataset}
 
+Referenciar \cite{Kuznetsova_2020}
+
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.7\textwidth]{img/chapters/resultados/datasets/oid-classes.png}
 \caption{\label{fig:oiddataset}Categorías de objetos del dataset Open Images Dataset v4}
 \end{figure}
 
+\newpage
+
 \section{Entrenamiento YOLOv4 con Open Image Dataset v4}
 \label{sec:train-openimagesv4}
 
 \textcolor{red}{Aquí explicar como he entrenado una red neuronal con otro dataset a partir del repositorio \cite{OIDv4_ToolKit}}
 
-\textcolor{red}{Explicar que se ha tomado 1500 imágenes de entrenamiento de las clases: person, handbag, backpack, suitcase y 300 imágenes de validación.}
+\textcolor{red}{Explicar que se ha tomado 1.500 imágenes de entrenamiento de las clases: person, handbag, backpack, suitcase y 300 imágenes de validación.}
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Descarga dataset Open Images Dataset v4,captionpos=b,label={lst:download-oidv4}]
@@ -103,7 +111,6 @@ python main.py downloader --classes Person Handbag Backpack Suitcase --type_csv 
 
 # Convertir etiquetas al formato de Darknet
 python convert_annotations.py
-
 \end{lstlisting}
 
 \begin{figure}[ht]
@@ -120,16 +127,16 @@ python convert_annotations.py
 
 La estructura que siguen las etiquetas del dataset de Open Images Dataset v4 es la siguiente:
 
-\texttt{nombre de la clase x left top y x right bottom y}
-
-\aviso{Aquí especificar que se utilizará MS COCO como dataset de entrenamiento de la red y se mostrará los resultados obtenidos de este entrenameinto en el capítulo de resultados}
+nombre de la clase x left top y x right bottom y
 
 \newpage
 
-\section{YOLOv4 + Deep SORT}
+\section{Seguimiento de personas y objetos con YOLOv4 y Deep SORT}
 \label{sec:desarrollo-yolov4+deepsort}
 
 \textcolor{red}{Aquí hacer una breve descripción de deepsort, muy breve porque ya se ha explicado en el capitulo del estado del arte, y poner imagenes de su funcionamiento sobre yolov4 en el framework tensorflow}.
+
+\textcolor{red}{Dado que el código que se va a comentar en esta sección es bastante largo para reflejarlo se ha optado por crear un apéndice al final del documento dedicado al mismo}.
 
 \newpage
 
@@ -140,6 +147,44 @@ La estructura que siguen las etiquetas del dataset de Open Images Dataset v4 es 
 \url{https://app.diagrams.net/}
 
 \textcolor{red}{Intentar meter toda la chicha posible. Que quede pendiente meter aquí código de lo que he implementado para que no quede todo en el aire y se vean de repente los resultados, por lo menos que se vea la función que hace la asociación de persona objeto y la función que establece si la persona ha abandonado un objeto o si el objeto esta abandonado y sin propietario.}
+
+\textcolor{red}{Poner figura ejemplo de la hipotesis donde se hace asociacion de persona y objeto cuando se activa la alarma y cuando se determina que un objeto ha sido abandonado, en el momento de la alarma se ejecuta una cuenta atrás de 30 segundos antes de determinar que el objeto ha sido abandonado.}
+
+\textcolor{red}{Explicar la hipótesis de cuando un objeto no tiene propietario porque se encuentra alejado de cualquier persona en los primeros fotogramas del vídeo. En este caso al pasar 15 segundos se determina que el objeto ha sido abandonado.}
+
+Cuando se calcula se calcula la distancia entre personas y objetos de interés se calcula la media de las distancias obtenidas fotograma a fotograma en los primeros 5 segundos de vídeo. Se crea una asociación de una persona al objeto que se haya obtenido la menor distancia en el momento de la asociación, siempre y cuando esa distancia sea inferior a dos veces el ancho del cuadro limitador del objeto, para así no depender de la profundidad a la que se pueda encontrar las personas y objetos dentro del plano de visión.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=1\textwidth]{img/chapters/desarrollo/abandoned-object-scheme.png}
+\caption{\label{fig:abandoned-object-scheme}Esquema hipótesis detección objeto abandonado}
+\end{figure}
+
+\newpage
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.4\textwidth]{img/chapters/desarrollo/link-persona-objeto.jpg}
+\caption{\label{fig:link-persona-objeto}Asociación persona-objeto}
+\end{figure}
+
+Hola hola
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.4\textwidth]{img/chapters/desarrollo/warning-abandono.jpg}
+\caption{\label{fig:warning-abandono}Aviso de alerta posible objeto abandonado}
+\end{figure}
+
+Hola hola
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.4\textwidth]{img/chapters/desarrollo/abandono-objeto-avss.jpg}
+\caption{\label{fig:abandono-objeto-avss}Detección de objeto abandonado}
+\end{figure}
+
+Hola hola
 
 \newpage
 
@@ -152,7 +197,7 @@ La estructura que siguen las etiquetas del dataset de Open Images Dataset v4 es 
  \caption{How to write algorithms}
  \label{alg:howto}
  \KwData{this text}
- \KwResult{how to write algorithm with \LaTeX2e }
+ \KwResult{how to write algorithm with \LaTeX}
  initialization\;
  \While{not at end of this document}{
   read current\;
