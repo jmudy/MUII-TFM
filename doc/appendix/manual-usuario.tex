@@ -38,7 +38,7 @@ Anaconda se trata de la \textit{suite} más compleja para la Ciencia de Datos en
     \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{img/appendix/C/anaconda-installer.png}
-    \caption{\label{fig:anaconda-download}Descarga del instalador de Anaconda}
+    \caption{\label{fig:anaconda-download}Descarga del instalador de Anaconda \cite{inst-conda}}
     \end{figure}
 
     \item Abra el terminal y acceda a la carpeta \texttt{Downloads} donde ha descargado el instalador. Es recomendable verificar la integridad del instalador mediante la suma de comprobación SHA-256:
@@ -103,6 +103,8 @@ cd yolov4-deepsort
 Con la finalidad de evitar la tediosa y larga instalación de \gls{cuda} y \gls{cudnn} y tener únicamente instaladas las librerías necesarias para que funcione el código, se va a instalar un entorno virtual en Anaconda.
 
 Desde cualquiera de las carpetas de los repositorios de Github que se han clonado, hay dos ficheros con extensión .yml, donde viene indicadas la versión de Python que se va a necesitar, la versión de \gls{cuda} y \gls{cudnn} así como las librerías y dependencias necesarias. Para utilizar \gls{cuda} es necesario disponer de una \gls{gpu} de NVIDIA. Es muy importante verificar la capacidad de cálculo de la tarjeta gráfica NVIDIA que se emplee. En la siguiente dirección \cite{cuda-gpus} se puede comprobar la capacidad de cálculo de los distintos modelos o bien puede consultar la que esté utilizando introduciendo los siguientes comandos en el terminal:
+
+\vspace{0.5cm}
 
 \begin{lstlisting}[language=iPython,caption=Comprobar capacidad computación de la GPU,captionpos=b,label={lst:check-compute-capability}]
 # Iniciar Python en terminal

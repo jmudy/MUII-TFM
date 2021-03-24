@@ -59,30 +59,88 @@ Cabe recalcar que en este capítulo se va a exponer cada uno de los procedimient
 \section{Datasets utilizados para el entrenamiento de YOLOv4}
 \label{sec:datasets-utilizados}
 
+\textcolor{red}{Hacer introducción y ajustar imágenes de esta sección antes de seguir con la siguiente}
+
+asdfasdf
+
+asdfasdf
+
+asdfasdf
+
+asdfasdf
+
+asdfasdf
+
+asdfasdf
+
+asdfasdf
+
+asdfasdf
+
 \subsection{MS COCO Dataset}
 \label{subsec:coco-dataset}
 
-\textcolor{red}{El dataset \gls{coco} es gran dataset que contiene más de 200.000 imágenes distribuidas en 80 clases de objetos que representan escenas del mundo real. Se trata de un dataset lo suficientemente grande para que una red bien entrenada sea capaz de aprender características visuales de calidad para el reconocimiento y detección de objetos en imágenes.}
-
-Referenciar \cite{lin2015microsoft}
+El dataset \gls{coco} \cite{lin2015microsoft} es un conjunto de datos de referencia utilizado para evaluar el rendimiento de los modelos entrenados por visión por computadora. Está diseñado para representar una amplia gama de objetos que encontramos regularmente en la vida cotidiana.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.9\textwidth]{img/chapters/resultados/datasets/cocodataset.png}
-\caption{\label{fig:cocodataset}Categorías de objetos del dataset MS COCO}
+\includegraphics[width=0.9\textwidth]{img/chapters/desarrollo/cocodataset.png}
+\caption{\label{fig:cocodataset}Categorías de objetos del dataset MS COCO \cite{coco-official-website}}
 \end{figure}
 
-\newpage
+\gls{coco} está etiquetado en un formato especial llamado COCO JSON, y proporciona datos para entrenar modelos supervisados de visión por computadora que son capaces de identificar los objetos comunes del conjunto de datos. Estos modelos están lejos de ser perfectos, por lo que el dataset \gls{coco} proporciona un punto de referencia para evaluar la mejora periódica de estos modelos a través de la investigación en visión por computadora.
+
+Otra motivación para el dataset \gls{coco} es proporcionar un conjunto de datos base para entrenar modelos de visión por computadora. Una vez entrenado el modelo, se puede perfeccionar para aprender otras tareas, como datasets personalizados.
+
+\subsubsection*{Tareas de MS COCO}
+\label{subsubsec:tareas-coco}
+
+\gls{coco} tiene múltiples tareas de visión por computadora. A continuación, se enumeran en orden decreciente en base a su uso:
+
+\begin{itemize}
+    \item \textbf{Detección de objetos}: los objetos se anotan con un cuadro delimitador y una etiqueta de clase. El dataset \gls{coco} tiene 121.408 imágenes para detección de objetos, 883.331 anotaciones de objetos, 80 clases (ver figura \ref{fig:cocodataset}) y una resolución media de imagen de 640x480.
+    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.65\textwidth]{img/chapters/desarrollo/detection-splash.png}
+    \caption{\label{fig:detection-splash}MS COCO detección de objetos \cite{coco-official-website}}
+    \end{figure}
+    
+    \item \textbf{Segmentación semántica}: los límites de los objetos se etiquetan con una máscara y las clases de objetos se etiquetan con una etiqueta de clase. La segmentación semántica requiere modelos para trazar los límites entre los objetos.
+    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/chapters/desarrollo/panoptic-splash.png}
+    \caption{\label{fig:panoptic-splash}MS COCO segmentación semántica \cite{coco-official-website}}
+    \end{figure}    
+    
+    \item \textbf{Detección de puntos clave}: las personas son etiquetadas con puntos claves de interés (como pueden ser codos, rodillas o cabezas). El dataset \gls{coco} dispone de 250.000 personas con puntos clave etiquetados.
+    
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/chapters/desarrollo/keypoints-splash-big.png}
+    \caption{\label{fig:keypoints-splash-big}MS COCO detección de puntos clave \cite{coco-official-website}}
+    \end{figure}    
+    
+\end{itemize}
 
 \subsection{Open Images Dataset v4}
 \label{subsec:OIDv4-dataset}
 
-Referenciar \cite{Kuznetsova_2020}
+\gls{oidv4} \cite{Kuznetsova_2020} es un conjunto de datos de 9,2 millones de imágenes con anotaciones en formato .txt unificadas para la clasificación de imágenes, detección de objetos y detección de relaciones visuales (ver figura \ref{fig:example-annotations-oidv4}). Las imágenes tienen una licencia Creative Commons Attribution que permite compartir y adaptar el material descargado de Flickr sin una lista predefinida de nombres de clases o etiquetas.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.7\textwidth]{img/chapters/resultados/datasets/oid-classes.png}
-\caption{\label{fig:oiddataset}Categorías de objetos del dataset Open Images Dataset v4}
+\includegraphics[width=0.6\textwidth]{img/chapters/desarrollo/example-annotations-oidv4.jpg}
+\caption{\label{fig:example-annotations-oidv4}Ejemplo anotaciones en Open Images Dataset v4 \cite{Kuznetsova_2020}}
+\end{figure}
+
+\gls{oidv4} ofrece una gran escala en varias dimensiones: 30,1 millones de etiquetas a nivel de imagen para 19,8 mil conceptos, 15,4 millones de cuadros delimitadores para las 600 clases de objetos que se muestran en la figura \ref{fig:oidv4dataset}, y 375 mil anotaciones de relaciones visuales que involucra 57 clases. Para la detección de objetos se proporciona más de 15 veces cuadros delimitadores que otros grandes datasets como \gls{coco} o ImageNet. Las imágenes suelen mostrar escenas complejas con varios objetos (de promedio tiene 8 objetos anotados por imagen). 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.65\textwidth]{img/chapters/desarrollo/oidv4-classes.png}
+\caption{\label{fig:oidv4dataset}Categorías de objetos del dataset Open Images Dataset v4 \cite{Kuznetsova_2020}}
 \end{figure}
 
 \newpage
@@ -122,7 +180,7 @@ python convert_annotations.py
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.45\textwidth]{img/chapters/resultados/datasets/bbox-oidv4.png}
-\caption{\label{fig:bbox-oidv4}Estructura de las etiquetas de Open Images Dataset v4}
+\caption{\label{fig:bbox-oidv4}Estructura de las etiquetas de Open Images Dataset v4 \cite{OIDv4_ToolKit}}
 \end{figure}
 
 La estructura que siguen las etiquetas del dataset de Open Images Dataset v4 es la siguiente:
