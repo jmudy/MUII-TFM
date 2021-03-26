@@ -489,6 +489,14 @@ En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:met
 
 \newpage
 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{img/chapters/resultados/metricas/metrics-train1.png}
+\caption{\label{fig:metrics-train1}Resumen métricas primer entrenamiento de la red neuronal con el dataset de OIDv4}
+\end{figure}
+
+\newpage
+
 \begin{table}[ht]
 \centering
 \caption{Métricas de calidad en el segundo entrenamiento con OIDv4 [1]}
@@ -551,8 +559,30 @@ En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:met
 
 \newpage
 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{img/chapters/resultados/metricas/metrics-train2.png}
+\caption{\label{fig:metrics-train2}Resumen métricas segundo entrenamiento de la red neuronal con el dataset de OIDv4}
+\end{figure}
+
+\newpage
+
 \subsection{Métricas de calidad en MS COCO Dataset}
 \label{subsec:metricas-calidad-coco}
+
+\begin{table}[ht]
+\centering
+\caption{Métricas de calidad de MS COCO en las clases de interés}
+\label{tab:metricas-clases-coco}
+\begin{tabular}{lccc}
+\hline
+\textbf{Class} & \textbf{AP(\%)} & \textbf{TP} & \textbf{FP} \\ \hline
+Person         & 79,53           & 7.923       & 3.168       \\
+Backpack       & 44,10           & 172         & 156         \\
+Handbag        & 29,83           & 158         & 215         \\
+Suitcase       & 71,08           & 205         & 102         \\ \hline
+\end{tabular}
+\end{table}
 
 \begin{table}[ht]
 \centering
@@ -561,8 +591,8 @@ En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:met
 \begin{tabular}{lccc}
 \hline
 \textbf{Dataset}                   & \textbf{TP}          & \textbf{FP}          & \textbf{FN}          \\ \hline
-\textbf{MS COCO}              & \textbf{22.730}      & \textbf{10.889}      & \textbf{13.027}      \\
-OIDv4 test 1                       & 430                  & 527                  & 273                \\
+\textbf{MS COCO}                   & \textbf{22.730}      & \textbf{10.889}      & \textbf{13.027}      \\
+OIDv4 test 1                       & 430                  & 527                  & 273                  \\
 OIDv4 test 2                       & 6.600                & 7.366                & 5.226                \\ \hline
 \end{tabular}
 \end{table}
@@ -580,36 +610,6 @@ OIDv4 test 1                 & 44,93                                            
 OIDv4 test 2                 & 47,26                                                             & 55,81                                                          & 51,18                                                           & 37,83                                                               & 60,97                                                             \\ \hline
 \end{tabular}
 \end{table}
-
-\begin{table}[ht]
-\centering
-\caption{Métricas de calidad de MS COCO en las clases de interés}
-\label{tab:metricas-clases-coco}
-\begin{tabular}{lccc}
-\hline
-\textbf{Class} & \textbf{AP(\%)} & \textbf{TP} & \textbf{FP} \\ \hline
-Person         & 79,53           & 7.923       & 3.168       \\
-Backpack       & 44,10           & 172         & 156         \\
-Handbag        & 29,83           & 158         & 215         \\
-Suitcase       & 71,08           & 205         & 102         \\ \hline
-\end{tabular}
-\end{table}
-
-\newpage
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.85\textwidth]{img/chapters/resultados/metricas/metrics-train1.png}
-\caption{\label{fig:metrics-train1}Resumen métricas primer entrenamiento de la red neuronal con el dataset de OIDv4}
-\end{figure}
-
-\newpage
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.85\textwidth]{img/chapters/resultados/metricas/metrics-train2.png}
-\caption{\label{fig:metrics-train2}Resumen métricas segundo entrenamiento de la red neuronal con el dataset de OIDv4}
-\end{figure}
 
 \newpage
 

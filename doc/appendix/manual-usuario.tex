@@ -50,7 +50,7 @@ Anaconda se trata de la \textit{suite} más compleja para la Ciencia de Datos en
     
 \begin{lstlisting}[language=iPython,caption=Verificación de la integridad de la instalación de Anaconda,captionpos=b,label={lst:verificar-sha256}]
 # Acceder a la carpeta Downloads del usuario
-cd /home/<username>/Downloads
+cd /home/{username}/Downloads
 
 # Verificacion de la integridad del instalador
 sha256sum Anaconda3-2020.02-Linux-x86_64.sh
@@ -71,7 +71,7 @@ bash Anaconda3-2020.02-Linux-x86_64.sh
     
 \begin{lstlisting}[language=iPython,caption=Hacer efectivo los cambios en el fichero .bashrc,captionpos=b,label={lst:source-bashrc}]
 # Hacer efectivos los cambios realizados en .bashrc
-source /home/<username>/.bashrc
+source /home/{username}/.bashrc
 \end{lstlisting}
 \end{enumerate}
 
@@ -84,7 +84,7 @@ En esta sección se indica como descargar los repositorios de GitHub donde se ha
 
 \begin{lstlisting}[language=iPython,caption=Descarga repositorio,captionpos=b,label={lst:descarga-repo}]
 # Acceder a la carpeta Documents del usuario
-cd /home/<username>/Documents
+cd /home/{username}/Documents
 
 # Clonar los dos repositorios de GitHub
 git clone https://github.com/jmudy/tensorflow-yolov4-tflite
@@ -164,7 +164,7 @@ En esta parte se especifica los comandos que se deben ejecutar para poner en fun
 \subsection{Ejecutar algoritmo de detección de objetos YOLOv4}
 \label{subsec:ejecutar-deteccion-yolov4}
 
-Para ejecutar el algoritmo de detección de \gls{yolov4} en el framework Tensorflow entre en la carpeta del repositorio \texttt{tensorflow-yolov4-tflite}, descargue y convierta el modelo Darknet a Tensorflow. Para ello, abra el terminal y ejecute los siguientes comandos:
+Para ejecutar el algoritmo de detección de objetos con \gls{yolov4} en el framework Tensorflow entre en la carpeta del repositorio \texttt{tensorflow-yolov4-tflite}, descargue y convierta el modelo Darknet a Tensorflow. Este paso solo será necesario realizarlo una vez. Para ello, abra el terminal y ejecute los siguientes comandos:
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Descarga de pesos y conversion modelo YOLOv4,captionpos=b,label={lst:descarga-weights-convertir-modelo}]
@@ -181,7 +181,7 @@ Por último, introduzca el vídeo que se quiera analizar dentro de la carpeta de
 \begin{lstlisting}[language=iPython,caption=Ejecutar script detección de objetos con YOLOv4 en Tensorflow,captionpos=b,label={lst:ejecutar-yolov4-tf}]
 # Cambiar la ruta donde se encuentre el video que se quiera analizar y la ruta donde se
 # quiere guardar el video que se genere
-python detect_video.py --weights ./checkpoints/yolov4-608 --size 608 --model yolov4 --video <path_to_input_video> --output <path_to_output_video>
+python detect_video.py --weights ./checkpoints/yolov4-608 --size 608 --model yolov4 --video {path_to_input_video} --output {path_to_output_video}
 \end{lstlisting}
 
 Si no se dispone del equipo necesario para instalar todas las dependencias necesarias se recomienda acceder al siguiente \href{https://colab.research.google.com/drive/1ZwcfV2hFZKcsyXaqKp9AGuEi5TY-QwVW?usp=sharing}{link} donde se facilita un Notebook de Google Colab para ejecutar exactamente los mismos comandos desde el servicio cloud de Google.
@@ -191,9 +191,18 @@ Recuerde que, tal y como se explicó en la sección \ref{sec:desarrollo-yolov4},
 \subsection{Ejecutar algoritmo de seguimiento de objetos YOLOv4 + Deep SORT}
 \label{subsec:ejecutar-seguimiento-yolov4-deepsort}
 
-Para ejecutar el algoritmo de seguimiento con \gls{deepsort} y \gls{yolov4} entre en la carpeta del repositorio \texttt{yolov4-deepsort}, descargue y convierta el modelo Darknet a Tensorflow de igual manera que se hizo el script \ref{lst:descarga-weights-convertir-modelo} de la sección \ref{subsec:ejecutar-deteccion-yolov4}.
+Para ejecutar el algoritmo de seguimiento de objetos con \gls{deepsort} y \gls{yolov4} entre en la carpeta del repositorio \texttt{yolov4-deepsort} desde el terminal y cambie a la rama de git \texttt{develop} dedicada al rastreo de objetos y personas ejecutando el siguiente comando:
 
-Una vez se tenga el modelo de YOLOv4 convertido, introduzca el vídeo que se quiera analizar dentro de la carpeta del repositorio. Se recomienda introducir los vídeos a analizar en la carpeta \texttt{./data/video/} y los vídeos generados en la carpeta \texttt{./outputs}.
+\vspace{0.5cm}
+\begin{lstlisting}[language=iPython,caption=cambiar a la rama develop,captionpos=b,label={lst:git-checkout-develop}]
+# Cambiar a la rama develop 
+git checkout develop
+
+# Para confirmar que nos encontramos en la rama develop
+git branch -a
+\end{lstlisting}
+
+Posteriormente, descargue y convierta el modelo Darknet a Tensorflow de igual manera que se hizo el script \ref{lst:descarga-weights-convertir-modelo} en la sección \ref{subsec:ejecutar-deteccion-yolov4}. Este paso solo será necesario realizarlo una vez. Una vez se tenga el modelo de \gls{yolov4} convertido, introduzca el vídeo que se quiera analizar dentro de la carpeta del repositorio. Se recomienda introducir los vídeos a analizar en la carpeta \texttt{./data/video/} y los vídeos generados en la carpeta \texttt{./outputs}.
 
 Por último, ejecutar el script de seguimiento de personas y objetos introduciendo el siguiente comando en el terminal:
 
@@ -201,7 +210,7 @@ Por último, ejecutar el script de seguimiento de personas y objetos introducien
 \begin{lstlisting}[language=iPython,caption=Ejecutar script seguimiento de personas y objetos con DeepSORT,captionpos=b,label={lst:ejecutar-yolov4-deepsort}]
 # Cambiar la ruta donde se encuentre el video que se quiera analizar y la ruta donde se
 # quiere guardar el video que se genere
-python detect_video.py --weights ./checkpoints/yolov4-608 --size 608 --model yolov4 --video <path_to_input_video> --output <path_to_output_video>
+python object_tracker.py --weights ./checkpoints/yolov4-608 --size 608 --model yolov4 --video {path_to_input_video} --output {path_to_output_video}
 \end{lstlisting}
 
 Si no se dispone del equipo necesario para instalar todas las dependencias necesarias se recomienda acceder al siguiente \href{https://colab.research.google.com/drive/18vL9LH8e9VaimA9LzBD35Cn4AOm6C17I?usp=sharing}{link} donde se facilita un Notebook de Google Colab para ejecutar exactamente los mismos comandos desde el servicio cloud de Google.
@@ -211,9 +220,18 @@ Recuerde que, tal y como se explicó en la sección \ref{sec:desarrollo-yolov4},
 \subsection{Ejecutar algoritmo de detección de objetos abandonados}
 \label{subsec:ejecutar-deteccion-abandoned-object}
 
-Para ejecutar el algoritmo de detección de objetos abandonados con \gls{deepsort} y \gls{yolov4} entre en la carpeta del repositorio \texttt{yolov4-deepsort}, descargue y convierta el modelo Darknet a Tensorflow de igual manera que se hizo el script \ref{lst:descarga-weights-convertir-modelo} de la sección \ref{subsec:ejecutar-deteccion-yolov4}.
+Para ejecutar el algoritmo de detección de objetos abandonados con \gls{deepsort} y \gls{yolov4} entre en la carpeta del repositorio \texttt{yolov4-deepsort} entre en la carpeta del repositorio \texttt{yolov4-deepsort} desde el terminal y cambie a la rama de git \texttt{abandoned} dedicada al rastreo de objetos y personas ejecutando el siguiente comando:
 
-Una vez se tenga el modelo de YOLOv4 convertido, introduzca el vídeo que se quiera analizar dentro de la carpeta del repositorio. Se recomienda introducir los vídeos a analizar en la carpeta \texttt{./data/video/} y los vídeos generados en la carpeta \texttt{./outputs}.
+\vspace{0.5cm}
+\begin{lstlisting}[language=iPython,caption=cambiar a la rama abandoned,captionpos=b,label={lst:git-checkout-abandoned}]
+# Cambiar a la rama abandoned 
+git checkout abandoned
+
+# Para confirmar que nos encontramos en la rama abandoned
+git branch -a
+\end{lstlisting}
+
+Posteriormente, descargue y convierta el modelo Darknet a Tensorflow de igual manera que se hizo el script \ref{lst:descarga-weights-convertir-modelo} de la sección \ref{subsec:ejecutar-deteccion-yolov4}. Este paso solo será necesario realizarlo una vez. Una vez se tenga el modelo de \gls{yolov4} convertido, introduzca el vídeo que se quiera analizar dentro de la carpeta del repositorio. Se recomienda introducir los vídeos a analizar en la carpeta \texttt{./data/video/} y los vídeos generados en la carpeta \texttt{./outputs}.
 
 Por último, ejecutar el script de detección de objetos abandonados introduciendo el siguiente comando en el terminal:
 
@@ -221,7 +239,7 @@ Por último, ejecutar el script de detección de objetos abandonados introducien
 \begin{lstlisting}[language=iPython,caption=Ejecutar script detección de objetos abandonados con YOLOv4 y Deep SORT,captionpos=b,label={lst:ejecutar-yolov4-abandoned-object}]
 # Cambiar la ruta donde se encuentre el video que se quiera analizar y la ruta donde se
 # quiere guardar el video que se genere
-python abandoned_object.py --weights ./checkpoints/yolov4-608 --size 608 --model yolov4 --video <path_to_input_video> --output <path_to_output_video>
+python abandoned_object.py --weights ./checkpoints/yolov4-608 --size 608 --model yolov4 --video {path_to_input_video} --output {path_to_output_video}
 \end{lstlisting}
 
 Si no se dispone del equipo necesario para instalar todas las dependencias necesarias se recomienda acceder al siguiente \href{https://colab.research.google.com/drive/18vL9LH8e9VaimA9LzBD35Cn4AOm6C17I?usp=sharing}{link} donde se facilita un Notebook de Google Colab para ejecutar exactamente los mismos comandos desde el servicio cloud de Google.
