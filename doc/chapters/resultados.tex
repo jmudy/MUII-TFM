@@ -389,29 +389,7 @@ Una vez elegido \gls{coco} como dataset de referencia para usar con \gls{yolov4}
 \subsection{Métricas de calidad en Open Image Dataset v4}
 \label{subsec:metricas-calidad-openimagesv4}
 
-Tras entrenar \gls{yolov4} con el dataset personalizado tal como se ha explicado en el en la sección \ref{sec:train-openimagesv4} se va a evaluar las métricas de calidad. Gracias al framework Darknet \cite{darknet13} es fácil poder evaluar las métricas aplicando el siguiente comando en el terminal:
-
-\vspace{0.5cm}
-\begin{lstlisting}[language=iPython,caption=Evaluación métricas de calidad del dataset utilizado para el entrenamiento de la red neuronal de detección de objetos,captionpos=b,label={lst:darknet-map}]
-# Evaluacion de metricas de interes
-./darknet detector train data/obj.data cfg/yolov4-obj.cfg yolov4.conv.137 -dont_show -map
-\end{lstlisting}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.5\textwidth]{img/chapters/resultados/metricas/chart_train.png}
-\caption{\label{fig:chart-train}Evolución del mAP y pérdidas a lo largo de las interacciones durante el entrenamiento de la red neuronal con el dataset de OIDv4}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.9\textwidth]{img/chapters/resultados/metricas/metrics-during-training.png}
-\caption{\label{fig:metrics-during-train}Métricas durante el entrenamiento de la red neuronal con el dataset de OIDv4}
-\end{figure}
-
 En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:metricas-test1_3} y \ref{tab:metricas-test1_4} se reflejan las métricas más relevantes cada 1000 iteraciones del entrenamiento de la red neuronal.
-
-\newpage
 
 \begin{table}[ht]
 \centering
@@ -613,7 +591,7 @@ OIDv4 test 2                 & 47,26                                            
 
 \newpage
 
-\subsection{Resultados en detección de objetos con YOLOv4}
+\subsection{Resultados en detección de objetos y personas con YOLOv4}
 \label{subsec:resultados-yolov4-tf}
 
 \textcolor{red}{Poner imágenes de las detecciones en los datasets empleados y explicar con detalle como influye distintos elementos como la distancia, iluminación, color, etc... en la detección de objetos}.
@@ -624,8 +602,8 @@ OIDv4 test 2                 & 47,26                                            
 
 \newpage
 
-\subsection{Resultados en tracking con Deep SORT}
-\label{subsec:resultados-deepsort}
+\subsection{Resultados en seguimiento de objetos y personas con YOLOv4 y Deep SORT}
+\label{subsec:resultados-yolov4+deepsort}
 
 \textcolor{red}{Poner imágenes de las detecciones en los datasets empleados y explicar con detalle los problemas con los que nos podemos encontrar a la hora de hacer un seguimiento o \textit{tracking} de objetos y personas, se pierde el rastreo y se vuelve a asociar una nueva ID a ese individuo, también explicar que debido al \textit{threshold} que pongamos se pueden perder objetos, pero tampoco es conveniente bajarlo a más de X porque entonces se confunden objetos o se trackean varias veces}.
 
