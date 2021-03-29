@@ -380,16 +380,21 @@ Al finalizar la conversión de las etiquetas, se han borrado las carpetas \textt
 \subsection{Configuración de ficheros para el entrenamiento}
 \label{subsec:configuracion-ficheros-training}
 
-\aviso{Solo queda pendiente esta sección de esta parte}
+Antes de comenzar el entrenamiento de la red con el dataset \gls{oidv4} es necesario configurar el fichero \texttt{.cfg} donde se encuentran las variables de la \gls{cnn} de \gls{yolov4}.
 
-Se ha hecho una copia de \texttt{yolov4.cfg} con nombre \texttt{yolov4-obj.cfg} y se ha modificado los siguientes parámetros en base a las recomendaciones indicadas en \cite{yolov4-darknet-github} para el entrenamiento con datasets personalizados:
+Se ha generado el fichero \texttt{yolov4-obj.cfg} basado en \texttt{yolov4.cfg}, y se han modificado los siguientes parámetros en base a las recomendaciones indicadas en \cite{yolov4-darknet-github} para el entrenamiento:
 
 \begin{itemize}
-    \item \texttt{width} = \texttt{weight} = 416 (Tamaño estándar para probar en el primer entrenamiento)
-    \item \texttt{max\_batches} = (\# de clases) * 2.000 = 4 * 2.000 = 8.000
-    \item \texttt{steps} = 6.400 (80\% de max\_batches), 7.200 (90\% de max\_batches)
-    \item \texttt{filters} = (\# de clases + 5) * 3 = (4 + 5) * 3 = 27
+    \item \texttt{batch} = \textbf{64} (Cantidad de imágenes y etiquetas que se calculan de una pasada en el cálculo del gradiente y se actualiza los pesos a través del \textit{backpropagation})
+    \item \texttt{subdivisions} = \textbf{16} (Cantidad de \texttt{batches} que se subdividen en cada bloque. Las imágenes de cada bloque se ejecutan en paralelo en la \gls{gpu})
+    \item \texttt{width} = \textbf{416} (Ancho del tamaño de la red. Cada imagen se redimensiona al tamaño de la red durante el entrenamiento y la detección)
+    \item \texttt{height} = \textbf{416} (Altura del tamaño de la red. Cada imagen se redimensiona al tamaño de la red durante el entrenamiento y la detección)
+    \item \texttt{max\_batches} = (\# de clases) * 2.000 = 4 * 2.000 = \textbf{8.000} (Número máximo de \texttt{batches})
+    \item \texttt{steps} = \textbf{6.400} (80\% de max\_batches), \textbf{7.200} (90\% de max\_batches) (Ajuste del \texttt{learning rate} después de un determinado número de \texttt{batches})
+    \item \texttt{filters} = (\# de clases + 5) * 3 = (4 + 5) * 3 = \textbf{27} (Número de núcleos convolucionales que contiene cada capa)
 \end{itemize}
+
+Se ha creado el fichero \texttt{obj.data} basado en el \texttt{coco.data} que se vio en la sección \ref{sec:evaluate-cocodataset}. En este caso, se ha especificado que el número de clases que se va a entrenar es de 4, la ubicación de los ficheros \texttt{train.txt}, \texttt{train.txt} y \texttt{coco.names} y la carpeta donde se generarán los ficheros \texttt{.weights} con los pesos de la red entrenada cada 1.000 iteraciones.
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Fichero obj.data,captionpos=b,label={lst:obj-data-file}]
@@ -400,6 +405,8 @@ names = data/obj.names
 backup = /mydrive/yolov4/backup
 \end{lstlisting}
 
+Otro fichero generado ha sido el \texttt{obj.names}, basado en el \texttt{coco.names} que trae por defecto \gls{yolov4}. En este fichero se han sustituido las 80 clases de \gls{coco} que vienen predeterminadas por las 4 clases que se desean entrenar. El orden de escritura ha sido el mismo que el fichero \texttt{classes.txt}. Como ya se explicó en la sección \ref{subsec:recopilacion-etiquetado-custom-dataset}, el primer parámetro de las etiquetas de las imágenes de entrenamiento y validación es el ID de cada clase, por lo que debe de corresponder a la misma que se escribe en este fichero.
+
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Fichero obj.names,captionpos=b,label={lst:obj-names-file}]
 Person
@@ -408,7 +415,7 @@ Backpack
 Suitcase
 \end{lstlisting}
 
-Los últimos archivos de configuración necesarios antes de que se comience el entrenamiento son los archivos \texttt{train.txt} y \texttt{train.txt}, los cuales contienen las rutas relativas a todas las imágenes de entrenamiento e imágenes de validación.
+Los últimos archivos de configuración necesarios antes de comenzar el entrenamiento son los ficheros \texttt{train.txt} y \texttt{train.txt}, los cuales contienen las rutas relativas a todas las imágenes de entrenamiento e imágenes de validación.
 
 Ejecutando el siguiente script en Python se genera el fichero \texttt{train.txt}.
 
@@ -450,8 +457,6 @@ with open("test.txt", "w") as outfile:
 os.chdir("..")
 \end{lstlisting}
 
-
-
 \subsection{Entrenamiento del dataset personalizado}
 \label{subsec:training-custom-dataset}
 
@@ -478,12 +483,6 @@ Durante el entrenamiento se puede visualizar por terminal información muy relev
 
 Cada cierto número de iteraciones se calcula el \gls{map} y otras métricas de interés. Siguiendo las recomendaciones de \cite{yolov4-darknet-github}, las iteraciones mínimas por cada clase para realizar un entrenamiento es de 2.000. En el primer entrenamiento del dataset personalizado se han realizado 8.000 iteraciones para 4 clases. En el caso de que se hubiera fijado unas máxima iteraciones superiores a las mínimas recomendadas, un indicio para saber que se debe finalizar el entrenamiento es cuando la media de las pérdidas (\textit{average loss}) no disminuye en las siguientes iteraciones. También, se debe de tener en cuenta que, en datasets con una dificultad alta, como es este caso, la media de pérdidas final suele ser de $\text{avg loss = 3.0}$.
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.5\textwidth]{img/chapters/resultados/metricas/chart_train.png}
-\caption{\label{fig:chart-train}Evolución del mAP y pérdidas a lo largo de las interacciones durante el entrenamiento de la red neuronal con el dataset de OIDv4}
-\end{figure}
-
 Al finalizar el entrenamiento se han evaluado las métricas de calidad. Gracias al framework Darknet \cite{darknet13} es fácil poder evaluarlas aplicando el siguiente comando en el terminal:
 
 \vspace{0.5cm}
@@ -494,12 +493,15 @@ Al finalizar el entrenamiento se han evaluado las métricas de calidad. Gracias 
 
 Durante el entrenamiento se ha generado un diagrama que se encuentra en la carpeta raíz del repositorio con nombre \texttt{chart.png}, donde se puede observar la evolución de las pérdidas por el error en función de las iteraciones. En la figura \ref{fig:chart-train} se visualiza en color azul la evolución de las pérdidas y en rojo la evolución del \gls{map}.
 
-Cabe resaltar que, cada 1000 iteraciones se genera un fichero \texttt{.weights} con los pesos del modelo que estamos entrenando en \gls{yolov4} y se almacenan en la carpeta \texttt{./backup}. Es importante tener en cuenta que se ha establecido las máximas iteraciones del entrenamiento a 8.000, sin embargo, es posible que el mejores resultados en las métricas hayan sido en la iteración 5.000. Esto puede ser producido por el \textit{overfitting}. Afortunadamente, durante el entrenamiento se genera un fichero llamado \texttt{yolov4-obj\_best.weights} donde se almacenan los pesos de la red entrenada con mejores resultados. Por tanto, se ha podido ahorrar tiempo en analizar las métricas cada 1.000 iteraciones para determinar en que iteración el error era mínimo.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.5\textwidth]{img/chapters/resultados/metricas/chart_train.png}
+\caption{\label{fig:chart-train}Evolución del mAP y pérdidas a lo largo de las interacciones durante el entrenamiento de la red neuronal con el dataset de OIDv4}
+\end{figure}
+
+Cabe resaltar que, cada 1.000 iteraciones se genera un fichero \texttt{.weights} con los pesos del modelo que estamos entrenando en \gls{yolov4} y se almacenan en la carpeta \texttt{./backup}. Es importante tener en cuenta que se ha establecido las máximas iteraciones del entrenamiento a 8.000, sin embargo, es posible que el mejores resultados en las métricas hayan sido en la iteración 5.000. Esto puede ser producido por el \textit{overfitting}. Afortunadamente, durante el entrenamiento se genera un fichero llamado \texttt{yolov4-obj\_best.weights} donde se almacenan los pesos de la red entrenada con mejores resultados. Por tanto, se ha podido ahorrar tiempo en analizar las métricas cada 1.000 iteraciones para determinar en que iteración el error era mínimo.
 
 En la sección \ref{subsec:metricas-calidad-openimagesv4} se observarán y analizarán los resultados tanto de este entrenamiento como de un segundo que ha sido necesario ya que no se obtuvieron métricas de calidad superiores a las del dataset \gls{coco}.
-
-
-\newpage
 
 \section{Seguimiento de personas y objetos con YOLOv4 y Deep SORT}
 \label{sec:desarrollo-yolov4+deepsort}
