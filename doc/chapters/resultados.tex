@@ -382,14 +382,14 @@ Este dataset también incluye escenas de aglomeración de personas que se encuen
 \section{Resultados experimentales}
 \label{sec:resultados-experimentales}
 
-Una vez elegido \gls{coco} como dataset de referencia para usar con \gls{yolov4}, se va a ver los resultados obtenidos en distintos algoritmos.
+Elegido \gls{coco} como dataset de referencia para entrenar y evaluar \gls{yolov4}, en las siguientes secciones se van a plasmar los resultados obtenidos en los distintos algoritmos que han sido desarrollados en el capítulo \ref{cha:desarrollo}.
 
-\textcolor{red}{Hacer introducción donde se explique que primero se va a relizar una evaluación cuantitativa de los entrenamientos de las redes neuronales y después una evaluación cualitativa del funcionamiento de los algoritmos}
+Esta sección está dividida en 5 partes. Las 2 primeras partes corresponden a los resultados obtenidos en el entrenamiento de \gls{yolov4} con el dataset \gls{oidv4} que se presenció en la sección \ref{sec:train-openimagesv4}. Se realizará una evaluación cuantitativa para determinar si se toma el modelo entrenado como válido o no. Como se podrá ver a continuación, se realizaron dos entrenamientos, aumentando el número de clases, modificando parámetros de la \gls{cnn} y aumentando el número de imágenes de entrenamiento y validación en el segundo. En la 3 últimas partes, se observarán los resultados obtenidos en los 3 algoritmos desarrollados en el capítulo \ref{cha:desarrollo}, evaluando de manera cualitativa el funcionamiento de los mismos. También se tendrán en cuenta ciertas métricas para valorar la precisión de los algoritmos.
 
 \subsection{Métricas de calidad en Open Image Dataset v4}
 \label{subsec:metricas-calidad-openimagesv4}
 
-En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:metricas-test1_3} y \ref{tab:metricas-test1_4} se reflejan las métricas más relevantes cada 1000 iteraciones del entrenamiento de la red neuronal.
+En las tablas \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:metricas-test1_3} y \ref{tab:metricas-test1_4} se reflejan las métricas más relevantes cada 1.000 iteraciones del primer entrenamiento de la \gls{cnn} de \gls{yolov4}.
 
 \begin{table}[ht]
 \centering
@@ -445,7 +445,13 @@ En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:met
 \end{tabular}
 \end{table}
 
-\begin{table}[ht!]
+Como se observa en tabla \ref{tab:metricas-test1_1}, el \gls{ap} obtenido en las clases es más alto respecto a los de \gls{coco} (ver tabla \ref{tab:metricas-clases-coco}), excepto el valor obtenido en la clase \texttt{Person} que es significativamente más bajo.
+
+En las tablas \ref{tab:metricas-test1_2} y \ref{tab:metricas-test1_3} destaca la aparición de muchos más \gls{fp} que \gls{tp} en la clase \texttt{Person}, lo que ha conducido a tener más \gls{fp} que \gls{tp} globales en todas las iteraciones (ver tabla \ref{tab:metricas-test1_4}).
+
+En la siguiente tabla \ref{tab:metricas-test1_4} se aprecia que los mejores resultados obtenidos tuvieron lugar en la iteración 2.000, con un \textbf{44,93\%} de precisión, un \textbf{61,17\%} de Recall y un \textbf{51,81\%} de F-score. A pesar de obtener un \textbf{66,25\%} de \gls{map}, el average \gls{iou} fue del \textbf{34,13\%} debido a la alta aparición de \gls{fp} durante el entrenamiento. Se trata de un valor muy bajo.
+
+\begin{table}[ht]
 \centering
 \caption{Métricas de calidad en el primer entrenamiento con OIDv4 [4]}
 \label{tab:metricas-test1_4}
@@ -463,17 +469,23 @@ En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:met
 \end{tabular}
 \end{table}
 
-\textcolor{red}{Aquí explicar porque en función de las métricas obtenidas no es un buen modelo y se debe de reentrenar la red. El \gls{iou} sale muy bajo <\ 50\%, por tanto salen muchos FP}
-
-\newpage
+En la figura \ref{fig:metrics-train1} se puede visualizar de manera gráfica la evolución de las métricas en función de las iteraciones transcurridas. Estableciendo como métrica de prioridad el \gls{map}, los mejores resultados se obtuvieron en la iteración 2.000. A partir de este punto oscilaron levemente con tendencia decreciente.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.85\textwidth]{img/chapters/resultados/metricas/metrics-train1.png}
+\includegraphics[width=0.67\textwidth]{img/chapters/resultados/metricas/metrics-train1.png}
 \caption{\label{fig:metrics-train1}Resumen métricas primer entrenamiento de la red neuronal con el dataset de OIDv4}
 \end{figure}
 
-\newpage
+Como se ha podido observar, los resultados obtenidos no han sido favorables. A pesar de tener un \gls{map} superior al de \gls{coco}, el average \gls{iou} es significativamente más bajo que el \textbf{56,04\%} de \gls{coco} (ver tabla \ref{tab:comparativa-metricas2}).
+
+Por ello, se ha realizado un nuevo entrenamiento modificando algunos parámetros de la red y aumentando el número de clases y de imágenes de entrenamiento y validación. El dataset \gls{oidv4} dispone de clases más especificas de equipajes o bolsas de mano que \gls{coco}.
+
+Se ha realizado el mismo procedimiento que se hizo en la sección \ref{sec:train-openimagesv4}, añadiendo más clases de interés: \texttt{`Plastic bag', `Luggage and bags'} y \texttt{`Briefcase'}. Estas 3 nuevas clases posteriormente se han unificado junto a las anteriores como una única clase llamada \texttt{`bags'}. Se han aumentado el valor de las variables de redimensionamiento de imágenes a la entrada de la red \texttt{width} y \texttt{height} a 608 para garantizar una mayor precisión a costa de un mayor tiempo de entrenamiento. El número de imágenes de entrenamiento se ha subido a 3.000 y las de validación a 600 en la clase \texttt{Person}.
+
+El número máximo de iteraciones (\texttt{max\_batches}) se ha fijado a 20.000 iteraciones. A pesar de que lo recomendable es fijarlo a (\# de clases) * 2.000, se ha aumentado para analizar en un mayor número de iteraciones la evolución de los valores de las métricas. El resto de parámetros de configuración de la red \gls{yolov4} se han adaptado al nuevo número de clases a entrenar, del mismo modo que se realizó en la sección \ref{subsec:configuracion-ficheros-training}.
+
+En las tablas  \ref{tab:metricas-test2_1} y \ref{tab:metricas-test2_2} se reflejan las métricas más relevantes cada 1.000 iteraciones del segundo entrenamiento de la \gls{cnn} de \gls{yolov4}.
 
 \begin{table}[ht]
 \centering
@@ -537,16 +549,28 @@ En la tabla \ref{tab:metricas-test1_1}, \ref{tab:metricas-test1_2}, \ref{tab:met
 
 \newpage
 
+De nuevo, no se han obtenido los resultados esperados. En la tabla \ref{tab:metricas-test2_1} se observa un valor de \gls{ap} de la clase \texttt{Person} inferior al conseguido en \gls{coco} (ver tabla \ref{tab:metricas-clases-coco}) a pesar de aumentar al doble el número de imágenes en el entrenamiento. El conjunto de todas las clases de interés \texttt{bags} representan una valor alto de \gls{ap} y una vez más, la cantidad de \gls{fp} es mayor a los \gls{tp} debido a la clase \texttt{Person}. Esto deriva a obtener un average \gls{iou} más bajo del esperado a pesar de obtener valores aceptables en precición, Recall, F-score y \gls{map}.
+
+Los resultados obtenidos son muy similares a los del primer entrenamiento pese a modificar parámetros de configuración del fichero \texttt{yolov4-obj.cfg}, aumentar el número de clases de los objetos de interés y aumentar el número de imágenes de entrenamiento y validación de la clase \texttt{Person}, clase que obtuvo malos resultados en el primer entrenamiento.
+
+En la tabla \ref{tab:metricas-test2_2} se aprecia que los mejores resultados obtenidos tuvieron lugar en la iteración 10.000, con un \textbf{47,26\%} de precisión, un \textbf{55,81\%} de Recall y un \textbf{51,18\%} de F-score. A pesar de obtener un \textbf{60,97\%} de \gls{map}, el average \gls{iou} fue del \textbf{37,83\%} debido a la alta aparición de \gls{fp} durante el entrenamiento. Se trata de un valor muy bajo.
+
+Del mismo modo que en el primer entrenamiento, en la figura \ref{fig:metrics-train2} se puede visualizar de manera gráfica la evolución de las métricas en función de las iteraciones transcurridas. Estableciendo como métrica de prioridad el \gls{map}, los mejores resultados se obtuvieron en la iteración 10.000. A partir de este punto oscilaron levemente con tendencia decreciente.
+
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.85\textwidth]{img/chapters/resultados/metricas/metrics-train2.png}
+\includegraphics[width=0.67\textwidth]{img/chapters/resultados/metricas/metrics-train2.png}
 \caption{\label{fig:metrics-train2}Resumen métricas segundo entrenamiento de la red neuronal con el dataset de OIDv4}
 \end{figure}
 
-\newpage
+Cabe detallar que, en los cálculos de las métricas de calidad de los dos entrenamientos que se han realizado se ha considerado un \textit{threshold} del \gls{iou} del 0,5. Evidentemente, al aumentar el \textit{threshold} a otros valores típicos como a 0,75 o 0,95 disminuye drásticamente los valores del las métricas. Por norma general, cuando se ejecuta el detector de objetos de \gls{yolov4} el \textit{threshold} del \gls{iou} que viene definido por defecto es del 0,5. Es un valor suficientemente alto para considerar que la detección que se produce en cada fotograma de un vídeo es un \gls{tp}.
+
+En vista a los resultados, no se han superado las métricas de calidad del dataset \gls{coco} sobre el que se entrenó \gls{yolov4}. Por tanto, se ha determinado continuar el proyecto con el modelo preentrenado de \gls{yolov4} con \gls{coco} como dataset de referencia.
 
 \subsection{Métricas de calidad en MS COCO Dataset}
 \label{subsec:metricas-calidad-coco}
+
+En la siguiente tabla \ref{tab:metricas-clases-coco} se muestran los resultados obtenidos en la evaluación que se realizó en la sección \ref{sec:evaluate-cocodataset}. Las métricas más importantes sobre las clases de interés son las siguientes:
 
 \begin{table}[ht]
 \centering
@@ -561,6 +585,12 @@ Handbag        & 29,83           & 158         & 215         \\
 Suitcase       & 71,08           & 205         & 102         \\ \hline
 \end{tabular}
 \end{table}
+
+Como se contempla en la tabla \ref{tab:metricas-clases-coco}, excepto en la clase \texttt{Handbag}, se obtuvieron más \gls{tp} que \gls{fp} en las demás clases. El valor de \gls{ap} en la clase \texttt{Person} es muy superior al obtenido durante los entrenamientos en el dataset personalizado. Por el contrario, en las clases \texttt{Backpack, Handbag} y \texttt{Suitcase} se obtuvieron valores más bajos que con el dataset \gls{oidv4}.
+
+En las tablas \ref{tab:comparativa-metricas1} y \ref{tab:comparativa-metricas2} se puede comparar de mejor manera las métricas más importantes obtenidas en los dos entrenamientos realizados sobre el dataset \gls{yolov4} respecto a las métricas obtenidas en la evaluación de \gls{yolov4} sobre \gls{coco}. Destaca la superioridad \gls{tp} sobre los \gls{fp} de \gls{coco}, en concreto más del doble. En los dos entrenamientos se obtuvieron valores muchos más \gls{fp} que \gls{tp} causados por el mal entrenamiento de la clase \texttt{Person}.
+
+Llama la atención que se superó el valor de \gls{map} de \gls{coco} en el primer entrenamiento de \gls{oidv4}, a causa de los altos valores de \gls{ap} obtenidos en las clases de objetos que no eran personas. Sin embargo, en ninguno de los entrenamientos se igualó el valor del average \gls{iou} de \gls{coco}. Respecto a la precisión, Recall y F-score, si bien no se obtuvieron malos resultados en los dos últimos, no se superaron en ningún caso a los de \gls{coco}.
 
 \begin{table}[ht]
 \centering
@@ -583,13 +613,17 @@ OIDv4 test 2                       & 6.600                & 7.366               
 \hline
 \rowcolor[HTML]{FFFFFF} 
 \textbf{Dataset}             & \textbf{\begin{tabular}[c]{@{}c@{}}Precision\\ (\%)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Recall\\ (\%)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}F-score\\ (\%)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}average IoU\\ (\%)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}mAP @ 0.5\\ (\%)\end{tabular}} \\ \hline
-\textbf{MS COCO}             & \textbf{67,61}                                                    & \textbf{63,57}                                                 & \textbf{65,53}                                                  & \textbf{56.04}                                                      & \textbf{64.16}                                                    \\
+\textbf{MS COCO}             & \textbf{67,61}                                                    & \textbf{63,57}                                                 & \textbf{65,53}                                                  & \textbf{56,04}                                                      & \textbf{64,16}                                                    \\
 OIDv4 test 1                 & 44,93                                                             & 61,17                                                          & 51,81                                                           & 34,13                                                               & 66,25                                                             \\
 OIDv4 test 2                 & 47,26                                                             & 55,81                                                          & 51,18                                                           & 37,83                                                               & 60,97                                                             \\ \hline
 \end{tabular}
 \end{table}
 
-\newpage
+Los resultados en los entrenamientos no fueron satisfactorios y se ha continuado el proyecto con el modelo de \gls{yolov4} sobre el dataset \gls{coco}. Se ha llegado a la conclusión de que construir un dataset personalizado que solo detecte un determinado número de clases no es preciso cuando se emplea en escenarios donde hay más objetos detectables. La \gls{cnn} entrenada puede confundir objetos que no son los deseables obteniendo valores bajos de \gls{iou}, lo que deriva a acumular \gls{fp}. Resulta más interesante utilizar un dataset donde se identifiquen una amplia cantidad de clases, como es el ejemplo de \gls{coco}, y posteriormente filtrar las detecciones para solo obtener las que resulten de interés.
+
+Resultaría interesante evaluar las métricas en \gls{yolov4} sobre otros datasets que contengan un gran número de clases, para determinar si se superan las métricas de \gls{coco}, teniendo en cuenta que el principal objetivo de este proyecto es la detección de objetos abandonados.
+
+En el siguiente \href{https://drive.google.com/drive/folders/1ahdsjoDRICqDNB4dPGVYI6mVtYSDvvgu?usp=sharing}{link} se pueden acceder a los resultados obtenidos en la evaluación de las métricas de calidad tanto del dataset \gls{coco} como en la evaluación de los entrenamientos sobre el dataset \gls{oidv4}.
 
 \subsection{Resultados en detección de objetos y personas con YOLOv4}
 \label{subsec:resultados-yolov4-tf}
@@ -599,6 +633,24 @@ OIDv4 test 2                 & 47,26                                            
 \url{https://old.photojoiner.net/}
 
 \textcolor{red}{También hacer tablas durante un número determinado de fotogramas donde, a modo de ejemplo se calcule las métricas más relevantes}.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{img/chapters/resultados/deteccion/gba-near-big3-detection-example.jpg}
+\caption{\label{fig:gba-near-big3-detection-example}Ejemplo 1 detección YOLOv4 Tensorflow}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{img/chapters/resultados/deteccion/avss-easy-detection-example.jpg}
+\caption{\label{fig:avss-easy-detection-example}Ejemplo 2 detección YOLOv4 Tensorflow}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{img/chapters/resultados/deteccion/aboda-video5-detection-example.jpg}
+\caption{\label{fig:aboda-video5-detection-example}Ejemplo 3 detección YOLOv4 Tensorflow}
+\end{figure}
 
 \newpage
 
@@ -626,4 +678,6 @@ OIDv4 test 2                 & 47,26                                            
 
 \section{Conclusiones}
 \label{sec:conclu-resultados}
+
+\textcolor{red}{Citar el trabajo de David \cite{valdivieso2018}}
 

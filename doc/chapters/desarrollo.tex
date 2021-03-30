@@ -16,7 +16,7 @@
 
 En el presente \gls{tfm} se ha desarrollado una estrategia de detección de objetos abandonados para ser aplicado en sistemas de videovigilancia. Como ya se comentó al final de la sección \ref{subsec:comparativa-detectores}, se utilizará como detector de objetos y personas \gls{yolov4} y como algoritmo de seguimiento \gls{deepsort}. A continuación, se describen las diferentes secciones que componen este capítulo.
 
-Primero se evaluará YOLOv4 sobre Darknet, framework de código abierto escrito en C y \gls{cuda}, y se analizará la precisión y velocidad que se obtienen en la detección de objetos y personas. Posteriormente se convertirá el modelo de \gls{yolov4} de Darknet a Tensorflow, framework de código abierto escrito en Python y C++ orientado al desarrollo de algoritmos inteligentes de Machine Learning. Utilizar \gls{yolov4} con Tensorflow facilitará la programación del algoritmo de detección de objetos abandonados con Python, ya que Darknet no es un framework de uso extendido y podría ser más difícil encontrar soluciones para los posibles errores. A continuación se reentrenará el modelo de la red \gls{yolov4} sobre el dataset \gls{oidv4} para observar si se obtienen mayores valores en las métricas de calidad respecto a \gls{coco}.
+Primero se evaluará \gls{yolov4} sobre Darknet, framework de código abierto escrito en C y \gls{cuda}, y se analizará la precisión y velocidad que se obtienen en la detección de objetos y personas. Posteriormente se convertirá el modelo de \gls{yolov4} de Darknet a Tensorflow, framework de código abierto escrito en Python y C++ orientado al desarrollo de algoritmos inteligentes de Machine Learning. Utilizar \gls{yolov4} con Tensorflow facilitará la programación del algoritmo de detección de objetos abandonados con Python, ya que Darknet no es un framework de uso extendido y podría ser más difícil encontrar soluciones para los posibles errores. A continuación se reentrenará el modelo de la red \gls{yolov4} sobre el dataset \gls{oidv4} para observar si se obtienen mayores valores en las métricas de calidad respecto a \gls{coco}.
 
 Una vez obtenido el modelo de \gls{yolov4} definitivo, se probará el algoritmo de seguimiento \gls{deepsort}. Solo nos interesa la detección y seguimiento de personas y objetos de interés, por lo que se filtrará la detección para que solo se identifiquen las clases que queremos.
 
@@ -26,8 +26,6 @@ Cabe recalcar que en este capítulo se va a exponer cada uno de los procedimient
 
 \section{Detección de personas y objetos con YOLOv4}
 \label{sec:desarrollo-yolov4}
-
-
 
 Para la utilización de \gls{yolov4} se ha instalado previamente la librería opencv-python 4.1.1.26 junto con \gls{cuda} 10.1.243 y cuDNN 7.6.5 para poder codificar de manera más optima los algoritmos utilizando una \gls{gpu} NVIDIA.
 
