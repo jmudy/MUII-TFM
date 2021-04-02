@@ -31,7 +31,7 @@ Para la utilización de \gls{yolov4} se ha instalado previamente la librería op
 
 Se ha clonado el repositorio de \gls{yolov4} de GitHub \cite{yolov4-darknet-github} en el framework Darknet. Para obtener el máximo rendimiento por parte del equipo que se está utilizando se ha modificado el fichero Makefile para habilitar la utilización de la \gls{gpu} junto con \gls{cuda}, así como OpenCV para poder visualizar por pantalla los resultados las de las detecciones.
 
-En la evaluación del algoritmo de detección de \gls{yolov4} se va a emplear una \gls{gpu} NVIDIA Tesla T4 del servicio cloud de Google Colab. Esa \gls{gpu} tiene una capacidad de computación de 7,5 por lo que será necesario descomentar una línea del fichero Makefile para indicar que se está empleando una \gls{gpu} con esas características. Tras modificar el fichero se ha ejecutado el comando make para compilar el repositorio, de tal manera que se generan los ficheros necesarios para el funcionamiento de la red neuronal de \gls{yolov4} sobre Darknet. 
+En la evaluación del algoritmo de detección de \gls{yolov4} se va a emplear una \gls{gpu} NVIDIA Tesla T4 del servicio cloud de Google Colab \cite{google-colab}, un servicio cloud de Google basado en los Notebooks de Jupyter donde ya vienen instaladas la mayoría de librerías necesarias para la programación de algoritmos de Machine Learning. Esta \gls{gpu} tiene una capacidad de computación de 7,5 por lo que será necesario descomentar una línea del fichero Makefile para indicar que se está empleando una \gls{gpu} con esas características. Tras modificar el fichero se ha ejecutado el comando make para compilar el repositorio, de tal manera que se generan los ficheros necesarios para el funcionamiento de la red neuronal de \gls{yolov4} sobre Darknet. 
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Evaluación del detector de objetos YOLOv4 en Darknet (1),captionpos=b,label={lst:evaluate-yolov4-darknet1}]
@@ -90,7 +90,7 @@ En la figura \ref{fig:detection-yolov4-darknet-pets2007} se muestra el funcionam
 \caption{\label{fig:detection-yolov4-darknet-pets2007}Detección de objetos con YOLOv4 en Darknet en \cite{pets2007-dataset}}
 \end{figure}
 
-Las últimas evaluaciones del algoritmo de detección de \gls{yolov4} en Darknet se han realizado con Google Colab, un servicio cloud de Google basado en los Notebooks de Jupyter donde ya vienen instaladas la mayoría de librerías necesarias para la programación de algoritmos de Machine Learning. En el siguiente \href{https://colab.research.google.com/drive/1kXcZL7iZ2sZmyFuQ6GwVFfkfyha6A6nr?usp=sharing}{link} se puede ejecutar el Notebook de Google Colab donde se realizan los mismos pasos descritos anteriormente.
+Las últimas evaluaciones del algoritmo de detección de \gls{yolov4} en Darknet se han realizado con Google Colab. En el siguiente \href{https://colab.research.google.com/drive/1kXcZL7iZ2sZmyFuQ6GwVFfkfyha6A6nr?usp=sharing}{link} se puede ejecutar el Notebook de Google Colab donde se realizan los mismos pasos descritos anteriormente.
 
 Durante el desarrollo del proyecto se ha decidido convertir el modelo de Darknet a Tensorflow, ya que se trata de un framework que emplea Python y facilitará la tarea de diseño del algoritmo de detección de objetos al no basarse únicamente en Darknet, framework que no es de uso extendido y puede ser una tarea complicada su utilización cuando aparezcan posibles errores.
 
@@ -606,13 +606,15 @@ Como se ha podido observar en la figura \ref{fig:prueba-deepsort-frame53} cada o
             cv2.putText(frame, class_name + "-" + str(track.track_id),(int(bbox[0]), int(bbox[1]-5)), cv2.FONT_HERSHEY_SIMPLEX, 0.50, (255,255,255), 1, cv2.LINE_AA)
 \end{lstlisting}
 
-\textcolor{red}{Aquí meter una foto de rastreo y comentar los cambios realizados y que se observa, y si aparece algún problema comentarlo también.}
+En la siguiente figura \ref{fig:prueba2-deepsort-frame439} se refleja el resultado de filtrar las clases y utilizar únicamente dos colores para los cuadros delimitadores para cada una de las clases de objetos que se desea rastrear. De esta manera resulta más sencillo trabajar con los objetos de interés de cara al desarrollo del algoritmo de detección de objetos abandonados en la siguiente sección \ref{sec:algoritmo-object-detection}.
 
-\noindent\includegraphics[width=6cm]{example-image}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.45\textwidth]{img/chapters/desarrollo/prueba2-deepsort-frame439.jpg}
+\caption{\label{fig:prueba2-deepsort-frame439}Ejemplo de MOT con Deep SORT filtrando clases de interés en \cite{gba-dataset}}
+\end{figure}
 
-\textcolor{red}{Aquí dejar claro que los resultados después de todas las pruebas realizadas en el seguimiento de objetos y personas se podrá visualizar con mayor detalle en la sección XXX}
-
-\newpage
+Las últimas evaluaciones del algoritmo de seguimiento se han realizado con Google Colab. En el siguiente \href{https://colab.research.google.com/drive/18vL9LH8e9VaimA9LzBD35Cn4AOm6C17I?usp=sharing}{link} se puede ejecutar el Notebook donde se realizan los mismos pasos descritos anteriormente. Todos los resultados obtenidos durante la evaluación del seguimiento de objetos y personas con \gls{deepsort} y \gls{yolov4} en Tensorflow se visualizarán y analizarán en la sección \ref{subsec:resultados-yolov4+deepsort}.
 
 \section{Algoritmo de detección de objetos abandonados}
 \label{sec:algoritmo-object-detection}
@@ -692,7 +694,19 @@ wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optim
 \section{Conclusiones}
 \label{sec:conclu-desarrollo}
 
-\textcolor{red}{Hacer unas breves conclusiones de lo que se ha conseguido en base a los objetivos que se han marcado en la introducción de este capítulo \ldots}
+Este capítulo ha tenido como objetivo el desarrollo de un algoritmo de detección de objetos abandonados utilizando \gls{yolov4} algoritmo de detección y \gls{deepsort} como algoritmo de seguimiento de objetos y personas. \gls{yolov4} viene previamente entrenado sobre el dataset \gls{coco}. Dado que se quiere utilizar un sistema donde no se necesita detectar las 80 clases de \gls{coco} y solo se precisa la detección de personas y los objetos de interés: mochilas, maletas y bolsas de mano, se ha entrenado dos modelos de \gls{yolov4} a partir de un dataset personalizado \gls{oidv4} con la finalidad de obtener las máximas métricas de calidad posibles sobre dichas clases. Variando los parámetros de la \gls{cnn} así como el número de clases y de imágenes de entrenamiento y evaluación no se han conseguido mejorar las métricas que se obtienen con \gls{coco}. Por tanto se ha decidido continuar el desarrollo del proyecto con el modelo preentrenado de \gls{yolov4}.
+
+Se ha probado \gls{yolov4} sobre el framework Darknet original. Para facilitar la programación de los scripts en la detección seguimiento y detección de objetos abandonados con Python, se ha decidido convertir el modelo \gls{yolov4} a Tensorflow, dado que Darknet no es de uso extendido y puede resultar más díficil solucionar los posibles errores que puedan aparecer.
+
+Las implementaciones tanto de \gls{yolov4} como de \gls{deepsort} han estado totalmente inspiradas en las aplicaciones desarrolladas en los repositorios de GitHub \cite{yolov4-tf-github-original} y \cite{yolov4-deepsort-original}. Se han realizado las modificaciones oportunas para satisfacer las necesidades de cara a la etapa de desarrollo del algoritmo de detección de objetos abandonados, como es la filtración en la etapa de detección para que solo tenga en cuenta las clases de interés que se quieren detectar e ignore el resto de las clases de \gls{coco}.
+
+\textcolor{red}{Aquí meter conclusiones en el desarrollo del algoritmo de detección de objetos abandonados, citar el trabajo previo de David \cite{valdivieso2018}}
+
+\textcolor{red}{Revisar lo que he escrito arriba y añadir lo que resulte oportuno. No exponer conclusiones de ningún resultado ya que eso se expondrá el el capítulo de resultados.}
+
+\textcolor{red}{Meter referencias a todo lo que esté contando}
+
+
 
 \begin{algorithm}[H]
  \caption{How to write algorithms}
