@@ -547,7 +547,7 @@ En la figura \ref{fig:prueba-deepsort-frame53} se muestra un fotograma del segui
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.45\textwidth]{img/chapters/desarrollo/prueba-deepsort-frame53.jpg}
-\caption{\label{fig:prueba-deepsort-frame53}Ejemplo de MOT con Deep SORT en \cite{Benfold2011StableMT} sobre el repositorio original \cite{yolov4-deepsort}}
+\caption{\label{fig:prueba-deepsort-frame53}Ejemplo de MOT con Deep SORT en \cite{Benfold2011StableMT}}
 \end{figure}
 
 En el siguiente código \ref{lst:deepsort-original-test1}, se muestra la información que se arroja por terminal al ejecutar el script \texttt{object\_tracker.py} con los flags \texttt{-{}-count} y \texttt{-{}-info}. Por cada fotograma del vídeo procesado se muestra la cantidad de objetos que se están rastreando, el ID de cada persona u objeto detectado y el valor de las variables que componen los cuadros delimitadores. También, se indica la velocidad a la que se ha procesado el vídeo sobre una \gls{gpu} NVIDIA Tesla T4. El acceso a las variables de ID y parámetros de los cuadros delimitadores en cada fotograma facilitarán el desarrollo del algoritmo de detección de objetos abandonados en la sección \ref{sec:algoritmo-object-detection}.
