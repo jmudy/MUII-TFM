@@ -243,7 +243,7 @@ En este proyecto solo se va a tener en cuenta tener en cuenta cuando un equipaje
 
 Se ha utilizado el subconjunto de secuencias dedicadas a la detección de objetos abandonados. Este subdataset está formado por tres secuencias de vídeo grabadas a una resolución de 720 x 576 píxeles a 25 \gls{fps}. El modelo de la cámara no se especifica.
 
-El \gls{roi} está divido en tres zonas: cercana, media, lejos. En cada una de las secuencias de vídeo el objeto que es abandonado se encuentra en cada una de las zonas que se muestran en la figura \ref{fig:avssab2007-zones}.
+El \gls{roi} está dividido en tres zonas: cercana, media, lejos. En cada una de las secuencias de vídeo el objeto que es abandonado se encuentra en cada una de las zonas que se muestran en la figura \ref{fig:avssab2007-zones}.
 
 \begin{figure}[ht]
 \centering
@@ -547,8 +547,6 @@ En las tablas  \ref{tab:metricas-test2_1} y \ref{tab:metricas-test2_2} se reflej
 \end{tabular}
 \end{table}
 
-\newpage
-
 De nuevo, no se han obtenido los resultados esperados. En la tabla \ref{tab:metricas-test2_1} se observa un valor de \gls{ap} de la clase \texttt{Person} inferior al conseguido en \gls{coco} (ver tabla \ref{tab:metricas-clases-coco}) a pesar de aumentar al doble el número de imágenes en el entrenamiento. El conjunto de todas las clases de interés \texttt{bags} representan una valor alto de \gls{ap} y una vez más, la cantidad de \gls{fp} es mayor a los \gls{tp} debido a la clase \texttt{Person}. Esto deriva a obtener un average \gls{iou} más bajo del esperado a pesar de obtener valores aceptables en precición, Recall, F-score y \gls{map}.
 
 Los resultados obtenidos son muy similares a los del primer entrenamiento pese a modificar parámetros de configuración del fichero \texttt{yolov4-obj.cfg}, aumentar el número de clases de los objetos de interés y aumentar el número de imágenes de entrenamiento y validación de la clase \texttt{Person}, clase que obtuvo malos resultados en el primer entrenamiento.
@@ -619,99 +617,170 @@ OIDv4 test 2                 & 47,26                                            
 \end{tabular}
 \end{table}
 
-Los resultados en los entrenamientos no fueron satisfactorios y se ha continuado el proyecto con el modelo de \gls{yolov4} sobre el dataset \gls{coco}. Se ha llegado a la conclusión de que construir un dataset personalizado que solo detecte un determinado número de clases no es preciso cuando se emplea en escenarios donde hay más objetos detectables. La \gls{cnn} entrenada puede confundir objetos que no son los deseables obteniendo valores bajos de \gls{iou}, lo que deriva a acumular \gls{fp}. Resulta más interesante utilizar un dataset donde se identifiquen una amplia cantidad de clases, como es el ejemplo de \gls{coco}, y posteriormente filtrar las detecciones para solo obtener las que resulten de interés.
+Los resultados en los entrenamientos no fueron satisfactorios y se ha continuado el proyecto con el modelo de \gls{yolov4} sobre el dataset \gls{coco}. Se ha llegado a la conclusión de que los datasets que han sido utilizados en los dos entrenamientos no contenían las imágenes idóneas para un correcta detección. Se ha observado que cuando las mochilas, maletines o bolsas de mano que se encontraban suspendidas en el suelo no se detectaban correctamente, dado que la mayoría de las imágenes de entrenamiento y validación son de mochilas que se encuentran perfectamente apoyadas en el suelo o las porta alguna persona. Por otro lado, las maletas de mano se han detectado correctamente ya que son equipajes típicamente rígidos que y no muestran ninguna deformación, por lo que, aunque se encuentren en diferentes ángulos respecto a la visión de la cámara, las detecciones son eficientes.
 
-Resultaría interesante evaluar las métricas en \gls{yolov4} sobre otros datasets que contengan un gran número de clases, para determinar si se superan las métricas de \gls{coco}, teniendo en cuenta que el principal objetivo de este proyecto es la detección de objetos abandonados.
+Resultaría interesante evaluar las métricas en \gls{yolov4} sobre otros datasets que contengan un gran número de clases de los objetos de interés, o realizar un dataset con un conjunto de imágenes propias para esta aplicación, con el fin de determinar si se superan las métricas de \gls{coco}, teniendo en cuenta que el principal objetivo de este proyecto es la detección de objetos abandonados.
 
 En el siguiente \href{https://drive.google.com/drive/folders/1ahdsjoDRICqDNB4dPGVYI6mVtYSDvvgu?usp=sharing}{link} se pueden acceder a los resultados obtenidos en la evaluación de las métricas de calidad tanto del dataset \gls{coco} como en la evaluación de los entrenamientos sobre el dataset \gls{oidv4}.
 
 \subsection{Resultados en detección de objetos y personas con YOLOv4}
 \label{subsec:resultados-yolov4-tf}
 
-\textcolor{red}{Poner imágenes de las detecciones en los datasets empleados y explicar con detalle como influye distintos elementos como la distancia, iluminación, color, etc... en la detección de objetos}.
+Antes de realizar pruebas y evaluar resultados del algoritmo de detección de objetos abandonados con \gls{yolov4} y \gls{deepsort} se ha realizado en primera instancia una evaluación del algoritmo de detección de \gls{yolov4} con Tensorflow.
 
-\url{https://old.photojoiner.net/}
+En la siguiente figura \ref{fig:gba-near-big3-detection-example} se muestran los resultados obtenidos en las detecciones sobre el dataset \gls{gba2018} \cite{gba-dataset}, donde se puede observar como la detección sobre las personas es muy buena, obteniéndose valores de umbral de confianza por encima del 90\%. Un problema muy común que ha ocurrido en la evaluación de todos los datasets con las clases \texttt{Handbag} y \texttt{Backpack} es que, como se puede observar en la primera imagen de la figura \ref{fig:gba-near-big3-detection-example}, en ocasiones el detector se confunde y realiza una doble detección con valores muy bajos de umbral de confianza sobre el objeto. Esto resulta un gran inconveniente a la hora de realizar la asociación persona-objeto en el algoritmo de detección de objetos abandonados, ya que en esas ocasiones se pierde con mucha facilidad la detección y en consecuencia hay muchos cambios de identidad. Otro problema, pero menos común, que se ha encontrado es cuando una mochila de dimensiones reducidas se encuentra apoyada en el suelo. Como se aprecia en la segunda imagen de la figura \ref{fig:gba-near-big3-detection-example}, el detector de objetos confunde la mochila con un perro. Típicamente las mochilas se detectan mejor cuando una persona la lleva encima.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{img/chapters/resultados/deteccion/gba-near-big3-detection-example.jpg}
-\caption{\label{fig:gba-near-big3-detection-example}Ejemplo 1 detección YOLOv4 Tensorflow}
+\caption{\label{fig:gba-near-big3-detection-example}Ejemplo 1 detección YOLOv4 Tensorflow \cite{gba-dataset}}
 \end{figure}
+
+En la siguiente figura \ref{fig:avss-easy-detection-example} se muestran los resultados obtenidos en las detecciones sobre el dataset \gls{avss} \cite{AVSSAB2007-dataset}, donde se puede observar como la detección en maletas son excelentes. En todas las evaluaciones que se han realizado del detector \gls{yolov4} sobre todos los datasets empleados se han obtenido elevados umbrales de confianza para la clase \texttt{Suitcase}.
+
+Se ha establecido un umbral de confianza mínima para todas las clases de $0,25$. Tal y como se puede ver en la última imagen de la figura \ref{fig:avss-easy-detection-example} no se estaba detectando la mochila porque no llegaba a ese umbral. No se ha disminuido el valor de este umbral de confianza dado que se obtenían muchos \gls{fp} sobre todas las clases.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{img/chapters/resultados/deteccion/avss-easy-detection-example.jpg}
-\caption{\label{fig:avss-easy-detection-example}Ejemplo 2 detección YOLOv4 Tensorflow}
+\caption{\label{fig:avss-easy-detection-example}Ejemplo 2 detección YOLOv4 Tensorflow \cite{AVSSAB2007-dataset}}
 \end{figure}
+
+En la siguiente figura \ref{fig:aboda-video5-detection-example} se muestran los resultados obtenidos en las detecciones sobre el dataset \gls{aboda} \cite{aboda-dataset}. Como se observa en la primera imagen, una de las dos personas que se encuentra en la parte inferior no se detecta y la otra se detecta con el umbral de confianza más bajo establecido. Por otro lado, la otra persona que se encuentra en un ángulo más favorable se detecta con un 40\% de umbral de confianza, valores muy alejados de los que se obtienen sobre la clase \texttt{Person} en las evaluaciones de otros datasets.
+
+Esta secuencia del dataset \gls{aboda} es un claro ejemplo de la gran influencia que tiene los cambios drásticos de iluminación, la distancia, el ángulo y la baja resolución de la cámara. En escenarios como el de esta secuencia se debe de entrenar una \gls{cnn} con un conjunto de imágenes específico, teniendo en cuenta la posición donde se encontrará la cámara, así como su resolución, y por supuesto las condiciones lumínicas del entorno.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{img/chapters/resultados/deteccion/aboda-video5-detection-example.jpg}
-\caption{\label{fig:aboda-video5-detection-example}Ejemplo 3 detección YOLOv4 Tensorflow}
+\caption{\label{fig:aboda-video5-detection-example}Ejemplo 3 detección YOLOv4 Tensorflow \cite{aboda-dataset}}
 \end{figure}
 
-\newpage
+Todos los fotogramas han sido extraídos de las secuencias procesadas, las cuales se pueden acceder en el siguiente \href{https://drive.google.com/drive/folders/1hkUSC78H5moLyTqoNy0e0RhQTJSPt_um?usp=sharing}{link}.
 
 \subsection{Resultados en seguimiento de objetos y personas con YOLOv4 y Deep SORT}
 \label{subsec:resultados-yolov4+deepsort}
 
-\textcolor{red}{Poner imágenes de las detecciones en los datasets empleados y explicar con detalle los problemas con los que nos podemos encontrar a la hora de hacer un seguimiento o \textit{tracking} de objetos y personas, se pierde el rastreo y se vuelve a asociar una nueva ID a ese individuo, también explicar que debido al \textit{threshold} que pongamos se pueden perder objetos, pero tampoco es conveniente bajarlo a más de X porque entonces se confunden objetos o se trackean varias veces}.
+Las pruebas que se han realizado previas a la evaluación del algoritmo de detección de objetos abonados diseñado han sido el funcionamiento del algoritmo de seguimiento con \gls{deepsort} en los diferentes datasets. En la siguiente figura \ref{fig:avss-tracking-example} se aprecia como cada detección que ha realizado \gls{yolov4} se le ha asignado una identidad. Esto quiere decir que a cada elemento detectado, tanto personas como objetos de interés se le asigna una identidad única que va a servir para estudiar su posición a lo largo de los siguientes fotogramas. Los cuadros delimitadores verdes representan a las personas y los cuadros delimitadores de color azul representan los objetos de interés que se han filtrado en la etapa de detección.
 
-\newpage
+En la figura se muestra un fragmento de una de las secuencias de vídeo del dataset \gls{avss} \cite{AVSSAB2007-dataset}. Siempre que no se producieran oclusiones prolongadas, el algoritmo trabajaba correctamente pudiendo rastrear objetos que en determinados momentos se salieran del plano. Como se puede observar en la primera imagen de la figura \ref{fig:avss-tracking-example}, la persona con número de identidad 93 pasa por detrás de la columna del andén, perdiéndose tanto la detección como el seguimiento. Sin embargo, fotogramas más tarde, cuando vuelve a aparecer al otro lado de la columna, se vuelve a detectar y se le asigna la identidad que tenía anteriormente. En los dos primeros fotogramas de la figura se puede apreciar también la identidad que se le ha asignado a la bolsa de mano que aparece al final del andén, con el número identificativo 71.
+
+En la última imagen de la figura se perciben cambios de identidad tanto de la persona que anteriormente tenía asignado como número de identidad el 93, así como la bolsa de mano que ha pasado de tener el número 71 al 88. Si nos fijamos bien en las dos últimas imágenes de la figura se puede observar que lo que se ha producido con la persona es un intercambio de identidad con la persona que se encuentra a la derecha de la columna en la segunda imagen. Suele ser un problema muy común en el rastreo de personas y objetos cuando se producen oclusiones o desaparición de la detección durante un tiempo determinado.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{img/chapters/resultados/tracking/avss-tracking-result-example.jpg}
+\caption{\label{fig:avss-tracking-example}Ejemplo 1 seguimiento YOLOv4 y Deep Sort \cite{AVSSAB2007-dataset}}
+\end{figure}
+
+En la siguiente figura \ref{fig:gba-tracking-example} se observa claramente uno de los mayores problemas con los que nos hemos encontrado en el desarrollo del algoritmo de detección de objetos abandonados y es el cambio repentino de identidad al perderse la detección durante una corta duración de tiempo. En la primera imagen se puede observar a una persona con número de identidad 3 que ha dejado en el pasillo de la cafetería de la \gls{eps} una bolsa de mano con número de identidad 6. Pocos fotogramas después, cuando el individuo vuelve para recoger la bolsa del cual es propietario, aparece con un nuevo número de identidad, ya que cuando se encontraba al fondo del pasillo se perdió la detección y se le asignó un nuevo número identificativo. Además, al recoger la bolsa del mano que se encontraba en el suelo, debido a los cambios de ángulos y deformaciones que se producen en la bolsa, se pierde la detección y tanto el algoritmo de detección como el algoritmo de rastreo determinan que esa bolsa de mano se trata de un nuevo objeto.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{img/chapters/resultados/tracking/gba-tracking-result-example.jpg}
+\caption{\label{fig:gba-tracking-example}Ejemplo 2 seguimiento YOLOv4 y Deep Sort \cite{gba-dataset}}
+\end{figure}
+
+Con ello se produce un cambio en el número identificativo del 6 al 70. Esto se trata de un grave problema a la hora de realizar la asociación persona-objeto en el algoritmo de detección de objetos abandonados. En muchos objetos, sobre todo en bolsas de mano, suelen tener asas y morfologías muy distintas al poder deformarlas al cogerlas o dejarlas en el suelo, que provocan que resulte muy difícil determinar que se sigue tratando del mismo objeto a lo largo de un número determinado de fotogramas. Este problema no se aparecer en maletas o equipajes de mano grandes y robustos, dado que no pierden su forma y resulta más fácil su identificación independientemente del ángulo en el que se encuentren.
+
+Otro problema ajeno a la etapa de detección totalmente dependiente del algoritmo de seguimiento y que ocurre con relativa frecuencia en secuencias de vídeo de grandes aglomeraciones de personas y obstáculos que provocan la pérdida de las detecciones durante breves instantes de tiempo, es el cambio de identidad entre personas y objetos. En la última imagen de la figura \ref{fig:gba-tracking-example} se observa como la mujer que se encuentra en el centro del pasillo se le ha asignado el número identificativo 90, la identidad de la bolsa de mano que portaba una persona en la segunda imagen de la figura.
+
+La siguiente figura corresponde al análisis del algoritmo de seguimiento sobre un fragmento de una de las secuencias de vídeo del dataset \gls{pets} \cite{pets2007-dataset}.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\textwidth]{img/chapters/resultados/tracking/pets-tracking-result-example.jpg}
+\caption{\label{fig:pets2007-tracking-example}Ejemplo 3 seguimiento YOLOv4 y Deep Sort \cite{pets2007-dataset}}
+\end{figure}
+
+En esta figura \ref{fig:pets2007-tracking-example} se pueden observar nuevamente los dos grandes problemas que nos podemos encontrar en el seguimiento de objetos y personas, oclusiones o cambios de identidad y clases. En las dos primeras imágenes se pueden observar a dos mujeres con números de identidad 37 y 72 respectivamente, que se encuentran en un primer plano del área de detección de la cámara. Como se puede observar en ambas imágenes, estas dos personas están por delante de otras personas que se encuentran en planos posteriores, provocando oclusiones e impidiendo que se puedan detectar y rastrear. Por otro lado, se puede observar en la última imagen de la figura como, tras moverse la mujer que tenía como número identificativo el 72, aparece detectado y rastreado un niño al que se le está detectando como una bolsa de mano con número identificativo 38. Esto ha sucedido porque en fotogramas previos se detectó durante un instante de tiempo muy corto una bolsa de mano que se le asignó ese número de identidad y al desaparecer y aparecer el niño se le ha reasignado esa identidad errónea.
+
+Como se puede observar en todos los ejemplos descritos, a pesar de que \gls{deepsort} haya solucionado los graves problemas que tenía \gls{sort} en las oclusiones y en los cambios de identidad, este problema persiste y muchas ocasiones.
+
+Todos los fotogramas han sido extraídos de las secuencias procesadas, las cuales se pueden acceder en el siguiente \href{https://drive.google.com/drive/folders/1MIfUcVmwIot6QgV0VRRu5PdFscV1Ma48?usp=sharing}{link}.
 
 \subsection{Resultados en algoritmo de detección de objetos abandonados}
 \label{subsec:resultados-abandon-algorithm}
 
-Todos los fotogramas han sido extraídos de las secuencias procesadas, las cuales se pueden acceder en el siguiente \href{https://drive.google.com/drive/folders/1AA4KZCpsEW6MTdHJdu8mLKuGE1BCX9de?usp=sharing}{link}.
+Finalmente, tras comprobar el correcto funcionamiento de \gls{yolov4} como detector de objetos en el framework Tensorflow y evaluando su funcionamiento con el algoritmo de rastreo con \gls{deepsort}, se va ha evaluado el desarrollo del algoritmo de detección de objetos abandonados en los distintos datasets descritos en la sección \ref{subsec:datasets-utilizados}.
+
+En la siguiente figura \ref{fig:abandoned-avssab2007-example2} se aprecia un fragmento de una secuencia del dataset \gls{avss} \cite{AVSSAB2007-dataset}. En él se puede observar que tras los primeros segundos de vídeo se ha creado una asociación entre la persona con número de identidad 5 con la maleta que porta con número de identidad 2. Al fondo del andén se puede observar otra persona que se le ha asociado como número de identidad 3. Dado que la distancia respecto a la maleta con identidad 2 mayor a 2 veces el ancho de su cuadro delimitador, no se le ha asignado como propietario la maleta. No obstante, en el caso de que si que se cumpliera la distancia mínima a la que se le pudiera asignar la maleta, cobra mayor peso la mínima distancia que se encuentra respecto a una persona, que en este caso, como ya se ha comentado, es la persona con número de identidad 5.
+
+En los siguientes fotogramas de la figura \ref{fig:abandoned-avssab2007-example2} se puede observar como la persona se está alejando de la maleta. En la segunda imagen de la segunda fila se puede observar que la persona se encuentra a una distancia 3 veces mayor a la distancia que se estableció como distancia de asociamiento, con lo cual, la maleta se encuentra en zona de alarma y se indica mediante cuadros delimitadores tanto en la persona como en la maleta, que ésta se encuentra en riesgo de ser abandonada.
+
+En la segunda imagen de la tercera fila ya se puede ver que la persona ha sobrepasado de la zona delimitada como de alarma, y ahora se encuentra a una distancia 5 veces mayor a la distancia de asociamiento. En este caso se ha establecido que es una distancia considerablemente grande para determinar que el objeto ha sido abandonado. En el caso de que no se hubiera llegado a esa distancia d abandono, pero la persona hubiera desaparecido del plano de la cámara, se habría determinado de igual manera que la maleta ha sido abandonada, es decir, en el momento en el que se pierda la asociación porque la identidad de la persona ya no es rastreada, se entiende que la persona ya no se encuentra en escena y ha quedado abandonado el objeto del cual es propietario.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{img/chapters/resultados/abandono/abandoned-avssab2007-example2.png}
-\caption{\label{fig:abandoned-avssab2007-example2}Individuo abandona su maleta en en el la zona cercana del andén}
+\caption{\label{fig:abandoned-avssab2007-example2}Individuo abandona su maleta en el la zona cercana del andén \cite{AVSSAB2007-dataset}}
 \end{figure}
 
-\newpage
+En la siguiente figura \ref{fig:abandoned-aboda-example1} se puede contemplar otro ejemplo similar al anterior. En este caso se ha evaluado el algoritmo sobre la primera secuencia de vídeo del dataset \gls{aboda} \cite{aboda-dataset}.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{img/chapters/resultados/abandono/abandoned-aboda-example1.png}
-\caption{\label{fig:abandoned-aboda-example1}Individuo abandona su maleta en en el la zona cercana del andén}
+\caption{\label{fig:abandoned-aboda-example1}Individuo abandona su mochila en el hall de un edificio \cite{aboda-dataset}}
 \end{figure}
 
-\newpage
+En este caso dos chicos jóvenes se encuentran en el hall de un edificio y uno de ellos con número de identidad 7 porta una mochila con número de identidad 11. A pesar de que en el plano de visión también se encuentre otra persona, prima la mínima distancia entre mochila y persona, que en este caso es con la persona con identidad 7. Una vez creada la asociación se puede presenciar en los fotogramas siguientes como las dos personas abandonan el lugar dejando la mochila desatendida.
 
-\begin{figure}[ht]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=0.85\textwidth]{img/chapters/resultados/abandono/1.png}
-\caption{\label{fig:results1}Individuo abandona su maleta en en el la zona cercana del andén}
+\caption{\label{fig:results1}Individuo abandona su bolsa de mano en el pasillo de cafetería de la EPS (1) \cite{gba-dataset}}
 \end{figure}
+
+En las figuras \ref{fig:results1} y \ref{fig:results2} se puede observar un claro ejemplo de uno de los problemas más comunes a la hora de detectar y rastrear objetos y personas, que se tratan de las oclusiones. Este fenómeno se produce cuando una persona u objeto se sitúa delante del otro, dificultando en la mayoría de ocasiones las detecciones y provocando cambios de identidad en el rastreo.
+
+En la figura \ref{fig:results1} se puede observar como una persona con número de identidad 17 porta una bolsa de mano con número de identidad 23 y la posa sobre el suelo del pasillo de la entrada de la cafetería de la \gls{eps} \cite{gba-dataset}. También lleva otra bolsa de mano con número de identidad 26, pero no se detectó correctamente durante los primeros de segundos de vídeo y no se produjo la asociación. En cambio, con la bolsa de mano con identidad 23 sí. En los siguientes fotogramas se puede observar como la persona se aleja hacia el fondo del pasillo abandonando la bolsa de mano que dejó en el suelo anteriormente. De igual manera que en ejemplos anteriores, el algoritmo avisa cuando la bolsa de mano se encuentra en zona de alarma mediante cuadros delimitadores amarillos y cuando se considera que ha sido abandonada.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{img/chapters/resultados/abandono/2.png}
-\caption{\label{fig:results2}Individuo abandona su maleta en en el la zona cercana del andén}
+\caption{\label{fig:results2}Individuo abandona su bolsa de mano en el pasillo de cafetería de la EPS (2) \cite{gba-dataset}}
 \end{figure}
 
-\newpage
+En la figura \ref{fig:results2} anterior se puede apreciar que ocurre el fenómeno de oclusión. Cuando el individuo llega al final del pasillo y se da la vuelta queda por detrás de la persona con número de identidad 33 y ésta a su vez se encuentra detrás de la mujer con número de identidad 36. Durante estos breves instantes que se está produciendo oclusión debido a la posición de los sujetos se pierden las detecciones y en consecuencia el rastreo, produciéndose un cambio de identidad entre la persona con identidad 17 y la persona con identidad 33. Como se puede apreciar, las oclusiones provocan grandes problemas ya que pueden producir cambios de identidad sobre personas a las que ya se le había asignado un objeto de su propiedad, y en este caso, lo acababa de abandonar. De tal manera que se está identificando como identidad provocadora del abandono a la persona incorrecta.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{img/chapters/resultados/abandono/3.png}
-\caption{\label{fig:results3}Individuo abandona su maleta en en el la zona cercana del andén}
+\caption{\label{fig:results3}Una bolsa de mano se encuentra abanonada al final de un andén de trenes \cite{AVSSAB2007-dataset}}
 \end{figure}
+
+Uno de los posibles escenarios que se barajó durante el desarrollo del algoritmo del detector de objetos abandonados en la sección \ref{sec:algoritmo-object-detection} es la posibilidad de que al inicio de una secuencia de vídeo se encontrara un objeto que no se le pudiera asignar como propietario a ninguna persona por que no se encontraba a la distancia mínima que se pueda realizar la asociación persona-objeto. En este fragmento de vídeo de una secuencia del dataset \gls{avss} \cite{AVSSAB2007-dataset} se puede observar como se detecta una bolsa de mano al final de andén que se encuentra desde un principio abandonado. En este caso, al tratarse de un vídeo de 25 \gls{fps}, si desde un primer momento el objeto está abandonado, al cabo de 15 segundos, es decir, 375 fotogramas después, el objeto se identifica como abandonado.
+
+Como se puede observar en la primera imagen de la segunda fila de la figura \ref{fig:results3}, en el fotograma 402 ya se ha determinado esa bolsa de mano como abandonada. Cabe recalcar que, en objetos que se encuentran a una distancia alejada, en la etapa de detección suele confundir cuando es una maleta, una mochila o una bolsa de mano. En este caso está detectando la bolsa de mano como si fuera una maleta. 
+
+En la figura \ref{fig:results4}, perteneciente a la evaluación del algoritmo de detección de objetos abandonados sobre un fragmento del dataset \gls{pets} \cite{pets2007-dataset}, se aprecia a una persona que inicialmente se le ha asignado como número de identidad el 28, porta una bolsa grande de deporte donde en un principio el algoritmo de detección lo confunde con una persona.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{img/chapters/resultados/abandono/4.png}
-\caption{\label{fig:results4}Individuo abandona su maleta en en el la zona cercana del andén}
+\caption{\label{fig:results4}Individuo abandona una bolsa de deporte en un aeropuerto \cite{pets2007-dataset}}
 \end{figure}
 
-\textcolor{red}{Aquí meter un subsubapartado con métricas relevantes en la detección de objetos abandonados}.
+En los siguientes fotogramas cambia la identidad de la persona al número 70 y ya se le ha asignado una identidad de objeto a la bolsa de deporte con la identidad 73 (ver segunda imagen de la primera fila de la figura \ref{fig:results4}). Pocos fotogramas después vuelven a cambiar las identidades tanto de la persona como de la bolsa de deporte a 72 y 76 respectivamente. En este punto ya se ha terminado el periodo de asignación de objetos a personas con lo cual no es posible crear una asolación, además en ese momento la persona se encuentra alejada de la bolsa desatendida. Cuando la persona vuelve a acercarse a la bolsa de la cual es propietario vuelve a ocurrir el fenómeno de oclusión que se vio en el ejemplo sobre el dataset \gls{gba2018} \cite{gba-dataset}. Al moverse, una vez más, vuelve a cambiar la identidad de la bolsa de deporte a 97. Todos estos sucesos de cambios de identidad que se producen en esta secuencia de vídeo son producidos por las oclusiones de las personas que se van moviendo por la zona del aeropuerto, imposibilitando la creación de asociación entre personas y objetos.
 
-\newpage
+Como se ha podido observar en los ejemplos que se acaban de exponer el algoritmo que se ha propuesto para el propósito de este proyecto funciona correctamente siempre y cuando funcionen correctamente las etapas de detección y rastreo de objetos y personas. El principal problema que se ha encontrado en esta parte del trabajo ha sido las oclusiones producidas, lo que conlleva a pérdidas de detecciones y en consecuencia a cambios de identidad o tener que volver que reidentificar, impidiendo la asociación persona-objeto o asignando como responsable de un abandono a la persona equivocada.
+
+Todos los fotogramas han sido extraídos de las secuencias procesadas, las cuales se pueden acceder en el siguiente \href{https://drive.google.com/drive/folders/1AA4KZCpsEW6MTdHJdu8mLKuGE1BCX9de?usp=sharing}{link}.
+
+\newpage % Para que no salte error por la imagen de arriba
 
 \section{Conclusiones}
 \label{sec:conclu-resultados}
 
-\textcolor{red}{Citar el trabajo de David \cite{valdivieso2018}}
+Este capítulo se ha dividido en dos partes claramente diferenciadas. En la primera parte se han calculado las métricas de calidad sobre los dos datasets utilizados en este proyecto, \gls{coco} y \gls{oidv4}. En la segunda parte se han evaluado, primeramente \gls{yolov4}, seguido del algoritmo de rastreo \gls{deepsort} y por último, el algoritmo de detección de objetos abandonados que se desarrolló en la sección \ref{sec:algoritmo-object-detection} sobre los datasets más relevantes en la evaluación algoritmos de detección de objetos abandonados como pueden ser \gls{aboda} \cite{aboda-dataset}, \gls{gba2018} \cite{gba-dataset}, \gls{avss} \cite{AVSSAB2007-dataset} o \gls{pets} \cite{pets2007-dataset}.
 
+Pese a que las métricas obtenidas en el dataset \gls{coco} sobre las clases de interés: \texttt{Person}, \texttt{Suitcase}, \texttt{Handbag} y \texttt{Backpack} son buenas, se quiso intentar mejorarlas entrenando una \gls{cnn} basada en imágenes de las mismas clases del dataset \gls{oidv4}, ya que disponía de imágenes diferentes a las de \gls{coco}. Tras finalizar el primer entrenamiento, se pudo ver en las tablas \ref{tab:metricas-test1_4} y \ref{tab:comparativa-metricas2} que a pesar de que se obtuvieron buenos resultados de \gls{map}, los valores de precisión, Recall y F-score fueron inferiores a las de \gls{coco}.
+
+Posteriormente, se volvió a intentar mejorar las métricas aumentando el número de clases de entrenamiento, ya que el dataset \gls{oidv4} dispone de más clases de interés como pueden ser \texttt{Plastic bag}, \texttt{Luggage and bags} y \texttt{Briefcase} También se aumentaron el número de imágenes de entrenamiento y validación así como el número de máximas iteraciones. Los resultados que se obtuvieron en las tablas \ref{tab:metricas-test2_2}  y \ref{tab:comparativa-metricas2} fueron similares a las del primer entrenamiento, por lo que se decidió continuar el proyecto utilizando el dataset \gls{coco} sobre el que viene pre-entrenado \gls{yolov4}.
+
+En la segunda parte del presente capítulo se ha evaluado en primer lugar la etapa de detección con el funcionamiento de \gls{yolov4} sobre los distintos datasets antes nombrados. A pesar de que se mejoran las predicciones en términos de velocidad-precisión respecto al propuesto en \cite{valdivieso2018}, siguen apareciendo el problema de las oclusiones. Cuando una persona se sitúa por delante del otra respecto al plano frontal de la cámara, fácilmente identifica únicamente a la persona que se encuentra más cerca, lo que conlleva que en la etapa de rastreo no se le pueda asignar una identidad a dicha persona. Lo mismo ocurren los con los objetos de interés. Se ha observado que con una única red pre-entrenada no se detecta de la misma forma sobre los datasets evaluados. Como ya se vio en el último ejemplo de la sección \ref{subsec:resultados-yolov4-tf}, fenómenos como pueden ser los cambios de iluminación, calidad en la resolución del vídeo, escenas de día/noche, objetos de interés a largas distancias y en ángulos desfavorables u oclusiones, provocan que las predicciones se vean afectadas ocasionando en múltiples ocasiones \gls{fp}.
+
+Posterior a la evaluación de la etapa de detección con \gls{yolov4} se ha analizado los resultados ejecutando el algoritmo de detección y seguimiento con \gls{deepsort}. Con el fin de que son producieran \gls{fp} se aumentó el umbral de confianza de 0,25, valor que se ha utilizado por defecto en la evaluación de las predicciones en la detección con \gls{yolov4}, a un valor de 0,45. Con ello se ha asegurado un rastreo confiable en los objetos detectados en la etapa previa. Sin embargo, del mismo modo que cuando se evaluaron las detecciones, las clases \texttt{backpack} y \texttt{handbag} se confundían con frecuencia y con el transcurso de los fotogramas cambiaba la clase detectada y en consecuencia se perdía la identidad que se le había asignado a dicho objeto. Otro problema que se ha encontrado con frecuencia y que está totalmente vinculado a la etapa de detección es la aparición de oclusiones en secuencias de vídeo de grandes aglomeraciones de personas. Al pasar una persona por delante de otra desde el punto de vista frontal de la cámara podían ocurrir dos sucesos. El primero es que solo se detectara a una persona (la persona que se encontraba en el primer plano), con lo cual se perdía la detección y con ello el rastreo de la identidad de la persona que se encontraba en el segundo plano. El otro suceso se trata cuando dos personas se cruzaban y se producía un intercambio de identidad. En ambos casos perjudicaba el rastreo de objetos y personas, así como la asociación persona-objeto en el algoritmo de detección de objetos abandonados.
+
+Finalmente, el algoritmo de detección de objetos abandonados que se planteó en la figura \ref{fig:abandoned-object-scheme} funciona correctamente, pero es totalmente dependiente de que la etapa de detección y la etapa de seguimiento de personas y objetos se realicen sin fallos. Aparecieron dos principales problemas durante la evaluación del algoritmo. Uno de ellos fueron las oclusiones producidas por las personas durante las secuencias de vídeo de grandes aglomeraciones, lo que provocaba cambios de identidad entre los sujetos y en consecuencia, incapacidad de establecer una asociación persona-objeto al inicio del vídeo. El segundo problema fue los cambios de clase, sobre todo en bolsa de mano pequeñas. En ciertas ocasiones, según el ángulo donde se situase el objeto, en la etapa de detección se realizaban predicciones de que el objeto era una mochila, y fotogramas después pasaba a ser una bolsa de mano. Esto producía que no se pudiera crear la asociación persona-objeto o que, una vez creada, desapareciese la identidad del objeto de la secuencia de vídeo.

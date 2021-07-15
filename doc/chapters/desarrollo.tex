@@ -508,7 +508,7 @@ En esta sección se expone el esqueleto sobre el se ha desarrollado el algoritmo
 
 Se ha clonado el repositorio de GitHub de seguimiento de objetos y personas con \gls{deepsort} y \gls{yolov4} en Tensorflow \cite{yolov4-deepsort}, donde previamente se ha realizado un \textit{fork} de \cite{yolov4-deepsort-original}. Se ha empleado el entorno virtual Anaconda \texttt{yolov4-gpu} utilizado en el código \ref{lst:evaluate-yolov4-tf1}, ya que se van a utilizar las mismas versiones de librerías que en la implementación del detector de objetos con \gls{yolov4} en Tensorflow \cite{yolov4-tf-github}. Se han descargado los pesos de \gls{yolov4} previamente entrenados sobre el dataset \gls{coco} para ser convertidos a modelos Tensorflow. Una vez descargado el repositorio \cite{yolov4-deepsort}, se han creado varias ramas git para el desarrollo del proyecto. En esta parte del proyecto se va a trabajar sobre la rama \texttt{develop} para la implementación del algoritmo de seguimiento de objetos y personas con \gls{deepsort} y \gls{yolov4}.
 
-Del mismo modo que en la sección \ref{sec:desarrollo-yolov4}, se ha utilizado en las últimas evaluaciones del algoritmo la \gls{gpu} NVIDIA Tesla T4 del servicio cloud de Google Colab, ya que se trata de la \gls{gpu} más potente que se puede utilizar de forma gratuita en el servicio de Google. Proporciona la mayor velocidad de \gls{fps} en las evaluaciones de los algoritmos.
+Del mismo modo que en la sección \ref{sec:desarrollo-yolov4}, se ha utilizado en las últimas evaluaciones del algoritmo la \gls{gpu} NVIDIA Tesla T4 del servicio cloud de Google Colab, ya que se trata de la \gls{gpu} con mejores prestaciones que se puede utilizar de forma gratuita en el servicio de Google. Proporciona la mayor velocidad de \gls{fps} en las evaluaciones de los algoritmos.
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Evaluación del seguimiento de objetos Deep SORT y YOLOv4 en Tensorflow (1),captionpos=b,label={lst:evaluate-deepsort-tf1}]
@@ -619,16 +619,39 @@ Las últimas evaluaciones del algoritmo de seguimiento se han realizado con Goog
 \section{Algoritmo de detección de objetos abandonados}
 \label{sec:algoritmo-object-detection}
 
-\textcolor{red}{Dibujar el esquema que voy a seguir para determinar cuando un objeto ha sido abandonado.}
-\url{https://app.diagrams.net/}
+En esta sección se explica en detalle la propuesta de algoritmo para la detección de objetos abandonados a partir del algoritmo de detección \gls{yolov4} junto con el algoritmo de seguimiento \gls{deepsort}.
 
-\textcolor{red}{Intentar meter toda la chicha posible. Que quede pendiente meter aquí código de lo que he implementado para que no quede todo en el aire y se vean de repente los resultados, por lo menos que se vea la función que hace la asociación de persona objeto y la función que establece si la persona ha abandonado un objeto o si el objeto esta abandonado y sin propietario.}
+Durante los primeros 5 segundos de ejecución de script el algoritmo calcula la distancia entre las personas y los objetos de interés mediante la función \texttt{asociar}. Si el vídeo de entrada tiene un frame rate de 30, el script estará calculando la distancia entre los centroides de los cuadros delimitadores durante las primeras 150 iteraciones del bucle while del programa principal.
 
-\textcolor{red}{Poner figura ejemplo de la hipótesis donde se hace asociación de persona y objeto cuando se activa la alarma y cuando se determina que un objeto ha sido abandonado, en el momento de la alarma se ejecuta una cuenta atrás de 30 segundos antes de determinar que el objeto ha sido abandonado.}
+La función \texttt{asociar} devuelve tres valores. Los dos primeros son el número identificador de la persona y del objeto que le ha sido asociado mediante el algoritmo de seguimiento, y el último valor es el de la distancia. Dado que en un fotograma cualquiera se pueden encontrar numerosas personas y objetos de interés, el script actualiza la asociación persona-objeto comparando la distancia medida con la calculada en el fotograma anterior y quedándose con la más pequeña, de tal manera que se garantiza que dicho objeto es propiedad de la persona a la que se le ha asignado.
 
-\textcolor{red}{Explicar la hipótesis de cuando un objeto no tiene propietario porque se encuentra alejado de cualquier persona en los primeros fotogramas del vídeo. En este caso al pasar 15 segundos se determina que el objeto ha sido abandonado.}
+El siguiente código \ref{lst:diccionario-centroides} muestra la estructura del diccionario \texttt{centroid\_dict}. Está formado por diferentes elementos de los cuales el primero es el número identificador del objeto o persona detectado y los dos siguientes son las coordenadas $x,y$ de los centroides de los cuadros delimitadores.
 
-Cuando se calcula se calcula la distancia entre personas y objetos de interés se calcula la media de las distancias obtenidas fotograma a fotograma en los primeros 5 segundos de vídeo. Se crea una asociación de una persona al objeto que se haya obtenido la menor distancia en el momento de la asociación, siempre y cuando esa distancia sea inferior a dos veces el ancho del cuadro limitador del objeto, para así no depender de la profundidad a la que se pueda encontrar las personas y objetos dentro del plano de visión.
+\vspace{0.5cm}
+\begin{lstlisting}[language=iPython,caption=Diccionario centroides personas y objetos,captionpos=b,label={lst:diccionario-centroides}]
+centroid_dict = idx, (int(x), int(y), xmin, ymin, xmax, ymax)
+\end{lstlisting}
+
+La función \texttt{is\_close} calcula la distancia euclideana en píxeles de los centroides de los objetos detectados. Posteriormente, mediante un bucle for y la función \texttt{combinations} de la librería \texttt{itertools} se calcula la distancia entre todos los objetos y personas detectables en un determinado fotograma.
+
+\vspace{0.5cm}
+\begin{lstlisting}[language=iPython,caption=Cálculo distancia entre persona y objetos,captionpos=b,label={lst:calculo-distancia-persona-objeto}]
+def is_close(p1, p2):
+
+    dst = math.sqrt(p1**2 + p2**2)
+    
+    return dst 
+
+for (id1, p1), (id2, p2) in combinations(centroid_dict.items(), 2):
+    dx, dy = p1[0] - p2[0], p1[1] - p2[1]
+    distance = is_close(dx, dy)
+\end{lstlisting}
+
+En el caso de que el identificador del primer elemento corresponda a la clase persona y el segundo a la clase de un objeto de interés se guardarán los datos en una matriz con nombre \texttt{distances}. Esta matriz está formada por 3 columnas, donde se alojan el número de identidad de la persona y objeto que sí que cumplen con la condición de asociación y la distancia, y tantas filas como personas se detecten durante el paso de los fotogramas. Como se acaba de comentar anteriormente, al guardar los datos en esta matriz se tendrá en cuenta que la distancia entre la persona y el objeto sea la mínima calculada durante los primeros 5 segundos de vídeo.
+
+Tal y como se puede contemplar en la figura \ref{fig:abandoned-object-scheme}, en el caso de que un objeto de interés no se encontrase durante los primeros 5 segundos de la secuencia de vídeo a una distancia máxima de 2 veces el ancho del cuadro delimitador de una persona, se considera que el objeto no tiene propietario, y por tanto no se encontrará dentro de la matriz \texttt{distances}. En ese caso aparecerá un mensaje de objeto abandonado cuando transcurran 15 segundos estando el objeto estático dentro del plano.
+
+En el caso de que sí que exista asociación, es decir, que un objeto se encuentre a una distancia máxima en píxeles del doble del ancho del cuadro delimitador de una persona, y además, sea la distancia mínima de entre todos los objetos que se ha calculado su distancia hasta el sujeto, el algoritmo continuará leyendo el tercer valor de la columna del matriz \texttt{distances} para comprobar si la persona que es portadora del objeto que se le ha sido asignado abandona o no el objeto en los siguientes fotogramas.
 
 \begin{figure}[ht]
 \centering
@@ -636,39 +659,38 @@ Cuando se calcula se calcula la distancia entre personas y objetos de interés s
 \caption{\label{fig:abandoned-object-scheme}Esquema hipótesis detección objeto abandonado}
 \end{figure}
 
-\newpage
+En la siguiente figura \ref{fig:link-persona-objeto} se muestra como la persona con número de identidad 5 se le ha asignado como objeto de su propiedad la maleta con número de identidad 2. Al crearse la asociación persona-objeto se dibuja automáticamente una línea que une ambos centroides indicando que la asociación se ha realizado correctamente.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.4\textwidth]{img/chapters/desarrollo/link-persona-objeto.jpg}
-\caption{\label{fig:link-persona-objeto}Asociación persona-objeto}
+\caption{\label{fig:link-persona-objeto}Asociación persona-objeto \cite{AVSSAB2007-dataset}}
 \end{figure}
 
-Hola hola
+Si la distancia entre la persona y objeto es mayor o igual a 3 veces la distancia mínima que se calculó en el momento de la asociación se indicará que el objeto se encuentra en riesgo de abandono, indicando mediante un color amarillo los cuadros delimitadores de la persona y objeto así como una línea que une ambos centroides. Como se puede observar en el diagrama de funcionamiento del algoritmo en la figura \ref{fig:abandoned-object-scheme}, en el caso de que este suceso no ocurra el algoritmo continuará evaluando la distancia entre personas y objetos asociados hasta que ocurra algún incumplimiento.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.4\textwidth]{img/chapters/desarrollo/warning-abandono.jpg}
-\caption{\label{fig:warning-abandono}Aviso de alerta posible objeto abandonado}
+\caption{\label{fig:warning-abandono}Aviso de alerta posible objeto abandonado \cite{AVSSAB2007-dataset}}
 \end{figure}
 
-Hola hola
+En el caso de que el objeto se encuentre en zona de alarma, pueden ocurrir dos sucesos. El primero es que el objeto se encuentre de manera estática durante los siguientes 15 segundos dentro de esa zona de alarma (persona y objeto se encuentran a más de 3 veces la distancia de asociación inicial). En ese caso se considerará que el objeto ha sido abandonado. El segundo suceso es que la persona siga alejándose del objeto del que es propietario a una distancia igual o mayor a 5 veces la distancia inicial de asociación o desaparezca del plano. En esa situación el objeto se considerará abandonado.
+
+Como se puede observar en la figura \ref{fig:abandono-objeto-avss} anterior, la persona portadora de la maleta se aleja a una distancia en píxeles mayor a 5 veces la distancia de asociación. En ese caso se indicará que el objeto ha sido abandonado con un color rojo en los cuadros delimitadores de la persona y el objeto abandonado, de manera que se podrá identificar la identidad de la persona que abandonó el objeto. De la misma forma que en el caso de cuando el objeto se encontraba en zona de alarma, se dibujará una línea que une el centroide entre la persona y el objeto para visualizar con mayor facilidad la persona y objeto asociado que está provocando un abandono.
+
+Del mismo modo que en la sección \ref{sec:desarrollo-yolov4}, se ha utilizado en las últimas evaluaciones del algoritmo la \gls{gpu} NVIDIA Tesla T4 del servicio cloud de Google Colab, ya que se trata de la \gls{gpu} con mejores prestaciones que se puede utilizar de forma gratuita en el servicio de Google. Proporciona la mayor velocidad de \gls{fps} en las evaluaciones de los algoritmos.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.4\textwidth]{img/chapters/desarrollo/abandono-objeto-avss.jpg}
-\caption{\label{fig:abandono-objeto-avss}Detección de objeto abandonado}
+\caption{\label{fig:abandono-objeto-avss}Detección de objeto abandonado \cite{AVSSAB2007-dataset}}
 \end{figure}
 
-Hola hola
-
-\newpage
+Para ejecutar el algoritmo de detección de objetos abandonados se debe de acceder a la misma carpeta \texttt{yolov4-deepsort} que se utilizó para evaluar el funcionamiento del seguimiento de objetos con \gls{yolov4} y \gls{deepsort} en la sección \ref{sec:desarrollo-yolov4+deepsort}. En esta ocasión se deberá de cambiar de rama de Git para poder acceder a los ficheros necesarios. Dado que se trata de otra rama no se habrán guardado los cambios realizados en la rama \texttt{develop}, por tanto, ha sido necesario descargar de nuevo los pesos de \gls{yolov4} Darknet.
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Evaluación de la detección de objetos abandonados con DeepSORT y YOLOv4 en Tensorflow (1),captionpos=b,label={lst:evaluate-abandoned-object1}]
-# Descarga del repositorio de GitHub
-git clone https://github.com/jmudy/yolov4-deepsort
-
 # Entrar dentro de la carpeta del repositorio
 cd yolov4-deepsort
 
@@ -680,47 +702,37 @@ git branch -a
 wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights -P ./data/
 \end{lstlisting}
 
-\textcolor{red}{bla bla bla}
+Del mismo modo que en la sección \ref{sec:desarrollo-yolov4+deepsort}, se ha convertido el modelo Darknet a Tensorflow con un tamaño de redimensionamiento de 608x608 ejecutando el comando que se muestra en el código \ref{lst:evaluate-abandoned-object2}, dado que han obtenido mejores resultados que con un tamaño de 416x416.
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Evaluación de la detección de objetos abandonados con DeepSORT y YOLOv4 en Tensorflow (2),captionpos=b,label={lst:evaluate-abandoned-object2}]
+# Convertir pesos de YOLOv4 Darknet a Tensorflow
+python save_model.py --weights ./data/yolov4.weights --output ./checkpoints/yolov4-608 --input_size 608 --model yolov4
+\end{lstlisting}
+
+En el código \ref{lst:evaluate-abandoned-object3} se puede observar el comando que se ha utilizado para la ejecución del algoritmo de detección de objetos abandonados con \gls{deepsort} y \gls{yolov4} en Tensorflow. De igual manera al código \ref{lst:evaluate-deepsort-tf3} se ha utilizado los flags \texttt{-{}-info} y \texttt{-{}-count} para obtener los valores \{xmin, ymin, xmax, ymax\} de los cuadros delimitadores así como el número de objetos y personas que se está detectando en pantalla.
+
+\vspace{0.5cm}
+\begin{lstlisting}[language=iPython,caption=Evaluación de la detección de objetos abandonados con DeepSORT y YOLOv4 en Tensorflow (3),captionpos=b,label={lst:evaluate-abandoned-object3}]
 # Ejecutar algoritmo de deteccion objetos abandonados con Deep SORT y YOLOv4 en Tensorflow
 !python abandoned_object.py --video {input_file_name.mp4} --output {output_file_name.avi} --model yolov4 --size 608 --weights ./checkpoints/yolov4-608 --count --info
 \end{lstlisting}
 
-
-\newpage
+Las últimas evaluaciones del algoritmo de seguimiento se han realizado con Google Colab. En el siguiente \href{https://colab.research.google.com/drive/18vL9LH8e9VaimA9LzBD35Cn4AOm6C17I?usp=sharing}{link} se puede ejecutar el Notebook donde se realizan los mismos pasos descritos anteriormente. Todos los resultados obtenidos durante la evaluación del seguimiento de objetos y personas con \gls{deepsort} y \gls{yolov4} en Tensorflow se visualizarán y analizarán en la sección \ref{subsec:resultados-abandon-algorithm}.
 
 \section{Conclusiones}
 \label{sec:conclu-desarrollo}
 
-Este capítulo ha tenido como objetivo el desarrollo de un algoritmo de detección de objetos abandonados utilizando \gls{yolov4} algoritmo de detección y \gls{deepsort} como algoritmo de seguimiento de objetos y personas. \gls{yolov4} viene previamente entrenado sobre el dataset \gls{coco}. Dado que se quiere utilizar un sistema donde no se necesita detectar las 80 clases de \gls{coco} y solo se precisa la detección de personas y los objetos de interés: mochilas, maletas y bolsas de mano, se ha entrenado dos modelos de \gls{yolov4} a partir de un dataset personalizado \gls{oidv4} con la finalidad de obtener las máximas métricas de calidad posibles sobre dichas clases. Variando los parámetros de la \gls{cnn} así como el número de clases y de imágenes de entrenamiento y evaluación no se han conseguido mejorar las métricas que se obtienen con \gls{coco}. Por tanto se ha decidido continuar el desarrollo del proyecto con el modelo preentrenado de \gls{yolov4}.
+Este capítulo ha tenido como objetivo el desarrollo de un algoritmo de detección de objetos abandonados utilizando \gls{yolov4} como algoritmo de detección y \gls{deepsort} como algoritmo de seguimiento de objetos y personas. \gls{yolov4} viene previamente entrenado sobre el dataset \gls{coco}. Dado que se quiere utilizar un sistema donde no se necesita detectar las 80 clases de \gls{coco} y solo se precisa la detección de personas y los objetos de interés: mochilas, maletas y bolsas de mano, se ha entrenado dos modelos de \gls{yolov4} a partir de un dataset personalizado \gls{oidv4} con la finalidad de obtener mayores valores en las métricas de calidad sobre dichas clases. Variando los parámetros de la \gls{cnn} así como el número de clases y de imágenes de entrenamiento y evaluación no se han conseguido mejorar las métricas que se obtienen con \gls{coco}. Por tanto, se ha decidido continuar el desarrollo del proyecto con el modelo preentrenado de \gls{yolov4}.
 
-Se ha probado \gls{yolov4} sobre el framework Darknet original. Para facilitar la programación de los scripts en la detección seguimiento y detección de objetos abandonados con Python, se ha decidido convertir el modelo \gls{yolov4} a Tensorflow, dado que Darknet no es de uso extendido y puede resultar más díficil solucionar los posibles errores que puedan aparecer.
+En primer lugar se ha probado \gls{yolov4} sobre el framework Darknet original. Para facilitar la programación de los scripts en la detección seguimiento y detección de objetos abandonados con Python, se ha decidido convertir el modelo \gls{yolov4} a Tensorflow, dado que Darknet no es de uso extendido y puede resultar más díficil solucionar los posibles errores que puedan aparecer.
 
 Las implementaciones tanto de \gls{yolov4} como de \gls{deepsort} han estado totalmente inspiradas en las aplicaciones desarrolladas en los repositorios de GitHub \cite{yolov4-tf-github-original} y \cite{yolov4-deepsort-original}. Se han realizado las modificaciones oportunas para satisfacer las necesidades de cara a la etapa de desarrollo del algoritmo de detección de objetos abandonados, como es la filtración en la etapa de detección para que solo tenga en cuenta las clases de interés que se quieren detectar e ignore el resto de las clases de \gls{coco}.
 
-\textcolor{red}{Aquí meter conclusiones en el desarrollo del algoritmo de detección de objetos abandonados, citar el trabajo previo de David \cite{valdivieso2018}}
+Con la reciente llegada de \gls{yolov4} se ha podido aumentar la precisión en las detecciones que se realizaron con versiones previas de \gls{yolo} en \cite{valdivieso2018}. Además, la implementación de \gls{yolov4} junto con \gls{deepsort}, que incluye tanto filtros de Kalman como el algoritmo húngaro, ha provocado un mejor rastreo de los objetos y personas respecto a las propuestas que se realizaron en \cite{valdivieso2018} utilizando únicamente filtros de Kalman.
 
-\textcolor{red}{Revisar lo que he escrito arriba y añadir lo que resulte oportuno. No exponer conclusiones de ningún resultado ya que eso se expondrá el el capítulo de resultados.}
+Una vez establecido como base del proyecto la utilización de \gls{yolov4} como algoritmo de detección y \gls{deepsort} como algoritmo de seguimiento de objetos y personas se ha diseñado un algoritmo de detección de objetos abandonados para aplicaciones de videovigilancia en tiempo real basado en \cite{valdivieso2018}.
 
-\textcolor{red}{Meter referencias a todo lo que esté contando}
+Para ello, se han tenido en cuenta dos posibles escenarios. En el primero, se trata de cuando un objeto está alejado de cualquier persona y además se encuentra de manera estática durante más de 15 segundos. En ese caso se establece que el objeto ha sido previamente abandonado y además no se le puede asignar ningún propietario del mismo. En el segundo escenario se asocian los objetos a las personas más cercanas que se encuentran durante los primeros segundos de la secuencia de vídeo. Una vez establecida la asociación persona-objeto se estudia cuando la distancia que une ambos se aleja más de cierta distancia. Primeramente, se establece una distancia de zona de alarma donde el objeto es candidato a poder ser abandonado. Esta distancia es medida en píxeles entre los centroides de la persona y el objeto asociado. En el caso de que la persona se aleje más de la distancia máxima permitida o desaparezca del plano de la cámara, se lanzará un aviso por pantalla de que el objeto ha sido abandonado.
 
-
-
-\begin{algorithm}[H]
- \caption{How to write algorithms}
- \label{alg:howto}
- \KwData{this text}
- \KwResult{how to write algorithm with \LaTeX}
- initialization\;
- \While{not at end of this document}{
-  read current\;
-  \eIf{understand}{
-   go to next section\;
-   current section becomes this one\;
-   }{
-   go back to the beginning of current section\;
-  }
- }
-\end{algorithm}
+Cuando el algoritmo de seguimiento con \gls{deepsort} trabaja correctamente sin perder la identidad de las personas y objetos que se estaban detectando el algoritmo de detección de objetos abandonados funciona de forma eficiente y sin fallos. Sin embargo, tal y como se verá en la sección \ref{subsec:resultados-abandon-algorithm}, pueden aparecer fenómenos que produzcan la incapacidad de detectar un objeto abandonado.

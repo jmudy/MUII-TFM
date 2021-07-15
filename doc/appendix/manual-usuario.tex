@@ -5,7 +5,7 @@
 \section{Introducción}
 \label{sec:intro-manual-de-usuario}
 
-Este apéndice se va a dividir en dos secciones diferenciadas donde se va a explicar como instalar y configurar todas las herramientas necesarias para la puesta a punto del proyecto. Y por otro lado, un manual de usuario donde se va a explicar como ejecutar cada uno de los algoritmos que se han utilizado en los capítulos \ref{cha:desarrollo} y \ref{cha:resultados}.
+Este apéndice se va a dividir en dos secciones diferenciadas donde se va a explicar como instalar y configurar todas las herramientas necesarias para la puesta a punto del proyecto. Y por otro lado, un manual de usuario donde se va a detallar como ejecutar cada uno de los algoritmos que se han utilizado en el capítulo \ref{cha:desarrollo}.
 Cabe destacar que, tal y como se indica en el sección \ref{sec:intro-pliego}, el equipo donde se instalará todo el software descrito en este apartado para programar los distintos algoritmos, tiene un sistema operativo Ubuntu 18.04.4 LTS. Por tanto, todos los comandos de instalaciones y puesta en funcionamiento estarán orientados a un equipo que disponga de Linux.
 
 \section{Guía de instalación}
@@ -50,13 +50,13 @@ Anaconda se trata de la \textit{suite} más compleja para la Ciencia de Datos en
     
 \begin{lstlisting}[language=iPython,caption=Verificación de la integridad de la instalación de Anaconda,captionpos=b,label={lst:verificar-sha256}]
 # Acceder a la carpeta Downloads del usuario
-cd /home/{username}/Downloads
+cd ${HOME}/Downloads
 
 # Verificacion de la integridad del instalador
 sha256sum Anaconda3-2020.02-Linux-x86_64.sh
 \end{lstlisting}
     
-    \item Ejecute la secuencias de comandos de Anaconda. Presione \texttt{yes} para aceptar los términos de la licencia. Pulse a continuación \texttt{ENTER} cuando seleccione la ubicación de la instalación y finalmente presione \texttt{yes} para confirmar el \texttt{PATH} de Anaconda con tu \texttt{.bashrc}:
+    \item Ejecute la secuencias de comandos de Anaconda. Presione \texttt{yes} para aceptar los términos de la licencia. Pulse a continuación \texttt{ENTER} cuando seleccione la ubicación de la instalación y finalmente presione \texttt{yes} para confirmar el \texttt{PATH} de Anaconda con tu fichero \texttt{.bashrc}:
     
     \vspace{0.5cm}
     
@@ -71,7 +71,7 @@ bash Anaconda3-2020.02-Linux-x86_64.sh
     
 \begin{lstlisting}[language=iPython,caption=Hacer efectivo los cambios en el fichero .bashrc,captionpos=b,label={lst:source-bashrc}]
 # Hacer efectivos los cambios realizados en .bashrc
-source /home/{username}/.bashrc
+source ${HOME}/.bashrc
 \end{lstlisting}
 \end{enumerate}
 
@@ -84,7 +84,7 @@ En esta sección se indica como descargar los repositorios de GitHub donde se ha
 
 \begin{lstlisting}[language=iPython,caption=Descarga repositorio,captionpos=b,label={lst:descarga-repo}]
 # Acceder a la carpeta Documents del usuario
-cd /home/{username}/Documents
+cd ${HOME}/Documents
 
 # Clonar los dos repositorios de GitHub
 git clone https://github.com/jmudy/tensorflow-yolov4-tflite
@@ -100,9 +100,9 @@ cd yolov4-deepsort
 \subsection{Crear entorno virtual con Anaconda}
 \label{subsec:creacion-entorno}
 
-Con la finalidad de evitar la tediosa y larga instalación de \gls{cuda} y \gls{cudnn} y tener únicamente instaladas las librerías necesarias para que funcione el código, se va a instalar un entorno virtual en Anaconda.
+Con la finalidad de evitar la larga y compleja instalación de \gls{cuda} y \gls{cudnn} y tener únicamente instaladas las librerías necesarias para que funcione el código, se va a instalar un entorno virtual en Anaconda.
 
-Desde cualquiera de las carpetas de los repositorios de Github que se han clonado, hay dos ficheros con extensión .yml, donde viene indicadas la versión de Python que se va a necesitar, la versión de \gls{cuda} y \gls{cudnn} así como las librerías y dependencias necesarias. Para utilizar \gls{cuda} es necesario disponer de una \gls{gpu} de NVIDIA. Es muy importante verificar la capacidad de cálculo de la tarjeta gráfica NVIDIA que se emplee. En la siguiente dirección \cite{cuda-gpus} se puede comprobar la capacidad de cálculo de los distintos modelos o bien puede consultar la que esté utilizando introduciendo los siguientes comandos en el terminal:
+Desde cualquiera de las carpetas de los repositorios de Github que se han clonado, hay dos ficheros con extensión .yml, donde viene indicadas la versión de Python que se va a necesitar, la versión de \gls{cuda} y \gls{cudnn} así como las librerías y dependencias necesarias. Para utilizar \gls{cuda} es necesario disponer de una \gls{gpu} de NVIDIA. Es muy importante verificar la capacidad de cálculo de la tarjeta gráfica NVIDIA que se emplee. En la siguiente dirección \cite{cuda-gpus} se puede comprobar la capacidad de cálculo de los distintos modelos o bien puede consultar la que esté utilizando introduciendo los siguientes comandos en el terminal en el caso de que ya se tuviera instalada la librería de Tensorflow:
 
 \vspace{0.5cm}
 
@@ -147,12 +147,12 @@ conda activate yolov4-gpu
 Los enlaces para descargar los datasets que se han utilizado para evaluar los distintos algoritmos a lo largo del proyecto se encuentran a continuación:
 
 \begin{itemize}
-    \item \gls{pets} dataset \url{http://www.cvg.reading.ac.uk/PETS2007/data.html} \cite{pets2007-dataset}
-    \item \gls{avss} dataset \url{http://www.eecs.qmul.ac.uk/~andrea/avss2007_d.html} \cite{AVSSAB2007-dataset}
-    \item \gls{gba2018} dataset \url{https://bit.ly/3tIJdUx} \cite{gba-dataset}
-    \item \gls{aboda} dataset \url{https://github.com/kevinlin311tw/ABODA} \cite{aboda-dataset}
-    \item \gls{coco} dataset \url{https://cocodataset.org/#download} \cite{lin2015microsoft}
-    \item \gls{oidv4} dataset \url{https://storage.googleapis.com/openimages/web/index.html} \cite{Kuznetsova_2020}
+    \item \gls{pets} dataset: \url{http://www.cvg.reading.ac.uk/PETS2007/data.html} \cite{pets2007-dataset}
+    \item \gls{avss} dataset: \url{http://www.eecs.qmul.ac.uk/~andrea/avss2007_d.html} \cite{AVSSAB2007-dataset}
+    \item \gls{gba2018} dataset: \url{https://bit.ly/3tIJdUx} \cite{gba-dataset}
+    \item \gls{aboda} dataset: \url{https://github.com/kevinlin311tw/ABODA} \cite{aboda-dataset}
+    \item \gls{coco} dataset: \url{https://cocodataset.org/#download} \cite{lin2015microsoft}
+    \item \gls{oidv4} dataset: \url{https://storage.googleapis.com/openimages/web/index.html} \cite{Kuznetsova_2020}
     
 \end{itemize}
 
@@ -168,6 +168,9 @@ Para ejecutar el algoritmo de detección de objetos con \gls{yolov4} en el frame
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Descarga de pesos y conversion modelo YOLOv4,captionpos=b,label={lst:descarga-weights-convertir-modelo}]
+# Entrar dentro de la carpeta del repositorio
+cd ${HOME}/Documents/tensorflow-yolov4-tflite
+
 # Descargar los pesos de YOLOv4
 wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights -P ./data/
 
@@ -191,10 +194,13 @@ Recuerde que, tal y como se explicó en la sección \ref{sec:desarrollo-yolov4},
 \subsection{Ejecutar algoritmo de seguimiento de objetos YOLOv4 + Deep SORT}
 \label{subsec:ejecutar-seguimiento-yolov4-deepsort}
 
-Para ejecutar el algoritmo de seguimiento de objetos con \gls{deepsort} y \gls{yolov4} entre en la carpeta del repositorio \texttt{yolov4-deepsort} desde el terminal y cambie a la rama de git \texttt{develop} dedicada al rastreo de objetos y personas ejecutando el siguiente comando:
+Para ejecutar el algoritmo de seguimiento de objetos con \gls{deepsort} y \gls{yolov4} entre en la carpeta del repositorio \texttt{yolov4-deepsort} desde el terminal y cambie a la rama de git \texttt{develop} dedicada al rastreo de objetos y personas ejecutando los siguientes comandos:
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=cambiar a la rama develop,captionpos=b,label={lst:git-checkout-develop}]
+# Entrar dentro de la carpeta del repositorio
+cd ${HOME/Documents/yolov4-deepsort
+
 # Cambiar a la rama develop 
 git checkout develop
 
@@ -220,10 +226,13 @@ Recuerde que, tal y como se explicó en la sección \ref{sec:desarrollo-yolov4},
 \subsection{Ejecutar algoritmo de detección de objetos abandonados}
 \label{subsec:ejecutar-deteccion-abandoned-object}
 
-Para ejecutar el algoritmo de detección de objetos abandonados con \gls{deepsort} y \gls{yolov4} entre en la carpeta del repositorio \texttt{yolov4-deepsort} entre en la carpeta del repositorio \texttt{yolov4-deepsort} desde el terminal y cambie a la rama de git \texttt{abandoned} dedicada al rastreo de objetos y personas ejecutando el siguiente comando:
+Para ejecutar el algoritmo de detección de objetos abandonados con \gls{deepsort} y \gls{yolov4} entre en la carpeta del repositorio \texttt{yolov4-deepsort} desde el terminal y cambie a la rama de git \texttt{abandoned} dedicada al rastreo de objetos y personas ejecutando los siguientes comandos:
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=cambiar a la rama abandoned,captionpos=b,label={lst:git-checkout-abandoned}]
+# Entrar dentro de la carpeta del repositorio
+cd ${HOME}/Documents/yolov4-deepsort
+
 # Cambiar a la rama abandoned 
 git checkout abandoned
 
