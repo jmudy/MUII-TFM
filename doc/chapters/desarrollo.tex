@@ -392,7 +392,7 @@ Se ha generado el fichero \texttt{yolov4-obj.cfg} basado en \texttt{yolov4.cfg},
     \item \texttt{filters} = (\# de clases + 5) * 3 = (4 + 5) * 3 = \textbf{27} (Número de núcleos convolucionales que contiene cada capa)
 \end{itemize}
 
-Se ha creado el fichero \texttt{obj.data} basado en el \texttt{coco.data} que se vio en la sección \ref{sec:evaluate-cocodataset}. En este caso, se ha especificado que el número de clases que se va a entrenar es de 4, la ubicación de los ficheros \texttt{train.txt}, \texttt{train.txt} y \texttt{coco.names} y la carpeta donde se generarán los ficheros \texttt{.weights} con los pesos de la red entrenada cada 1.000 iteraciones.
+Se ha creado el fichero \texttt{obj.data} basado en el \texttt{coco.data} que se vio en la sección \ref{sec:evaluate-cocodataset}. En este caso, se ha especificado que el número de clases que se va a entrenar es de 4, la ubicación de los ficheros \texttt{train.txt}, \texttt{test.txt}, \texttt{coco.names} y la carpeta donde se generarán los ficheros \texttt{.weights} con los pesos de la red entrenada cada 1.000 iteraciones.
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Fichero obj.data,captionpos=b,label={lst:obj-data-file}]
@@ -413,7 +413,7 @@ Backpack
 Suitcase
 \end{lstlisting}
 
-Los últimos archivos de configuración necesarios antes de comenzar el entrenamiento son los ficheros \texttt{train.txt} y \texttt{train.txt}, los cuales contienen las rutas relativas a todas las imágenes de entrenamiento e imágenes de validación.
+Los últimos archivos de configuración necesarios antes de comenzar el entrenamiento son los ficheros \texttt{train.txt} y \texttt{test.txt}, los cuales contienen las rutas relativas a todas las imágenes de entrenamiento e imágenes de validación.
 
 Ejecutando el siguiente script en Python se genera el fichero \texttt{train.txt}.
 
