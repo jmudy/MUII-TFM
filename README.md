@@ -2,7 +2,7 @@
 
 ## Título
 
-Diseño, implementación y evaluación de una estrategia dedetección de objetos abandonados en aplicaciones de videovigilancia
+Diseño, implementación y evaluación de una estrategia de detección de objetos abandonados en aplicaciones de videovigilancia
 
 ## Resumen
 
