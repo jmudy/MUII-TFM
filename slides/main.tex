@@ -85,7 +85,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Comment/Uncomment these lines for an automatically generated outline.
 {\disableNavigation{white}
-    \begin{frame}{Outline}
+    \begin{frame}{Índice}
         \tableofcontents
     \end{frame}
 }
@@ -124,29 +124,10 @@
   \end{itemize}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Section 1}
-{
-\sectionheaderWhite %Enclose the frame with {} and add this command for white background in section header
-\begin{frame}{Section Header 1}{Version - white background}
-\end{frame}
-
-}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Title, subtitle and content}{Enter subtitle here}
-Enter text, charts, pictures, … here
-\end{frame}
-
-{
-\disableNavigation{white}
-\begin{frame}{Title, subtitle and content}{Enter subtitle here}
-Enter text, charts, pictures, … here
-\end{frame}
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Figures}
-\begin{frame}{Figures}
+\section{Estudio teórico}
+\begin{frame}{Estudio teórico}
 
 \begin{itemize}
   \item You can upload a figure (JPEG, PNG or PDF) using the files menu. 
@@ -163,13 +144,22 @@ Enter text, charts, pictures, … here
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Chart}
+\section{Desarrollo}
 \begin{frame}{Sample Chart}
 Insert charts as images
 \begin{figure}
 	\centering
 	\includegraphics[width=0.6\textwidth]{Images/chart.png}
     \caption{Caption}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Diagrama algoritmo detección de objetos abandonados}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\textwidth]{Images/desarrollo/abandoned-object-scheme.png}
+    \caption{Diagrama algoritmo detección de objetos abandonados}
 \end{figure}
 \end{frame}
 
@@ -240,7 +230,7 @@ Some examples of commonly used commands and features are included, to help you g
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Some \LaTeX{} Examples}
+\section{Resultados}
 \subsection{Tables}
 
 \begin{frame}{Tables}
@@ -283,4 +273,52 @@ $$S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
 denote their mean. Then as $n$ approaches infinity, the random variables $\sqrt{n}(S_n - \mu)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
 
 \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusiones}
+\begin{frame}{Conclusiones}
+
+\begin{itemize}
+  \item You can upload a figure (JPEG, PNG or PDF) using the files menu. 
+  \item To include it in your document, use the \texttt{includegraphics} command (see the comment below in the source code).
+\end{itemize}
+
+% Commands to include a figure:
+\begin{figure}
+  \includegraphics[width=0.5\textwidth]{Images/image.png}
+  \caption{\label{fig:your-figure2}Caption goes here2.}
+\end{figure}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Líneas futuras}
+\begin{frame}{Líneas futuras}
+
+\begin{itemize}
+  \item You can upload a figure (JPEG, PNG or PDF) using the files menu. 
+  \item To include it in your document, use the \texttt{includegraphics} command (see the comment below in the source code).
+\end{itemize}
+
+% Commands to include a figure:
+\begin{figure}
+  \includegraphics[width=0.5\textwidth]{Images/image.png}
+  \caption{\label{fig:your-figure3}Caption goes here3.}
+\end{figure}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{¿Preguntas?}
+{
+\sectionheaderWhite 
+
+\begin{frame}{¡Muchas gracias por su atención!}{¿Preguntas?}
+\end{frame}
+
+}
+
 \end{document}

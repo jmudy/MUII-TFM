@@ -357,10 +357,10 @@ donde:
 
 \begin{itemize}
     \item \textbf{label\_ID}: es un número de índice del fichero \texttt{coco.names}, empezando por el 0 y seguido de números enteros crecientes.
-    \item \textbf{x\_center\_norm} = x\_center\_abs/image\_width
-    \item \textbf{y\_center\_norm} = y\_center\_abs/image\_height
-    \item \textbf{x\_center\_norm} = width\_of\_the\_label\_abs/image\_width
-    \item \textbf{x\_center\_norm} = height\_of\_the\_label\_abs/image\_height
+    \item \textbf{x\_center\_norm} = x\_center\_abs/image\_width.
+    \item \textbf{y\_center\_norm} = y\_center\_abs/image\_height.
+    \item \textbf{x\_center\_norm} = width\_of\_the\_label\_abs/image\_width.
+    \item \textbf{x\_center\_norm} = height\_of\_the\_label\_abs/image\_height.
 \end{itemize}
 
 Es preciso señalar que todos los atributos de posición de las etiquetas de Darknet no son absolutos, sino normalizados.
@@ -383,13 +383,13 @@ Antes de comenzar el entrenamiento de la red con el dataset \gls{oidv4} es neces
 Se ha generado el fichero \texttt{yolov4-obj.cfg} basado en \texttt{yolov4.cfg}, y se han modificado los siguientes parámetros en base a las recomendaciones indicadas en \cite{yolov4-darknet-github} para el entrenamiento:
 
 \begin{itemize}
-    \item \texttt{batch} = \textbf{64} (Cantidad de imágenes y etiquetas que se calculan de una pasada en el cálculo del gradiente y se actualiza los pesos a través del \textit{backpropagation})
-    \item \texttt{subdivisions} = \textbf{16} (Cantidad de \texttt{batches} que se subdividen en cada bloque. Las imágenes de cada bloque se ejecutan en paralelo en la \gls{gpu})
-    \item \texttt{width} = \textbf{416} (Ancho del tamaño de la red. Cada imagen se redimensiona al tamaño de la red durante el entrenamiento y la detección)
-    \item \texttt{height} = \textbf{416} (Altura del tamaño de la red. Cada imagen se redimensiona al tamaño de la red durante el entrenamiento y la detección)
-    \item \texttt{max\_batches} = (\# de clases) * 2.000 = 4 * 2.000 = \textbf{8.000} (Número máximo de \texttt{batches})
-    \item \texttt{steps} = \textbf{6.400} (80\% de max\_batches), \textbf{7.200} (90\% de max\_batches) (Ajuste del \texttt{learning rate} después de un determinado número de \texttt{batches})
-    \item \texttt{filters} = (\# de clases + 5) * 3 = (4 + 5) * 3 = \textbf{27} (Número de núcleos convolucionales que contiene cada capa)
+    \item \texttt{batch} = \textbf{64} (Cantidad de imágenes y etiquetas que se calculan de una pasada en el cálculo del gradiente y se actualiza los pesos a través del \textit{backpropagation}).
+    \item \texttt{subdivisions} = \textbf{16} (Cantidad de \texttt{batches} que se subdividen en cada bloque. Las imágenes de cada bloque se ejecutan en paralelo en la \gls{gpu}).
+    \item \texttt{width} = \textbf{416} (Ancho del tamaño de la red. Cada imagen se redimensiona al tamaño de la red durante el entrenamiento y la detección).
+    \item \texttt{height} = \textbf{416} (Altura del tamaño de la red. Cada imagen se redimensiona al tamaño de la red durante el entrenamiento y la detección).
+    \item \texttt{max\_batches} = (\# de clases) * 2.000 = 4 * 2.000 = \textbf{8.000} (Número máximo de \texttt{batches}).
+    \item \texttt{steps} = \textbf{6.400} (80\% de max\_batches), \textbf{7.200} (90\% de max\_batches) (Ajuste del \texttt{learning rate} después de un determinado número de \texttt{batches}).
+    \item \texttt{filters} = (\# de clases + 5) * 3 = (4 + 5) * 3 = \textbf{27} (Número de núcleos convolucionales que contiene cada capa).
 \end{itemize}
 
 Se ha creado el fichero \texttt{obj.data} basado en el \texttt{coco.data} que se vio en la sección \ref{sec:evaluate-cocodataset}. En este caso, se ha especificado que el número de clases que se va a entrenar es de 4, la ubicación de los ficheros \texttt{train.txt}, \texttt{test.txt}, \texttt{coco.names} y la carpeta donde se generarán los ficheros \texttt{.weights} con los pesos de la red entrenada cada 1.000 iteraciones.

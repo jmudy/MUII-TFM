@@ -70,8 +70,8 @@ El mantenimiento del fondo se encarga de adaptar el modelo a los cambios que pue
     donde:
     
     \begin{itemize}
-        \item $\alpha$ es el ratio de aprendizaje y tiene un valor comprendido entre [0,1]
-        \item $\text{B}_{t}$ y $\text{I}_{t}$ son el fondo y la imagen actual respectivamente en el tiempo t
+        \item $\alpha$ es el ratio de aprendizaje y tiene un valor comprendido entre [0,1].
+        \item $\text{B}_{t}$ y $\text{I}_{t}$ son el fondo y la imagen actual respectivamente en el tiempo t.
     \end{itemize}
     
     La principal desventaja de este esquema es que el valor de los píxeles clasificados como primer plano son utilizados en el cálculo del nuevo fondo y por tanto, afecta a la imagen de fondo. Para lidiar con este problema algunos investigadores utilizan un esquema de mantenimiento selectivo que se basa en actualizar la nueva imagen de fondo con diferentes ratios de aprendizaje en función de la clasificación previa del píxel en primer plano o fondo:
@@ -228,8 +228,8 @@ El primero consta de dos pasos. Primero, se extraen características de bajo niv
 La detección de comportamientos anormales en la videovigilancia es una tarea desafiante en la visión por computadora y últimamente ha experimentado importantes avances. Las etapas de procesamiento de bajo nivel permiten detectar y describir el objeto en movimiento en la escena. Sin embargo, esos pasos no permiten comprender el tipo de acción que realiza el objeto en movimiento ni determinar si su comportamiento es normal o no. Dado que existen múltiples trabajos propuestos que se relacionan con el reconocimiento de conductas anormales en la videovigilancia, en esta sección se va a hacer una revisión de:
 
 \begin{itemize}
-    \item Modelado de marcos y métodos de clasificación
-    \item Densidad de escenas e interacción de objetos en movimiento
+    \item Modelado de marcos y métodos de clasificación.
+    \item Densidad de escenas e interacción de objetos en movimiento.
 \end{itemize}
 
 \subsubsection*{Modelado de marcos y métodos de clasificación}
@@ -398,8 +398,8 @@ El \gls{rpn} funciona en el mapa de características de salida devuelto desde la
 Como se puede ver en la figura \ref{fig:variacion-anchor-boxes-faster-rcnn}, el mapa de características de la última capa de convolución compartida se pasa a través de una ventana deslizante rectangular de tamaño $n*n$, donde $n = 3$ para la red VGG-16. Para cada ventana, se generan propuestas de región $K$. Cada propuesta se parametriza según un cuadro de referencia que se denomina \textit{anchor box}. Los 2 parámetros de los anchor boxes son:
 
 \begin{enumerate}
-    \item Escala
-    \item Relación de aspecto
+    \item Escala.
+    \item Relación de aspecto.
 \end{enumerate}
 
 Generalmente, hay 3 escalas y 3 relaciones de aspecto y, por lo tanto, hay un total de $K = 9$ casillas de anclaje. Pero $K$ puede ser diferente de 9. En otras palabras, las $K$ regiones se producen a partir de cada propuesta de región, donde cada una de las $K$ regiones varía en la escala o en la relación de aspecto. Algunas de las variaciones del ancla se muestran en la figura \ref{fig:variacion-anchor-boxes-faster-rcnn}.
@@ -530,10 +530,10 @@ Combinando el nuevo backbone y Bi\gls{fpn}, surge una línea de base EfficientDe
 \gls{yolo} tiene como objetivo encontrar las siguientes variables en una imagen:
 
 \begin{itemize}
-    \item $(bx, by)$ - el centro de un cuadro delimitador
-    \item $(bw, bh)$ - el ancho y alto de un cuadro delimitador
-    \item $c$ - la clase del objeto
-    \item $P_c$ - la probabilidad de que haya un objeto de clase $c$ en el cuadro
+    \item $(bx, by)$ - el centro de un cuadro delimitador.
+    \item $(bw, bh)$ - el ancho y alto de un cuadro delimitador.
+    \item $c$ - la clase del objeto.
+    \item $P_c$ - la probabilidad de que haya un objeto de clase $c$ en el cuadro.
 \end{itemize}
 
 \gls{yolo} divide la imagen en una imagen de 19x19, donde cada celda predice 5 cuadros delimitadores de la forma $y = (Pc, bx, by, bw, bh, c)$. Esto da $19x19x5 = 1.805$ cuadros delimitadores diferentes por imagen. La eliminación de las cajas con un $Pc$ bajo se denomina \textit{non-max suppression}.
@@ -567,9 +567,9 @@ El backbone de la red de un detector de objetos típicamente suele estar preentr
 Los autores consideraron los siguientes backbones para el detector de objetos \gls{yolov4}:
 
 \begin{itemize}
-    \item CSPResNext50
-    \item CSPDarknet53
-    \item EfficientNet-B3
+    \item CSPResNext50.
+    \item CSPDarknet53.
+    \item EfficientNet-B3.
 \end{itemize}
 
 CSPResNext50 y CSPDarknet53 se basan en DenseNet. DenseNet fue diseñado para conectar capas en redes neuronales convolucionales con los siguientes objetivos: aliviar el problema del gradiente de desaparición (es difícil retropropulsar señales de pérdida a través de una red muy profunda), reforzar la propagación de características, alentar a la red a reutilizar características y reducir el número de parámetros de red.
@@ -680,10 +680,10 @@ Existe una estrecha relación entre el seguimiento y la detección. La detecció
 
 Una forma inocente de realizar el seguimiento es aplicar un algoritmo de detección a cada fotograma de un vídeo, pero hay varias razones por las que el seguimiento es necesario o útil:
 \begin{itemize}
-    \item El seguimiento permite mantener las identidades de los objetos
-    \item La detección requiere un alto coste computacional
-    \item Los rastreadores sin detección permiten rastrear objetos para los que no se ha entrenado ningún detector
-    \item El seguimiento puede ayudar a abordar problemas comunes, como los  cambios de iluminación, desenfoque de movimiento, cambio de escala, oclusiones (cuando el objetivo está parcial o completamente oculto por otro objeto durante un período de tiempo en el vídeo) o una mala calidad de la imagen
+    \item El seguimiento permite mantener las identidades de los objetos.
+    \item La detección requiere un alto coste computacional.
+    \item Los rastreadores sin detección permiten rastrear objetos para los que no se ha entrenado ningún detector.
+    \item El seguimiento puede ayudar a abordar problemas comunes, como los  cambios de iluminación, desenfoque de movimiento, cambio de escala, oclusiones (cuando el objetivo está parcial o completamente oculto por otro objeto durante un período de tiempo en el vídeo) o una mala calidad de la imagen.
 \end{itemize}
 
 \subsection{Seguimiento de un objeto}

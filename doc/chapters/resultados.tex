@@ -14,14 +14,14 @@
 \section{Introducción}
 \label{sec:intro-resultados}
 
-En este capítulo se recogen los resultados obtenidos durante el diseño del sistema la detección de objetos abandonados. Para evaluar el funcionamiento de los distintos algoritmos que han sido empleados o diseñados es necesario realizar evaluaciones cuantitativas y cualitativas para validar su funcionamiento. En la detección de objetos, los investigadores evalúan sus algoritmos sobre los mismos datasets, de tal manera que se pueda contrastar los resultados con las propuestas de trabajos previos. Para evaluar un modelo de una red neuronal artificial se utilizan datasets de referencia para medir métricas de calidad para cuantificar el funcionamiento de los algoritmos.
+En este capítulo se recogen los resultados obtenidos en el diseño del sistema la detección de objetos abandonados. Para evaluar el funcionamiento de los distintos algoritmos que han sido empleados o diseñados es necesario realizar evaluaciones cuantitativas y cualitativas para validar su funcionamiento. En la detección de objetos, los investigadores evalúan sus algoritmos sobre los mismos datasets, de tal manera que se pueda contrastar los resultados con las propuestas de trabajos previos. Para evaluar un modelo de una red neuronal artificial se utilizan datasets de referencia para medir métricas de calidad para cuantificar el funcionamiento de los algoritmos.
 
-Este capítulo está dividido en dos secciones diferenciadas. En la primera, se van a detallar las métricas de calidad que se han empleado para validar los datasets de referencia empleados en el entrenamiento de la red neuronal \gls{yolov4} y se expondrán los datasets empleados para evaluar los algoritmos que se han propuesto en el capítulo \ref{cha:desarrollo}. En la segunda, se expondrán y interpretarán los resultados obtenidos al ejecutar los algoritmos sobre los datasets descritos anteriormente.
+Este capítulo está dividido en dos secciones muy diferenciadas. En la primera, se van a detallar las métricas de calidad que se han empleado para validar los datasets de referencia empleados en el entrenamiento de la red neuronal \gls{yolov4} y se expondrán los datasets empleados para evaluar los algoritmos que se han propuesto en el capítulo \ref{cha:desarrollo}. En la segunda, se expondrán y interpretarán los resultados cuantitativos obtenidos en los entrenamientos en base a las métricas de calidad, así como los resultados cualitativos en la ejecución de los algoritmos sobre los datasets descritos anteriormente.
 
 \section{Entorno experimental}
 \label{sec:desarrollo-resultados}
 
-En el capítulo anterior se dijo que \gls{yolov4} está preentrenado sobre \gls{coco}. Sin embargo, durante las primeras pruebas de funcionamiento del detector de objetos se pudo observar que en la detección sobre los objetos de interés arrojaba en algunas ocasiones un \textit{confidence score} bajo dependiendo de la posición y ángulo que estuviera. \gls{yolov4} viene configurado por defecto con un \textit{threshold} sobre el \textit{confidence score} del 25\%, parámetro que se deberá de tener muy en cuenta más adelante. Por este motivo se ha decidido reentrenar la red sobre el dataset \gls{oidv4} con el objetivo de mejorar las métricas. Es por ello por lo que en el siguiente subapartado se va a hacer una introducción sobre las métricas más utilizadas en la evaluación de algoritmos de detección de objetos. Más adelante, en la sección \ref{subsec:metricas-calidad-openimagesv4} se visualizarán los resultados obtenidos tras el entrenamiento de la red.
+En el capítulo anterior se manifestó que \gls{yolov4} está preentrenado sobre \gls{coco}. Sin embargo, durante las primeras pruebas de funcionamiento del detector de objetos se pudo observar que en la detección sobre los objetos de interés arrojaba en algunas ocasiones un \textit{confidence score} bajo dependiendo de la posición y ángulo que se encontraran. \gls{yolov4} viene configurado por defecto con un \textit{threshold} sobre el \textit{confidence score} del 25\%, parámetro que se deberá de tener muy en cuenta más adelante. Por este motivo, se ha decidido reentrenar la red sobre el dataset \gls{oidv4} con el objetivo de mejorar las métricas. Por ello, en el siguiente subapartado se va a hacer una introducción sobre las métricas más utilizadas en la evaluación de algoritmos de detección de objetos. Más adelante, en la sección \ref{subsec:metricas-calidad-openimagesv4} se visualizarán los resultados obtenidos tras el entrenamiento de la red.
 
 \subsection{Métricas de calidad}
 \label{subsec:metricas-calidad}
@@ -124,19 +124,19 @@ Por otro lado, el \gls{map} es la media de los \gls{ap} de todas las categorías
 \subsection{Datasets utilizados}
 \label{subsec:datasets-utilizados}
 
-Se van a describir los datasets más relevantes en la detección de objetos abandonados en los sistemas de videovigilancia así como los datasets de referencia sobre las que se validará previamente, en base a las métricas de calidad, el modelo entrenado o pre-entrenado utilizado.
+A continuación, se van a describir los datasets más relevantes en la detección de objetos abandonados en los sistemas de videovigilancia así como los datasets de referencia sobre las que se validará previamente, en base a las métricas de calidad, el modelo entrenado o pre-entrenado utilizado.
 
-En la tabla \ref{tab:datasets} se resumen los contenidos más relevantes de los datasets como son: número de secuencias, longitud media en minutos, escenario o tipo de desafío.
+En la tabla \ref{tab:datasets} se resumen los contenidos más relevantes de los datasets como son: número de secuencias, longitud media en minutos, escenario o tipos de \textit{challenges}.
 
 Los \textit{challenges} que se consideran de interés para la detección de objetos abandonados se numeran a continuación:
 
 \begin{itemize}
-    \item I = cambios de iluminación/sombras
-    \item R = objetos alejados o pequeños
-    \item P = personas estáticas en un punto durante un período de tiempo
-    \item O = oclusiones
-    \item LR = resolución vídeo baja
-    \item RO = objetos abandonados o eliminados
+    \item I = cambios de iluminación/sombras.
+    \item R = objetos alejados o pequeños.
+    \item P = personas estáticas en un punto durante un período de tiempo.
+    \item O = oclusiones.
+    \item LR = resolución vídeo baja.
+    \item RO = objetos abandonados o eliminados.
 \end{itemize}
 
 \begin{table}[ht]
@@ -160,7 +160,7 @@ El dataset \gls{pets} \cite{pets2007-dataset} está formado por secuencias que c
 \paragraph*{Definición de merodear}\mbox{} \\
 \label{parag:definicion-merodear}
 
-Merodear se define como una persona que entra en escena y permanece dentro de la escena durante más de t segundos. Para los propósitos de \gls{pets}, 60 segundos.
+Merodear se define como el acto donde una persona entra en escena y permanece dentro de la escena durante más de t segundos. Para los propósitos de \gls{pets}, 60 segundos.
 
 \paragraph*{Definición de objeto desatendido}\mbox{} \\
 \label{parag:definicion-desatendido-objeto}
@@ -207,10 +207,10 @@ El robo de una pieza de equipaje se define utilizando únicamente una restricci�
 Las cámaras utilizadas para la grabación de las distintas secuencias son las siguientes:
 
 \begin{itemize}
-    \item Cámara 1: Canon MV-1 1xCCD w/progressive scan
-    \item Cámara 2: Sony DCR-PC1000E 3xCMOS
-    \item Cámara 3: Canon MV-1 1xCCD w/progressive scan
-    \item Cámara 4: Sony DCR-PC1000E 3xCMOS
+    \item Cámara 1: Canon MV-1 1xCCD w/progressive scan.
+    \item Cámara 2: Sony DCR-PC1000E 3xCMOS.
+    \item Cámara 3: Canon MV-1 1xCCD w/progressive scan.
+    \item Cámara 4: Sony DCR-PC1000E 3xCMOS.
 \end{itemize}
 
 
@@ -235,7 +235,7 @@ La resolución de todas las secuencias es PAL standard (768 x 576 píxeles y 25 
   \label{fig:pets2007_S07}
 \end{figure}
 
-En este proyecto solo se va a tener en cuenta tener en cuenta cuando un equipaje ha sido abandonado sin propietario en un tiempo superior a 15 segundos o cuando ha sido desatendido por su propietario alejándose más de 5 veces la distancia que se establece en el momento de la asociación persona-objeto.
+En este proyecto solo se va a tener en cuenta cuando un equipaje ha sido abandonado sin propietario en un tiempo determinado o cuando ha sido desatendido por su propietario alejándose cierta distancia en relación a la distancia que se establece en el momento de la asociación persona-objeto.
 
 \subsubsection{AVSSAB2007 Dataset}
 
@@ -254,10 +254,10 @@ El \gls{roi} está dividido en tres zonas: cercana, media, lejos. En cada una de
 Todas las secuencias presentan la misma estructura en la sucesión de eventos:
 
 \begin{itemize}
-    \item Una persona ha colocado un objeto que estaba en su posesión en una de las áreas de detección
-    \item Esa persona abandona el área de detección sin el objeto
-    \item Esa persona aún no ha regresado al objeto más de 60 segundos después de haber abandonado el área de detección
-    \item El objeto permanece en el área de detección hasta finalizar la secuencia de vídeo
+    \item Una persona ha colocado un objeto que estaba en su posesión en una de las áreas de detección.
+    \item Esa persona abandona el área de detección sin el objeto.
+    \item Esa persona aún no ha regresado al objeto después de 60 segundos tras haber abandonado el área de detección.
+    \item El objeto permanece en el área de detección hasta finalizar la secuencia de vídeo.
 \end{itemize}
 
 \begin{figure}[ht]
@@ -310,7 +310,7 @@ En el primer escenario se muestra como \gls{roi} el hall de la \gls{eps} desde u
   \label{fig:GBA1}
 \end{figure}
 
-El \gls{roi} del segundo escenario se encuentra en el pasillo que conecta el hall con la cafetería. El plano de grabación es más cercano respecto al anterior con lo que se consideran secuencias más fáciles de evaluar ya que no se encuentran elementos de interés alejados ni tampoco hay cambios bruscos en la iluminación.
+El \gls{roi} del segundo escenario se encuentra en el pasillo que conecta el hall con la cafetería. El plano de grabación es más cercano respecto al anterior por lo que se consideran secuencias más fáciles de evaluar ya que no se encuentran elementos de interés alejados ni tampoco hay cambios bruscos en la iluminación.
 
 \begin{figure}[ht]
   \centering
@@ -333,11 +333,11 @@ El \gls{roi} del segundo escenario se encuentra en el pasillo que conecta el hal
 
 \subsubsection{ABODA Dataset}
 
-\gls{aboda} \cite{aboda-dataset} es un dataset propuesto por primera vez en 2015 para la detección de objetos abandonados. \gls{aboda} está formado por 11 secuencias etiquetadas con varios escenarios de aplicaciones reales que son un desafío para la detección de objetos abandonados. Las situaciones incluyen escenas de gran aglomeración de personas, cambios en las condiciones de iluminación, detección nocturna, así como ambientes interiores y exteriores.
+\gls{aboda} \cite{aboda-dataset} es un dataset propuesto por primera vez en 2015 para la detección de objetos abandonados. \gls{aboda} está formado por 11 secuencias etiquetadas con varios escenarios de aplicaciones reales, que son un desafío para la detección de objetos abandonados. Las situaciones incluyen escenas de grandes aglomeraciones de personas, cambios en las condiciones de iluminación, detección nocturna, así como ambientes interiores y exteriores.
 
 Algunas secuencias de vídeo están grabadas a resoluciones: de 720 x 480 píxeles a 30 \gls{fps}, y otras secuencias a 640 x 480 píxeles y 30 \gls{fps}. El modelo de la cámara no se especifica.
 
-La figura \ref{fig:aboda1} muestra los fotogramas de vídeo1 grabados en un entorno interior con luz artificial. En esta secuencia dos personas están interactuando entre sí y una persona tiene una bolsa (Fig. \ref{fig:aboda_1}). Más tarde, una de las dos personas deja caer su bolso y ambos abandonan el lugar ((Fig. \ref{fig:aboda_2}))
+La figura \ref{fig:aboda1} muestra los fotogramas de \texttt{video1} grabados en un entorno interior con luz artificial. En esta secuencia dos personas están interactuando entre sí y una persona tiene una bolsa (Fig. \ref{fig:aboda_1}). Más tarde, una de las dos personas deja caer su bolso y ambos abandonan el lugar ((Fig. \ref{fig:aboda_2}))
 
 \begin{figure}[ht]
   \centering
