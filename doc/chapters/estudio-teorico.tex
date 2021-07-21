@@ -562,7 +562,7 @@ También es útil dividir los detectores de objetos en dos categorías: detector
 \subsubsection*{Backbone de YOLOv4}
 \label{subsubsec:yolov4-backbone}
 
-El backbone de la red de un detector de objetos típicamente suele estar preentrenada en la clasificación de ImageNet \cite{russakovsky2015imagenet}. El entrenamiento previo significa que los pesos de la red ya se han adaptado para identificar características relevantes en una imagen, aunque se modificarán en la nueva tarea de detección de objetos.
+El backbone de la red de un detector de objetos típicamente suele estar pre-entrenada en la clasificación de ImageNet \cite{russakovsky2015imagenet}. El entrenamiento previo significa que los pesos de la red ya se han adaptado para identificar características relevantes en una imagen, aunque se modificarán en la nueva tarea de detección de objetos.
 
 Los autores consideraron los siguientes backbones para el detector de objetos \gls{yolov4}:
 
@@ -823,7 +823,7 @@ En la etapa final de emparejamiento, se ejecuta la \gls{iou} en el conjunto de r
 \subsubsection*{Descriptor de apariencia profunda}
 \label{subsubsec:deep-appearance-descriptor}
 
-Mediante el uso de consultas simples al vecino más cercano sin aprendizaje métrico adicional, se requiere una incrustación de características discriminante que debe ser entrenada fuera de línea, antes de la aplicación real de seguimiento en línea. En la versión original de \gls{deepsort}, se empleó una \gls{cnn} entrenada en el dataset de reidentificación de personas MARS \cite{10.1007/978-3-319-46466-4_52} que contiene más de 1.100.000 imágenes de 1.261 peatones, lo que la hace muy adecuada para el aprendizaje métrico profundo en un contexto de seguimiento de personas.
+Mediante el uso de consultas simples al vecino más cercano sin aprendizaje métrico adicional, se requiere una incrustación de características discriminante que debe ser entrenada fuera de línea, antes de la aplicación real de seguimiento en línea. En la versión original de \gls{deepsort}, se empleó una \gls{cnn} entrenada en el dataset de re-identificación de personas MARS \cite{10.1007/978-3-319-46466-4_52} que contiene más de 1.100.000 imágenes de 1.261 peatones, lo que la hace muy adecuada para el aprendizaje métrico profundo en un contexto de seguimiento de personas.
 
 \begin{table}[ht]
 \centering

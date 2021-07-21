@@ -16,20 +16,20 @@
 
 En el presente \gls{tfm} se ha desarrollado una estrategia de detección de objetos abandonados para ser aplicado en sistemas de videovigilancia. Como ya se comentó al final de la sección \ref{subsec:comparativa-detectores}, se utilizará como detector de objetos y personas \gls{yolov4} y como algoritmo de seguimiento \gls{deepsort}. A continuación, se describen las diferentes secciones que componen este capítulo.
 
-Primero se evaluará \gls{yolov4} sobre Darknet, framework de código abierto escrito en C y \gls{cuda}, y se analizará la precisión y velocidad que se obtienen en la detección de objetos y personas. Posteriormente se convertirá el modelo de \gls{yolov4} de Darknet a Tensorflow, framework de código abierto escrito en Python y C++ orientado al desarrollo de algoritmos inteligentes de Machine Learning. Utilizar \gls{yolov4} con Tensorflow facilitará la programación del algoritmo de detección de objetos abandonados con Python, ya que Darknet no es un framework de uso extendido y podría ser más difícil encontrar soluciones para los posibles errores. A continuación se reentrenará el modelo de la red \gls{yolov4} sobre el dataset \gls{oidv4} para observar si se obtienen mayores valores en las métricas de calidad respecto a \gls{coco}.
+Primero se evaluará \gls{yolov4} sobre Darknet, framework de código abierto escrito en C y \gls{cuda}, y se analizará la precisión y velocidad que se obtienen en la detección de objetos y personas. Posteriormente se convertirá el modelo de \gls{yolov4} de Darknet a Tensorflow, framework de código abierto escrito en Python y C++ orientado al desarrollo de algoritmos inteligentes de Machine Learning. Utilizar \gls{yolov4} con Tensorflow facilitará la programación del algoritmo de detección de objetos abandonados con Python, ya que Darknet no es un framework de uso extendido y podría ser más difícil encontrar soluciones ante los posibles errores. A continuación, se reentrenará el modelo de la red \gls{yolov4} sobre el dataset \gls{oidv4} para observar si se obtienen mayores valores en las métricas de calidad respecto a \gls{coco}.
 
-Una vez obtenido el modelo de \gls{yolov4} definitivo, se probará el algoritmo de seguimiento \gls{deepsort}. Solo nos interesa la detección y seguimiento de personas y objetos de interés, por lo que se filtrará la detección para que solo se identifiquen las clases que queremos.
+Una vez obtenido el modelo de \gls{yolov4} definitivo, se probará el algoritmo de seguimiento \gls{deepsort}. Solo nos interesa la detección y seguimiento de personas y objetos de interés, por lo que se filtrará la detección para que solo se identifiquen las clases deseadas.
 
-Finalmente, se expondrá una estrategia para la detección de objetos abandonados basada en la detección de objetos y personas mediante \gls{cnn}'s y se implementará sobre el detector de objetos \gls{yolov4} junto al algoritmo de detección \gls{deepsort}. En el planteamiento del algoritmo de detección de objetos abandonados se tendrá que considerar dos posibles escenarios. El primero es que se identifique un objeto sin propietario que se encuentre estacionario durante toda la ejecución de la secuencia de vídeo. En este caso, se emitirá una señal de alarma cuando se superen los 15 segundos del objeto inmóvil. En el segundo escenario se deberá de crear una asociación entre persona y objeto. Una vez establecida la asociación se podrá evaluar cuando una persona abandona un objeto de su propiedad a una una distancia en píxeles 5 veces mayor a la distancia a la que se encontraba en el momento que se realizó la asociación.
+Finalmente, se expondrá una estrategia para la detección de objetos abandonados basada en la detección de objetos y personas mediante \gls{cnn}'s y se implementará sobre el detector de objetos \gls{yolov4} junto al algoritmo de detección \gls{deepsort}. En el planteamiento del algoritmo de detección de objetos abandonados se tendrá que considerar dos posibles escenarios. El primero es que se identifique un objeto sin propietario que se encuentre estacionario desde el comienzo de la secuencia de vídeo. En este caso, se emitirá una señal de alarma cuando se superen los 15 segundos del objeto inmóvil. En el segundo escenario se deberá de crear una asociación entre persona y objeto. Una vez establecida la asociación se podrá evaluar cuando una persona abandona un objeto de su propiedad a una una distancia en píxeles 5 veces mayor a la distancia a la que se encontraba en el momento que se realizó la asociación o el objeto se encuentra en zona de alarma durante más de 15 segundos.
 
 Cabe recalcar que en este capítulo se va a exponer cada uno de los procedimientos que se han llevado a cabo para poner en funcionamiento los algoritmos de detección, seguimiento y detección de objetos abandonados. Todos los resultados obtenidos durante el desarrollo de esta parte del proyecto se pueden consultar en el capítulo \ref{cha:resultados}.
 
 \section{Detección de personas y objetos con YOLOv4}
 \label{sec:desarrollo-yolov4}
 
-Para la utilización de \gls{yolov4} se ha instalado previamente la librería opencv-python 4.1.1.26 junto con \gls{cuda} 10.1.243 y cuDNN 7.6.5 para poder codificar de manera más optima los algoritmos utilizando una \gls{gpu} NVIDIA.
+Para la utilización de \gls{yolov4} se ha instalado previamente la librería opencv-python 4.1.1.26 junto con \gls{cuda} 10.1.243 y cuDNN 7.6.5 para poder ejecutar de manera más optima los algoritmos utilizando una \gls{gpu} NVIDIA.
 
-Se ha clonado el repositorio de \gls{yolov4} de GitHub \cite{yolov4-darknet-github} en el framework Darknet. Para obtener el máximo rendimiento por parte del equipo que se está utilizando se ha modificado el fichero Makefile para habilitar la utilización de la \gls{gpu} junto con \gls{cuda}, así como OpenCV para poder visualizar por pantalla los resultados las de las detecciones.
+Se ha clonado el repositorio original de \gls{yolov4} de GitHub \cite{yolov4-darknet-github} en el framework Darknet. Para obtener el máximo rendimiento por parte del equipo que se está utilizando se ha modificado el fichero Makefile para habilitar la utilización de la \gls{gpu} junto con \gls{cuda}, así como OpenCV para poder visualizar por pantalla los resultados de las detecciones.
 
 En la evaluación del algoritmo de detección de \gls{yolov4} se va a emplear una \gls{gpu} NVIDIA Tesla T4 del servicio cloud de Google Colab \cite{google-colab}, un servicio cloud de Google basado en los Notebooks de Jupyter donde ya vienen instaladas la mayoría de librerías necesarias para la programación de algoritmos de Machine Learning. Esta \gls{gpu} tiene una capacidad de computación de 7,5 por lo que será necesario descomentar una línea del fichero Makefile para indicar que se está empleando una \gls{gpu} con esas características. Tras modificar el fichero se ha ejecutado el comando make para compilar el repositorio, de tal manera que se generan los ficheros necesarios para el funcionamiento de la red neuronal de \gls{yolov4} sobre Darknet. 
 
@@ -64,18 +64,18 @@ sed -i 's/batch=64/batch=1/' yolov4.cfg
 sed -i 's/subdivisions=8/subdivisions=1/' yolov4.cfg
 cd ..
 
-# Descargar los pesos preentrenados de YOLOv4
+# Descargar los pesos pre-entrenados de YOLOv4
 wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights
 
 # Ejecutar detector de objetos en video con YOLOv4 en Darknet
 ./darknet detector demo cfg/coco.data cfg/yolov4.cfg yolov4.weights ./data/videos-datasets/{input_file_name.avi} -i 0 -out_filename ./results/{output_file_name.avi}
 \end{lstlisting}
 
-Se han descargado los pesos de \gls{yolov4} previamente entrenados sobre el dataset \gls{coco}. Por último se ha ejecutado el algoritmo de detección de objetos. En el código \ref{lst:evaluate-yolov4-darknet3} se especifica que la detección es en formato vídeo, se va a utilizar \gls{yolov4} como detector y la ubicación tanto del vídeo de entrada que se quiere procesar como el vídeo de salida resultante de las detecciones.
+Se han descargado los pesos de \gls{yolov4} previamente entrenados sobre el dataset \gls{coco}. Por último, se ha ejecutado el algoritmo de detección de objetos. En el código \ref{lst:evaluate-yolov4-darknet3} se especifica que la detección es en formato vídeo, se va a utilizar \gls{yolov4} como detector y la ubicación tanto del vídeo de entrada que se quiere procesar como el vídeo de salida resultante de las detecciones.
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Evaluación del detector de objetos YOLOv4 en Darknet (3),captionpos=b,label={lst:evaluate-yolov4-darknet3}]
-# Descargar los pesos preentrenados de YOLOv4
+# Descargar los pesos pre-entrenados de YOLOv4
 wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights
 
 # Ejecutar detector de objetos en video con YOLOv4 en Darknet
@@ -114,7 +114,7 @@ conda env create -f conda-gpu.yml
 conda activate yolov4-gpu
 \end{lstlisting}
 
-En el código \ref{lst:evaluate-yolov4-tf2} se muestra el comando para convertir el modelo preentrenado de \gls{yolov4} en Darknet a Tensorflow. Se ha especificado un tamaño de 608x608, por dos motivos. El primero, es el mismo tamaño de redimensionamiento de las imágenes a la entrada de la capa de la red que en Darknet, con lo cual, se puede comparar ambos modelos en las mismas condiciones. Segundo, se han obtenido mejores resultados que empleando el clásico tamaño de 416x416.
+En el código \ref{lst:evaluate-yolov4-tf2} se muestra el comando para convertir el modelo pre-entrenado de \gls{yolov4} en Darknet a Tensorflow. Se ha especificado un tamaño de 608x608, por dos motivos. El primero, es el mismo tamaño de redimensionamiento de las imágenes a la entrada de la capa de la red que en Darknet, con lo cual, se puede comparar ambos modelos en las mismas condiciones. Segundo, se han obtenido mejores resultados que empleando el clásico tamaño de 416x416.
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Evaluación del detector de objetos YOLOv4 en Tensorflow (2),captionpos=b,label={lst:evaluate-yolov4-tf2}]
@@ -130,7 +130,7 @@ En el código \ref{lst:evaluate-yolov4-tf3} se puede apreciar el comando que se 
 !python detect_video.py --weights ./checkpoints/yolov4-608 --size 608 --model yolov4 --video {input_file_name.mp4} --output {output_file_name.avi}
 \end{lstlisting}
 
-En la figura \ref{fig:detection-yolov4-darknet-gba-far-video3} se muestra un ejemplo del funcionamiento de \gls{yolov4} en Tensorflow donde se puede observar el hall de una Universidad llena de personas y equipajes como bolsas de mano y maletas.
+En la figura \ref{fig:detection-yolov4-darknet-gba-far-video3} se muestra un ejemplo del funcionamiento de \gls{yolov4} en Tensorflow donde se puede observar el hall de la \gls{eps} llena de personas y equipajes como bolsas de mano y maletas.
 
 \begin{figure}[ht]
 \centering
@@ -138,7 +138,7 @@ En la figura \ref{fig:detection-yolov4-darknet-gba-far-video3} se muestra un eje
 \caption{\label{fig:detection-yolov4-darknet-gba-far-video3}Detección de objetos con YOLOv4 en Tensorflow en \cite{gba-dataset}}
 \end{figure}
 
-Como se puede observar en la figura \ref{fig:predictions-darknet-tf} se puede apreciar que la precisión en las detecciones de \gls{yolov4} en Darknet y Tensorflow son prácticamente idénticas. Por tanto, se continuará el desarrollo del proyecto empleando Tensorflow como framework para la evaluación y diseño de los distintos algoritmos utilizados. En la sección \ref{subsec:resultados-yolov4-tf} se analizará con detalle las detecciones de objetos de \gls{yolov4} en Tensorflow.
+Como se ilustra en la figura \ref{fig:predictions-darknet-tf} se puede apreciar que la precisión en las detecciones de \gls{yolov4} en Darknet y Tensorflow son prácticamente idénticas. Por tanto, se continuará el desarrollo del proyecto empleando Tensorflow como framework para la evaluación y diseño de los distintos algoritmos utilizados. En la sección \ref{subsec:resultados-yolov4-tf} se analizará con detalle las detecciones de objetos de \gls{yolov4} en Tensorflow.
 
 \begin{figure}[ht]
   \centering
@@ -162,9 +162,9 @@ Como se puede observar en la figura \ref{fig:predictions-darknet-tf} se puede ap
 \section{Datasets utilizados para el evaluación de YOLOv4}
 \label{sec:datasets-utilizados}
 
-La detección de objetos con \gls{yolov4} está basada en \gls{coco}, un dataset que contiene 80 categorías de objetos muy diversos y que se adaptan excelentemente a la problemática que se presenta en este proyecto. Contiene imágenes de las clases de interés: personas, mochilas, bolsos y maletas.
+La detección de objetos con \gls{yolov4} está basada en \gls{coco}, un dataset que contiene 80 categorías de objetos muy diversos y que se adaptan excelentemente a la problemática que se presenta en este proyecto. Contiene imágenes de las clases de interés: personas, mochilas y maletas.
 
-Para poder contrastar los resultados obtenidos en la evaluación de las métricas de calidad de \gls{coco} sobre \gls{yolov4}, se va a emplear el dataset \gls{oidv4}, donde previamente se entrenará un modelo de detección en base a las imágenes de \gls{oidv4}. La ventaja de utilizar \gls{oidv4} es que dispone de 600 categorías de objetos para evaluar los algoritmos de detección de objetos. De esta manera, se puede construir un gran dataset más específico y además con más clases de interés que las que ofrece \gls{coco}.
+Para poder contrastar los resultados obtenidos en la evaluación de las métricas de calidad de \gls{coco} sobre \gls{yolov4}, se va a emplear el dataset \gls{oidv4}, donde previamente se entrenará un modelo de detección en base a las imágenes de \gls{oidv4}. La ventaja de utilizar \gls{oidv4} es que dispone de 600 categorías de objetos para evaluar los algoritmos de detección de objetos. De esta manera, se puede construir un gran dataset más específico con más clases de interés que las que ofrece \gls{coco}.
 
 En las siguientes secciones se explicará en mayor profundidad y detalle como están formados los datasets \gls{coco} y \gls{oidv4}.
 
@@ -295,11 +295,11 @@ names = data/coco.names
 #backup = /home/pjreddie/backup/
 \end{lstlisting}
 
-Por último, se han descargado los pesos de \gls{yolov4} preentrado y ejecutado el siguiente comando para evaluar las métricas de calidad en base al dataset \gls{coco}.
+Por último, se han descargado los pesos de \gls{yolov4} pre-entrenado y ejecutado el siguiente comando para evaluar las métricas de calidad en base al dataset \gls{coco}.
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Evaluación de las métricas de calidad de MS COCO en YOLOv4 Darknet (3),captionpos=b,label={lst:evaluate-cocodataset3}]
-# Descargar los pesos preentrenados de YOLOv4
+# Descargar los pesos pre-entrenados de YOLOv4
 wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights
 
 # Ejecutar evaluacion de las metricas de calidad de MS COCO sobre YOLOv4
@@ -458,7 +458,7 @@ os.chdir("..")
 \subsection{Entrenamiento del dataset personalizado}
 \label{subsec:training-custom-dataset}
 
-Se han descargado los pesos de las capas convolucionales del modelo preentrenado \texttt{yolov4.conv.137}. El uso de estos peso hace que el detector de objetos personalizado ayuda a que converja, a que sea mucho más preciso y que no tenga que entrenar tanto tiempo.
+Se han descargado los pesos de las capas convolucionales del modelo pre-entrenado \texttt{yolov4.conv.137}. El uso de estos pesos hace que el detector de objetos personalizado ayude a que converja, a que sea mucho más preciso y que no tenga que entrenar tanto tiempo.
 
 Como último paso, se ha ejecutado el comando para realizar el entrenamiento del detector de objetos personalizado con \gls{yolov4}. Dado que se ha utilizado un conjunto de imágenes para la validación, se ha utilizado el flag \texttt{-map} para que se genere un diagrama con el \gls{map} con la finalidad de poder visualizar la precisión del modelo entrenado.
 
@@ -497,9 +497,9 @@ Durante el entrenamiento se ha generado un diagrama que se encuentra en la carpe
 \caption{\label{fig:chart-train}Evolución del mAP y pérdidas a lo largo de las interacciones durante el entrenamiento de la red neuronal con el dataset de OIDv4}
 \end{figure}
 
-Cabe resaltar que, cada 1.000 iteraciones se genera un fichero \texttt{.weights} con los pesos del modelo que estamos entrenando en \gls{yolov4} y se almacenan en la carpeta \texttt{./backup}. Es importante tener en cuenta que se ha establecido las máximas iteraciones del entrenamiento a 8.000, sin embargo, es posible que el mejores resultados en las métricas hayan sido en la iteración 5.000. Esto puede ser producido por el \textit{overfitting}. Afortunadamente, durante el entrenamiento se genera un fichero llamado \texttt{yolov4-obj\_best.weights} donde se almacenan los pesos de la red entrenada con mejores resultados. Por tanto, se ha podido ahorrar tiempo en analizar las métricas cada 1.000 iteraciones para determinar en que iteración el error era mínimo.
+Cabe resaltar que, cada 1.000 iteraciones se genera un fichero \texttt{.weights} con los pesos del modelo que estamos entrenando en \gls{yolov4} y se almacenan en la carpeta \texttt{./backup}. Es importante tener en cuenta que se ha establecido las máximas iteraciones del entrenamiento a 8.000, sin embargo, es posible que los mejores resultados en las métricas hayan sido en la iteración 5.000. Esto puede ser producido por el \textit{overfitting}. Afortunadamente, durante el entrenamiento se genera un fichero llamado \texttt{yolov4-obj\_best.weights} donde se almacenan los pesos de la red entrenada con mejores resultados. Por tanto, se ha podido ahorrar tiempo en analizar las métricas cada 1.000 iteraciones para determinar en que iteración el error ha sido mínimo.
 
-En la sección \ref{subsec:metricas-calidad-openimagesv4} se observarán y analizarán los resultados tanto de este entrenamiento como de un segundo que ha sido necesario ya que no se obtuvieron métricas de calidad superiores a las del dataset \gls{coco}.
+En la sección \ref{subsec:metricas-calidad-openimagesv4} se observarán y analizarán los resultados tanto de este entrenamiento como de un segundo que ha sido necesario, ya que no se obtuvieron métricas de calidad superiores a las del dataset \gls{coco}.
 
 \section{Seguimiento de personas y objetos con YOLOv4 y Deep SORT}
 \label{sec:desarrollo-yolov4+deepsort}
@@ -526,7 +526,7 @@ git branch -a
 wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights -P ./data/
 \end{lstlisting}
 
-En el código \ref{lst:evaluate-deepsort-tf2} se muestra el comando para convertir el modelo preentrenado de \gls{yolov4} en Darknet a Tensorflow. Se ha especificado un tamaño de 608x608, por dos motivos. El primero, es el mismo tamaño de redimensionamiento de las imágenes de entrada de la capa de la red Darknet, con lo cual, se puede comparar ambos modelos en las mismas condiciones en la etapa de detección. Segundo, se han obtenido mejores resultados que empleando el clásico tamaño de 416x416.
+En el código \ref{lst:evaluate-deepsort-tf2} se muestra el comando para convertir el modelo pre-entrenado de \gls{yolov4} en Darknet a Tensorflow. Se ha especificado un tamaño de 608x608, por dos motivos. El primero, es el mismo tamaño de redimensionamiento de las imágenes de entrada de la capa de la red Darknet, con lo cual, se puede comparar ambos modelos en las mismas condiciones en la etapa de detección. Segundo, se han obtenido mejores resultados que empleando el clásico tamaño de 416x416.
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Evaluación del seguimiento de objetos Deep SORT y YOLOv4 en Tensorflow (2),captionpos=b,label={lst:evaluate-deepsort-tf2}]
@@ -576,7 +576,7 @@ Tracker ID: 32, Class: motorbike, BBox Coords (xmin,ymin,xmax,ymax): (760,928,85
 FPS: 10.06
 \end{lstlisting}
 
-Como se puede apreciar en la figura \ref{fig:prueba-deepsort-frame53} y el código \ref{lst:deepsort-original-test1} se están rastreando clases que no son de interés para el objetivo de este \gls{tfm}, en concreto, se identifica las 80 clases que componen el dataset \gls{coco} y que se pueden ver dentro del fichero \texttt{data/classes/coco.names}. Así pues, se va a filtrar las detecciones para que solo se muestre por pantalla el seguimiento de las clases: \texttt{person, backpack, handbag} y \texttt{suitcase}. Sin embargo, se pueden modificar fácilmente unas pocas líneas de código para rastrear las clases que son de interés.
+Como se puede apreciar en la figura \ref{fig:prueba-deepsort-frame53} y el código \ref{lst:deepsort-original-test1} se están rastreando clases que no son de interés para el objetivo de este \gls{tfm}, en concreto, se identifica las 80 clases que componen el dataset \gls{coco} y que se pueden ver dentro del fichero \texttt{data/classes/coco.names}. Así pues, se va a filtrar las detecciones para que solo se muestre por pantalla el seguimiento de las clases: \texttt{person, backpack, handbag} y \texttt{suitcase}. Esta tarea resulta sencilla modificando unas pocas líneas de código.
 
 Para filtrar las clases de interés solo ha sido necesario comentar la línea 136 y descomentar la línea 137 del script \texttt{object\_tracker.py} \cite{yolov4-deepsort} añadiendo las clases \texttt{person, backpack, handbag} y \texttt{suitcase}. Dentro de la lista \texttt{allowed\_classes} simplemente se han añadido las clases que se desea rastrear. En el siguiente código \ref{lst:allowed_classes} se muestran los cambios realizados en las líneas de código nombradas.
 
@@ -619,16 +619,16 @@ Las últimas evaluaciones del algoritmo de seguimiento se han realizado con Goog
 \section{Algoritmo de detección de objetos abandonados}
 \label{sec:algoritmo-object-detection}
 
-En esta sección se explica en detalle la propuesta de algoritmo para la detección de objetos abandonados a partir del algoritmo de detección \gls{yolov4} junto con el algoritmo de seguimiento \gls{deepsort}.
+En esta sección se explica en detalle la propuesta del algoritmo para la detección de objetos abandonados a partir del algoritmo de detección \gls{yolov4} junto con el algoritmo de seguimiento \gls{deepsort}.
 
-Durante los primeros 5 segundos de ejecución de script el algoritmo calcula la distancia entre las personas y los objetos de interés mediante la función \texttt{asociar}. Si el vídeo de entrada tiene un frame rate de 30, el script estará calculando la distancia entre los centroides de los cuadros delimitadores durante las primeras 150 iteraciones del bucle while del programa principal.
+Durante los primeros 5 segundos de ejecución de script el algoritmo calcula la distancia entre las personas y los objetos de interés mediante la función \texttt{asociar}. Si el vídeo de entrada tiene un frame rate de 30, el script estará calculando la distancia entre los centroides de los cuadros delimitadores de todos los objetos durante las primeras 150 iteraciones del bucle while del programa principal.
 
-La función \texttt{asociar} devuelve tres valores. Los dos primeros son el número identificador de la persona y del objeto que le ha sido asociado mediante el algoritmo de seguimiento, y el último valor es el de la distancia. Dado que en un fotograma cualquiera se pueden encontrar numerosas personas y objetos de interés, el script actualiza la asociación persona-objeto comparando la distancia medida con la calculada en el fotograma anterior y quedándose con la más pequeña, de tal manera que se garantiza que dicho objeto es propiedad de la persona a la que se le ha asignado.
+La función \texttt{asociar} devuelve tres valores. Los dos primeros son los números identificadores de los objetos y personas que se han asociado mediante el algoritmo de seguimiento, y el último valor es el de la distancia. Dado que en un fotograma cualquiera se pueden encontrar numerosas personas y objetos de interés, el script actualiza la asociación persona-objeto comparando la distancia medida con la calculada en el fotograma anterior y quedándose con la más pequeña, de tal manera que se garantiza que dicho objeto es propiedad de la persona a la que se le ha asignado.
 
 El siguiente código \ref{lst:diccionario-centroides} muestra la estructura del diccionario \texttt{centroid\_dict}. Está formado por diferentes elementos de los cuales el primero es el número identificador del objeto o persona detectado y los dos siguientes son las coordenadas $x,y$ de los centroides de los cuadros delimitadores.
 
 \vspace{0.5cm}
-\begin{lstlisting}[language=iPython,caption=Diccionario centroides personas y objetos,captionpos=b,label={lst:diccionario-centroides}]
+\begin{lstlisting}[language=iPython,caption=Diccionario centroides personas y objetos de la función asociar,captionpos=b,label={lst:diccionario-centroides}]
 centroid_dict = idx, (int(x), int(y), xmin, ymin, xmax, ymax)
 \end{lstlisting}
 
@@ -677,7 +677,7 @@ Si la distancia entre la persona y objeto es mayor o igual a 3 veces la distanci
 
 En el caso de que el objeto se encuentre en zona de alarma, pueden ocurrir dos sucesos. El primero es que el objeto se encuentre de manera estática durante los siguientes 15 segundos dentro de esa zona de alarma (persona y objeto se encuentran a más de 3 veces la distancia de asociación inicial). En ese caso se considerará que el objeto ha sido abandonado. El segundo suceso es que la persona siga alejándose del objeto del que es propietario a una distancia igual o mayor a 5 veces la distancia inicial de asociación o desaparezca del plano. En esa situación el objeto se considerará abandonado.
 
-Como se puede observar en la figura \ref{fig:abandono-objeto-avss} anterior, la persona portadora de la maleta se aleja a una distancia en píxeles mayor a 5 veces la distancia de asociación. En ese caso se indicará que el objeto ha sido abandonado con un color rojo en los cuadros delimitadores de la persona y el objeto abandonado, de manera que se podrá identificar la identidad de la persona que abandonó el objeto. De la misma forma que en el caso de cuando el objeto se encontraba en zona de alarma, se dibujará una línea que une el centroide entre la persona y el objeto para visualizar con mayor facilidad la persona y objeto asociado que está provocando un abandono.
+Como se puede observar en la figura \ref{fig:abandono-objeto-avss} siguiente, la persona portadora de la maleta se aleja a una distancia en píxeles mayor a 5 veces la distancia de asociación. En ese caso se indicará que el objeto ha sido abandonado con un color rojo en los cuadros delimitadores de la persona y el objeto abandonado, de manera que se podrá identificar la identidad de la persona que abandonó el objeto. De la misma forma que en el caso de cuando el objeto se encontraba en zona de alarma, se dibujará una línea que une el centroide entre la persona y el objeto para visualizar con mayor facilidad la persona y objeto asociado que está provocando un abandono.
 
 Del mismo modo que en la sección \ref{sec:desarrollo-yolov4}, se ha utilizado en las últimas evaluaciones del algoritmo la \gls{gpu} NVIDIA Tesla T4 del servicio cloud de Google Colab, ya que se trata de la \gls{gpu} con mejores prestaciones que se puede utilizar de forma gratuita en el servicio de Google. Proporciona la mayor velocidad de \gls{fps} en las evaluaciones de los algoritmos.
 
@@ -687,7 +687,7 @@ Del mismo modo que en la sección \ref{sec:desarrollo-yolov4}, se ha utilizado e
 \caption{\label{fig:abandono-objeto-avss}Detección de objeto abandonado \cite{AVSSAB2007-dataset}}
 \end{figure}
 
-Para ejecutar el algoritmo de detección de objetos abandonados se debe de acceder a la misma carpeta \texttt{yolov4-deepsort} que se utilizó para evaluar el funcionamiento del seguimiento de objetos con \gls{yolov4} y \gls{deepsort} en la sección \ref{sec:desarrollo-yolov4+deepsort}. En esta ocasión se deberá de cambiar de rama de Git para poder acceder a los ficheros necesarios. Dado que se trata de otra rama no se habrán guardado los cambios realizados en la rama \texttt{develop}, por tanto, ha sido necesario descargar de nuevo los pesos de \gls{yolov4} Darknet.
+Para ejecutar el algoritmo de detección de objetos abandonados se ha accedido a la misma carpeta \texttt{yolov4-deepsort} que se utilizó para evaluar el funcionamiento del seguimiento de objetos con \gls{yolov4} y \gls{deepsort} en la sección \ref{sec:desarrollo-yolov4+deepsort}. En esta ocasión se ha cambiado de rama de Git para poder acceder a los ficheros necesarios. Dado que se trata de otra rama no se habrán guardado los cambios realizados en la rama \texttt{develop}, por tanto, ha sido necesario descargar de nuevo los pesos de \gls{yolov4} Darknet.
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Evaluación de la detección de objetos abandonados con DeepSORT y YOLOv4 en Tensorflow (1),captionpos=b,label={lst:evaluate-abandoned-object1}]
@@ -723,7 +723,7 @@ Las últimas evaluaciones del algoritmo de seguimiento se han realizado con Goog
 \section{Conclusiones}
 \label{sec:conclu-desarrollo}
 
-Este capítulo ha tenido como objetivo el desarrollo de un algoritmo de detección de objetos abandonados utilizando \gls{yolov4} como algoritmo de detección y \gls{deepsort} como algoritmo de seguimiento de objetos y personas. \gls{yolov4} viene previamente entrenado sobre el dataset \gls{coco}. Dado que se quiere utilizar un sistema donde no se necesita detectar las 80 clases de \gls{coco} y solo se precisa la detección de personas y los objetos de interés: mochilas, maletas y bolsas de mano, se ha entrenado dos modelos de \gls{yolov4} a partir de un dataset personalizado \gls{oidv4} con la finalidad de obtener mayores valores en las métricas de calidad sobre dichas clases. Variando los parámetros de la \gls{cnn} así como el número de clases y de imágenes de entrenamiento y evaluación no se han conseguido mejorar las métricas que se obtienen con \gls{coco}. Por tanto, se ha decidido continuar el desarrollo del proyecto con el modelo preentrenado de \gls{yolov4}.
+Este capítulo ha tenido como objetivo el desarrollo de un algoritmo de detección de objetos abandonados utilizando \gls{yolov4} como algoritmo de detección y \gls{deepsort} como algoritmo de seguimiento de objetos y personas. \gls{yolov4} viene previamente entrenado sobre el dataset \gls{coco}. Dado que se quiere utilizar un sistema donde no se necesita detectar las 80 clases de \gls{coco} y solo se precisa la detección de personas y los objetos de interés: mochilas, maletas y bolsas de mano, se ha entrenado dos modelos de \gls{yolov4} a partir de un dataset personalizado \gls{oidv4} con la finalidad de obtener mayores valores en las métricas de calidad sobre dichas clases. Variando los parámetros de la \gls{cnn} así como el número de clases y de imágenes de entrenamiento y evaluación no se han conseguido mejorar las métricas que se obtienen con \gls{coco}. Por tanto, se ha decidido continuar el desarrollo del proyecto con el modelo pre-entrenado de \gls{yolov4}.
 
 En primer lugar se ha probado \gls{yolov4} sobre el framework Darknet original. Para facilitar la programación de los scripts en la detección seguimiento y detección de objetos abandonados con Python, se ha decidido convertir el modelo \gls{yolov4} a Tensorflow, dado que Darknet no es de uso extendido y puede resultar más díficil solucionar los posibles errores que puedan aparecer.
 
@@ -733,6 +733,6 @@ Con la reciente llegada de \gls{yolov4} se ha podido aumentar la precisión en l
 
 Una vez establecido como base del proyecto la utilización de \gls{yolov4} como algoritmo de detección y \gls{deepsort} como algoritmo de seguimiento de objetos y personas se ha diseñado un algoritmo de detección de objetos abandonados para aplicaciones de videovigilancia en tiempo real basado en \cite{valdivieso2018}.
 
-Para ello, se han tenido en cuenta dos posibles escenarios. En el primero, se trata de cuando un objeto está alejado de cualquier persona y además se encuentra de manera estática durante más de 15 segundos. En ese caso se establece que el objeto ha sido previamente abandonado y además no se le puede asignar ningún propietario del mismo. En el segundo escenario se asocian los objetos a las personas más cercanas que se encuentran durante los primeros segundos de la secuencia de vídeo. Una vez establecida la asociación persona-objeto se estudia cuando la distancia que une ambos se aleja más de cierta distancia. Primeramente, se establece una distancia de zona de alarma donde el objeto es candidato a poder ser abandonado. Esta distancia es medida en píxeles entre los centroides de la persona y el objeto asociado. En el caso de que la persona se aleje más de la distancia máxima permitida o desaparezca del plano de la cámara, se lanzará un aviso por pantalla de que el objeto ha sido abandonado.
+Para ello, se han tenido en cuenta dos posibles escenarios. El primero trata cuando un objeto está alejado de cualquier persona y además se encuentra de manera estática durante más de 15 segundos. En ese caso se establece que el objeto ha sido previamente abandonado y además no se puede identificar un propietario del mismo. En el segundo escenario se asocian los objetos a las personas más cercanas que se encuentran durante los primeros segundos de la secuencia de vídeo. Una vez establecida la asociación persona-objeto se estudia cuando la distancia que une ambos se aleja más de cierta distancia. Primeramente, se establece una distancia de zona de alarma donde el objeto es candidato a poder ser abandonado. Esta distancia es medida en píxeles entre los centroides de la persona y el objeto asociado. En el caso de que la persona se aleje más de la distancia máxima permitida o desaparezca del plano de la cámara, se lanzará un aviso por pantalla de que el objeto ha sido abandonado.
 
 Cuando el algoritmo de seguimiento con \gls{deepsort} trabaja correctamente sin perder la identidad de las personas y objetos que se estaban detectando el algoritmo de detección de objetos abandonados funciona de forma eficiente y sin fallos. Sin embargo, tal y como se verá en la sección \ref{subsec:resultados-abandon-algorithm}, pueden aparecer fenómenos que produzcan la incapacidad de detectar un objeto abandonado.
