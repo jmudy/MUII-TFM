@@ -243,7 +243,7 @@ En este proyecto solo se va a tener en cuenta cuando un equipaje ha sido abandon
 
 Se ha utilizado el subconjunto de secuencias dedicadas a la detección de objetos abandonados. Este subdataset está formado por tres secuencias de vídeo grabadas a una resolución de 720 x 576 píxeles a 25 \gls{fps}. El modelo de la cámara no se especifica.
 
-La \gls{roi} está dividido en tres zonas: cercana, media, lejos. En cada una de las secuencias de vídeo el objeto que es abandonado se encuentra en cada una de las zonas que se muestran en la figura \ref{fig:avssab2007-zones}.
+La \gls{roi} está dividido en tres zonas: cercana, media y lejana. En cada una de las secuencias de vídeo el objeto que es abandonado se encuentra en cada una de las zonas que se muestran en la figura \ref{fig:avssab2007-zones}.
 
 \begin{figure}[ht]
 \centering
@@ -358,7 +358,7 @@ La figura \ref{fig:aboda1} muestra los fotogramas de \texttt{video1} grabados en
   \label{fig:aboda1}
 \end{figure}
 
-Este dataset también incluye escenas de aglomeración de personas que se encuentran en aeropuertos o estaciones de tren, iluminación variable de día y grabaciones nocturnas.
+Este dataset también incluye escenas de aglomeraciones de personas que se encuentran en aeropuertos o estaciones de tren, iluminación variable de día y grabaciones nocturnas.
 
 \begin{figure}[ht]
   \centering
@@ -609,7 +609,6 @@ OIDv4 test 2                       & 6.600                & 7.366               
 \label{tab:comparativa-metricas2}
 \begin{tabular}{cccccc}
 \hline
-\rowcolor[HTML]{FFFFFF} 
 \textbf{Dataset}             & \textbf{\begin{tabular}[c]{@{}c@{}}Precision\\ (\%)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Recall\\ (\%)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}F-score\\ (\%)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}average IoU\\ (\%)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}mAP @ 0.5\\ (\%)\end{tabular}} \\ \hline
 \textbf{MS COCO}             & \textbf{67,61}                                                    & \textbf{63,57}                                                 & \textbf{65,53}                                                  & \textbf{56,04}                                                      & \textbf{64,16}                                                    \\
 OIDv4 test 1                 & 44,93                                                             & 61,17                                                          & 51,81                                                           & 34,13                                                               & 66,25                                                             \\
@@ -747,7 +746,7 @@ En la figura \ref{fig:results2} anterior se puede apreciar que ocurre el fenóme
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{img/chapters/resultados/abandono/3.png}
-\caption{\label{fig:results3}Una bolsa de mano se encuentra abanonada al final de un andén de trenes \cite{AVSSAB2007-dataset}}
+\caption{\label{fig:results3}Una bolsa de mano se encuentra abandonada al final de un andén de trenes \cite{AVSSAB2007-dataset}}
 \end{figure}
 
 Uno de los posibles escenarios que se barajó durante el desarrollo del algoritmo del detector de objetos abandonados en la sección \ref{sec:algoritmo-object-detection} es la posibilidad de que al inicio de una secuencia de vídeo se encontrara un objeto que no se le pudiera asignar como propietario a ninguna persona por que no se encontraba a la distancia mínima de asociación persona-objeto. En este fragmento de vídeo de una secuencia del dataset \gls{avss} \cite{AVSSAB2007-dataset} se puede observar como se detecta una bolsa de mano al final de andén que se encuentra desde un principio abandonado. En este caso, al tratarse de un vídeo de 25 \gls{fps}, si desde un primer momento el objeto está abandonado, al cabo de 15 segundos, es decir, 375 fotogramas después, el objeto se identifica como abandonado.

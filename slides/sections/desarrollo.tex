@@ -1,0 +1,79 @@
+\section{Desarrollo}
+
+\subsection{Timeline desarrollo del proyecto}
+
+\begin{frame}{Desarrollo}{Timeline desarrollo del proyecto}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\textwidth]{Images/desarrollo/timeline1.png}
+    \caption{Timeline de la evaluación de los datasets MS COCO y OIDv4}
+\end{figure}
+    
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Desarrollo}{Timeline desarrollo del proyecto}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\textwidth]{Images/desarrollo/timeline2.png}
+    \caption{Timeline de la evaluación de los distintos algoritmos}
+\end{figure}
+    
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Desarrollo algoritmo detección de objetos abandonados}
+
+\begin{frame}{Desarrollo}{Desarrollo algoritmo detección de objetos abandonados}
+
+\begin{itemize}
+    \item Asociación \textbf{persona-objeto} al principio de la secuencia de vídeo.
+    \item Determinar si un objeto no tiene \textbf{propietario}.
+    \item Medir \textbf{distancia} en fotogramas posteriores.
+    \item Aviso si el objeto se encuentra en \textbf{zona de alarma}.
+    \item Aviso si el objeto ha sido \textbf{abandonado}.
+    
+\end{itemize}
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.28\textwidth}
+    \includegraphics[width=\textwidth]{Images/desarrollo/link-persona-objeto.jpg}
+    \caption{}
+    \label{fig:avss2007_link}
+  \end{subfigure}
+  \qquad
+  \begin{subfigure}[b]{0.28\textwidth}
+    \includegraphics[width=\textwidth]{Images/desarrollo/warning-abandono.jpg}
+    \caption{}
+    \label{fig:avss2007_warning}
+  \end{subfigure}
+  \qquad
+  \begin{subfigure}[b]{0.28\textwidth}
+    \includegraphics[width=\textwidth]{Images/desarrollo/abandono-objeto-avss.jpg}
+    \caption{}
+    \label{fig:avss2007_abandoned}
+  \end{subfigure}
+  \caption{Imágenes extraídas del dataset AVSSAB2007}
+  \label{fig:asociacion-warning-abandoned}
+\end{figure}
+    
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Desarrollo}{Diagrama algoritmo detección de objetos abandonados}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{Images/desarrollo/abandoned-object-scheme.png}
+    \caption{Diagrama algoritmo detección de objetos abandonados}
+\end{figure}
+
+\end{frame}
+
+
