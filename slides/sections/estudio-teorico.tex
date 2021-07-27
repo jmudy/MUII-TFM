@@ -6,9 +6,9 @@
 
 \begin{itemize}
     \justifying
-    \item Obtener una imagen que se encuentre en el fondo sin ningún objeto en movimiento.
-    \item El modelo de representación debe ser robusto ante posibles alteraciones en la iluminación u objetos que han sido introducidos y/o retirados.
-    \item Dos principales problemas: detección de cambios y la detección de movimientos.
+    \item Obtener una imagen que se encuentre en el \textbf{fondo} sin ningún objeto en movimiento.
+    \item El modelo de representación debe ser \textbf{robusto} ante posibles alteraciones en la iluminación u objetos que han sido introducidos y/o retirados.
+    \item Dos principales \textbf{problemas}: detección de cambios y la detección de movimientos.
 \end{itemize}
 
 
@@ -38,8 +38,8 @@
 
 \begin{itemize}
     \justifying
-    \item La detección de comportamientos anormales en la videovigilancia es un reto en la visión por computadora y últimamente ha experimentado importantes avances.
-    \item Las etapas de procesamiento no permiten comprender el tipo de acción que realiza el objeto en movimiento ni determinan si su
+    \item La detección de comportamientos \textbf{anómalos} en la videovigilancia es un reto en la visión por computadora y últimamente ha experimentado importantes avances.
+    \item Las etapas de procesamiento no permiten comprender el tipo de \textbf{acción} que realiza el objeto en movimiento ni determinan si su
 comportamiento es normal o no.
     \item Densidad de escenas e interacción de objetos en movimiento.
     \item Métodos de clasificación: supervisado, semi-supervisado y no supervisado.
@@ -74,13 +74,13 @@ comportamiento es normal o no.
 \begin{itemize}
     \justifying
     \item Los algoritmos de detección de personas y objetos se clasifican según el enfoque utilizado para generar o extraer los objetos iniciales y en base al modelo de persona.
-    \item La segmentación genera directamente los objetos candidatos a ser persona u objetos y fácilmente se rechaza las áreas irrelevantes de la imagen, es decir, sin objetos de interés.
-    \item La búsqueda exhaustiva consiste en escanear la imagen completa buscando similitudes con el modelo de persona elegido en múltiples escalas y ubicaciones.
+    \item La \textbf{segmentación} genera directamente los objetos candidatos a ser persona u objetos y fácilmente se rechaza las áreas irrelevantes de la imagen, es decir, sin objetos de interés.
+    \item La \textbf{búsqueda exhaustiva} consiste en escanear la imagen completa buscando similitudes con el modelo de persona elegido en múltiples escalas y ubicaciones.
 \end{itemize}
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.4\textwidth]{Images/estudio-teorico/people-detection-classification.png}
+\includegraphics[width=0.36\textwidth]{Images/estudio-teorico/people-detection-classification.png}
 \caption{\label{fig:people-detection-classification}Clasificación en la detección de personas}
 \end{figure}
 
@@ -88,12 +88,12 @@ comportamiento es normal o no.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Algoritmos de detección y seguimiento elegidos}
+\subsection{Algoritmos de detección y seguimiento utilizados}
 
 \begin{frame}{Estudio teórico}{Algoritmo de detección de objetos YOLOv4}
 
 \justifying
-En vista a las métricas se puede concluir que, de todos los detectores de objetos en tiempo real actuales, YOLOv4 es el mejor en términos de velocidad y precisión.
+En vista a las métricas se puede concluir que, de todos los detectores de objetos en tiempo real actuales, YOLOv4 es el mejor en términos de \textbf{velocidad} y \textbf{precisión}.
 
 \begin{figure}[ht]
 \centering
@@ -110,8 +110,8 @@ En vista a las métricas se puede concluir que, de todos los detectores de objet
 \begin{itemize}
     \justifying
     \item La detección primero divide la imagen en una cuadrícula de SxS.
-    \item En cada una de las celdas se predice N posibles cuadros delimitadores y se calcula el nivel de certidumbre.
-    \item Se eliminan las cajas que estén por debajo de un límite.
+    \item En cada una de las celdas se \textbf{predice} N posibles cuadros delimitadores y se calcula el nivel de \textbf{certidumbre}.
+    \item Se eliminan los cuadros que estén por debajo de un límite.
     \item A los cuadros restantes se les aplica un paso de ``non-max suppression''.
 \end{itemize}
 
@@ -129,8 +129,8 @@ En vista a las métricas se puede concluir que, de todos los detectores de objet
 
 \begin{itemize}
     \justifying
-    \item Utiliza los pesos pre-entrenados de YOLOv4 para extraer los cuadros delimitadores de las detecciones.
-    \item Los cuadros delimitadores sirven de entrada al algoritmo SORT para realizar el seguimiento. % Algoritmo SORT basado en el Filtro de Kalman
+    \item Utiliza los pesos pre-entrenados o entrenados de YOLOv4 para \textbf{extraer} los cuadros delimitadores de las detecciones.
+    \item Los cuadros delimitadores sirven de \textbf{entrada} al algoritmo SORT para realizar el seguimiento.
     \item Mediante una \textbf{DNN} entrenada el algoritmo asocia los \textit{tracks} activos y los que se han perdido.
 \end{itemize}
 
