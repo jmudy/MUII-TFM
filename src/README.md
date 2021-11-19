@@ -1,6 +1,6 @@
 ## Acceso a repositorios y cuadernos Notebook Google Colab utilizados
 
-### Repositorios
+### Repositorios utilizados para el desarrollo del proyecto
 
 * [OIDv4_ToolKit](https://github.com/theAIGuysCode/OIDv4_ToolKit)
 
