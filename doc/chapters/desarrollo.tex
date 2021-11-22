@@ -94,9 +94,9 @@ Las últimas evaluaciones del algoritmo de detección de \gls{yolov4} en Darknet
 
 Durante el desarrollo del proyecto se ha decidido convertir el modelo de Darknet a Tensorflow, ya que se trata de un framework que emplea Python y facilitará la tarea de diseño del algoritmo de detección de objetos al no basarse únicamente en Darknet, framework que no es de uso extendido y puede ser una tarea complicada su utilización cuando aparezcan posibles errores.
 
-Para la utilización de \gls{yolov4} basado en Tensorflow se necesita convertir el modelo. La implementación que se expone a continuación está totalmente inspirada en \cite{yolov4-tf-github-original}. A continuación, se describen los pasos que se han seguido para poner en funcionamiento de \gls{yolov4} sobre Tensorflow 2.3.0rc0.
+Para la utilización de \gls{yolov4} basado en Tensorflow se necesita convertir el modelo. La implementación que se expone a continuación está totalmente inspirada en \cite{yolov4-tf-github-original}. A continuación, se describen los pasos que se han seguido para poner en funcionamiento de \gls{yolov4} sobre Tensorflow 2.3.0.
 
-Primero se ha clonado el repositorio \cite{yolov4-tf-github}, el cual es un \textit{fork} de \cite{yolov4-tf-github-original}, y se han instalado las librerías y dependencias necesarias que se contemplan en el fichero \texttt{requirements-gpu.txt}. Para facilitar su instalación se ha creado con Anaconda un entorno virtual. La instalación de Anaconda y el entorno virtual se explica con mayor detalle en la sección \ref{subsec:instalacion-anaconda} y en la sección \ref{subsec:creacion-entorno}.
+Primero se ha clonado el repositorio \cite{yolov4-tf-github}, el cual es un \textit{fork} de \cite{yolov4-tf-github-original}, y se han instalado las librerías y dependencias necesarias que se contemplan en el fichero \texttt{requirements.txt}. Para facilitar su instalación se ha creado con Anaconda un entorno virtual. La instalación de Anaconda y el entorno virtual se explica con mayor detalle en la sección \ref{subsec:instalacion-anaconda} y en la sección \ref{subsec:creacion-entorno}.
 
 \vspace{0.5cm}
 \begin{lstlisting}[language=iPython,caption=Evaluación del detector de objetos YOLOv4 en Tensorflow (1),captionpos=b,label={lst:evaluate-yolov4-tf1}]
